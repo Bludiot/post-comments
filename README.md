@@ -1,2 +1,3 @@
-# post-comments
-Comment systemfor BluditCMS.
+# Post Comments
+
+Comment system for BluditCMS.
