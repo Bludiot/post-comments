@@ -1,0 +1,68 @@
+///
+/// Frontend comments list
+///
+
+.comments-list {
+	list-style: none;
+
+	.comments-reply-list {
+		margin-left: 2rem;
+	}
+}
+
+.comments-entry {
+	width: 100%;
+	margin: 1rem 0 0;
+}
+
+.comment-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	.comment-date {
+		font-weight: 600;
+	}
+}
+
+.comment-avatar {
+	display: inline-block;
+	vertical-align: middle;
+	border-radius: 50%;
+	width: 100%;
+	max-width: 36px;
+	height: auto;
+	margin-right: 0.5rem;
+}
+
+.comment-name {
+	font-size: var( --pcs-comment--name--font-size, 1.375em );
+	font-weight: var( --pcs-comment--name--font-weight, 700 );
+}
+
+.comment-body {
+	padding: 1rem 0;
+}
+
+.comment-footer {
+	display: flex;
+	align-items: first baseline;
+	gap: 0.5rem;
+}
+
+.inline-form {
+	display: inline-block;
+}
+
+.comment-approve,
+.comment-delete {
+	float: var( --pcs-comment--action-button--float, right );
+}
+
+.comment-admin-button {
+	padding: 0 !important;
+	background: none !important;
+	border: none !important;
+	color: inherit !important;
+	cursor: pointer;
+}

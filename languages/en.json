@@ -1,0 +1,32 @@
+{
+	"plugin-data":
+	{
+		"name": "Post Comments",
+		"description": "Comments system for posts"
+	},
+
+	"comments":"Comments",
+	"desc": "Comments system for posts",
+	"place": "Add to your template  ",
+	"clearlog" : "Clear Log",
+	"leavecomment" : "Leave Comment",
+	"pcs-form-name":"Name",
+	"pcs-form-email": "Email",
+	"pcs-form-comment" : "Comment",
+	"Reply to" :"Reply to:",
+	"required" :"required",
+	"pcs-form-terms" :"I agree to the terms of use.",
+	"addcomment" :"Add Comment",
+	"publishcomment" :"publish comment",
+	"deletecomment" :"delete comment",
+	"reply" :"Reply",
+	"log":"Log Comments",
+	"enteremail" :"Enter your email address where we should notify you about new comments",
+	"saveemail":"Save Email",
+	"deleted":"Comment Deleted!",
+	"wrongcaptcha":"Wrong Captcha!",
+	"commentadded" : "Comment added! Please wait for approval by the administrator",
+	"published" : "Comment published!",
+	"commentaddedon":"Comment added on",
+	"commentwait":"Comment waiting for accept on page/post id:"
+}
