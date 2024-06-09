@@ -28,7 +28,8 @@ if ( user_logged_in() ) {
 	$name  = user_display_name( username() );
 	$email = $user->email();
 }
-$datetime = date( 'F j, Y' );
+$date = date( 'F j, Y' );
+$time = date( 'h:i:s A' );
 
 ?>
 <style>
@@ -49,7 +50,8 @@ $datetime = date( 'F j, Y' );
 		<p><?php $L->p( 'Replying to' ); ?> <span id="reply_to"></span></p>
 	</div>
 
-	<input type="hidden" name="comment_datetime" id="datetime" value="<?php echo $datetime; ?>" />
+	<input type="hidden" name="comment_date" id="date" value="<?php echo $date; ?>" />
+	<input type="hidden" name="comment_time" id="time" value="<?php echo $time; ?>" />
 
 	<div>
 		<label for="comment_name"><?php $L->p( 'pcs-form-name' ); ?></label> <sup class="required-field">*</sup><br />

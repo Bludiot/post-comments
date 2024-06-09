@@ -206,7 +206,7 @@ function comments_file_path() {
  * @return string
  */
 function comments_log_path() {
-	return PATH_CONTENT . 'post-comments-log.php';
+	return PATH_CONTENT . plugin()->file_dir . DS . 'post-comments-log.php';
 }
 
 /**
@@ -412,7 +412,8 @@ function post_comments() {
 
 			$name      = htmlentities( $_POST['comment_name'] );
 			$username  = $_POST['comment_username'];
-			$datetime  = $_POST['comment_datetime'];
+			$date      = $_POST['comment_date'];
+			$time      = $_POST['comment_time'];
 			$email     = htmlentities( $_POST['comment_email'] );
 			$message   = htmlentities( $_POST['comment_body'] );
 			$parent_id = $_POST['parent_id'] !== '' ? htmlentities( $_POST['parent_id'] ) : null;
@@ -446,7 +447,8 @@ function post_comments() {
 				$response = $parentComment->addChild( 'response' );
 				$response->addChild( 'comment_name', $name );
 				$response->addChild( 'comment_username', $username );
-				$response->addChild( 'comment_datetime', $datetime );
+				$response->addChild( 'comment_date', $date );
+				$response->addChild( 'comment_time', $time );
 				$response->addAttribute( 'id', md5( uniqid( '', true ) ) );
 				$response->addChild( 'comment_email', $email );
 				$response->addChild( 'comment_body', strip_tags( html_entity_decode( $message ) ) );
@@ -455,7 +457,8 @@ function post_comments() {
 				$comment->addAttribute( 'id', uniqid() );
 				$comment->addChild( 'comment_name', $name );
 				$comment->addChild( 'comment_username', $username );
-				$comment->addChild( 'comment_datetime', $datetime );
+				$comment->addChild( 'comment_date', $date );
+				$comment->addChild( 'comment_time', $time );
 				$comment->addChild( 'comment_email', $email );
 				$comment->addChild( 'comment_body',  strip_tags( html_entity_decode( $message ) ) );
 			}
@@ -466,26 +469,26 @@ function post_comments() {
 			$actual_link = ( empty( $_SERVER['HTTPS'] ) ? 'http' : 'https' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 			$log_entry = sprintf(
-				'<li>%s <a href="%s" target="_blank" rel="noopener noreferrer">%s</a> <span class="comments-log-date-time"><date>%s</date> | <time>%s</time></span></li>',
+				'<li>%s <a href="%s#%s" target="_blank" rel="noopener noreferrer">%s</a> <span class="comments-log-date-time"><date>%s</date> | <time>%s</time></span></li>',
 				$L->get( 'Comment awaiting moderation on' ),
 				$actual_link,
+				$comment['id'],
 				$page->title(),
-				date( 'l, F j, Y' ),
-				date( 'h:i:s A' )
+				$comment->comment_date,
+				$comment->comment_time
 			);
 
+			$secure = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
 			if ( file_exists( $log_path ) ) {
 				mail( $to, $subject, $body, $headers );
 
 				file_put_contents(
 					$log_path,
-					$log_entry
+					$secure . $log_entry . file_get_contents( $log_path )
 				);
 
 			} else {
 				mail( $to, $subject, $body, $headers );
-
-				$secure = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
 				file_put_contents( $log_path, $secure . $log_entry );
 			}
 
@@ -534,10 +537,33 @@ function post_comments() {
 		$xmlFile = $file_path;
 		$xml     = simplexml_load_file( $xmlFile );
 
-		$commentIdToPublish = $_POST['publishComment'];
+		$log_path    = comments_log_path();
+		$actual_link = ( empty( $_SERVER['HTTPS'] ) ? 'http' : 'https' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-		$elementsToPublish = $xml->xpath( "//comment[@id='$commentIdToPublish']" );
+		$commentIdToPublish = $_POST['publishComment'];
+		$elementsToPublish  = $xml->xpath( "//comment[@id='$commentIdToPublish']" );
 		foreach ( $elementsToPublish as $element ) {
+
+			$secure    = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
+			$log_entry = sprintf(
+				'<li>%s <a href="%s#%s" target="_blank" rel="noopener noreferrer">%s</a> <span class="comments-log-date-time"><date>%s</date> | <time>%s</time></span></li>',
+				$L->get( 'Comment awaiting moderation on' ),
+				$actual_link,
+				$element['id'],
+				$page->title(),
+				$element->comment_date,
+				$element->comment_time
+			);
+
+			$log_content = str_replace( $secure, '', file_get_contents( $log_path ) );
+			$log_content = str_replace( $log_entry, '', $log_content );
+			file_put_contents(
+				$log_path,
+				$secure . $log_content
+			);
+
+			var_dump($log_entry);
+
 			$element->addChild( 'approved' );
 		}
 

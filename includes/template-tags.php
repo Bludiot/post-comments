@@ -137,7 +137,12 @@ function comments_log() {
 	// Access global variables.
 	global $L;
 
-	$log = comments_log_path();
+	$log  = comments_log_path();
+	$lead = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
+
+	if ( @file_get_contents( $log ) && @file_get_contents( $log ) === $lead ) {
+		unlink( comments_log_path() );
+	}
 
 	if ( @file_get_contents( $log ) ) {
 		$html = sprintf(

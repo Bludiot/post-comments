@@ -48,7 +48,7 @@ if ( file_exists( $file_path ) ) {
 				);
 				printf(
 					'<p class="comment-date">%s</p>',
-					$comment->comment_datetime
+					$comment->comment_date
 				);
 			} else {
 				printf(
@@ -58,7 +58,7 @@ if ( file_exists( $file_path ) ) {
 				);
 				printf(
 					'<p class="comment-date"><date>%s</date></p>',
-					$comment->comment_datetime
+					$comment->comment_date
 				);
 			}
 
