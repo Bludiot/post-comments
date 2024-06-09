@@ -66,7 +66,7 @@
 		<div class="col-sm-10">
 			<select class="form-select" id="accept_terms" name="accept_terms">
 				<option value="true" <?php echo ( $this->getValue( 'accept_terms' ) === true ? 'selected' : '' ); ?>><?php $L->p( 'Enabled' ); ?></option>
-				<option value="false" <?php echo ( $this->getValue( 'accept_terms' ) === false ? 'selected' : '' ); ?>><?php $L->p( 'Disable' ); ?></option>
+				<option value="false" <?php echo ( $this->getValue( 'accept_terms' ) === false ? 'selected' : '' ); ?>><?php $L->p( 'Disabled' ); ?></option>
 			</select>
 			<small class="form-text"><?php $L->p( 'Require users to accept the terms of commenting before submitting the form.' ); ?></small>
 		</div>
@@ -143,8 +143,8 @@
 		<label class="form-label col-sm-2 col-form-label" for="dashboard_log"><?php $L->p( 'Dashboard Log' ); ?></label>
 		<div class="col-sm-10">
 			<select class="form-select" id="dashboard_log" name="dashboard_log">
-				<option value="true" <?php echo ( $this->getValue( 'dashboard_log' ) === true ? 'selected' : '' ); ?>><?php $L->p( 'Enable' ); ?></option>
-				<option value="false" <?php echo ( $this->getValue( 'dashboard_log' ) === false ? 'selected' : '' ); ?>><?php $L->p( 'Disable' ); ?></option>
+				<option value="true" <?php echo ( $this->getValue( 'dashboard_log' ) === true ? 'selected' : '' ); ?>><?php $L->p( 'Enabled' ); ?></option>
+				<option value="false" <?php echo ( $this->getValue( 'dashboard_log' ) === false ? 'selected' : '' ); ?>><?php $L->p( 'Disabled' ); ?></option>
 			</select>
 			<small class="form-text"><?php $L->p( 'Show a comments activity log on the dashboard. Admins only.' ); ?></small>
 		</div>
