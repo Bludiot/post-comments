@@ -16,6 +16,7 @@ if ( ! defined( 'BLUDIT' ) ) {
 // Access namespaced functions.
 use function Post_Comments\{
 	plugin,
+	can_manage,
 	debug_mode,
 	enqueue_assets,
 	comments_log_path,
@@ -108,10 +109,9 @@ class Post_Comments extends Plugin {
 
 		// Plugin options for database.
 		$this->dbFields = [
+			'user_level'      => 'admin',
 			'post_types'      => 'post',
 			'logged_form'     => true,
-			'logged_name'     => true,
-			'logged_email'    => true,
 			'logged_comments' => false,
 			'form_location'   => 'before',
 			'form_heading'    => $L->get( 'Leave a Comment' ),
@@ -325,7 +325,7 @@ class Post_Comments extends Plugin {
 		// Access global variables.
 		global $L, $security;
 
-		if ( $this->dashboard_log() && ! checkRole( [ 'admin' ], false ) ) {
+		if ( $this->dashboard_log() && ! can_manage() ) {
 			return false;
 		} elseif ( ! $this->dashboard_log() ) {
 			return false;
@@ -346,6 +346,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object $L Language class.
 	 * @global object $page The Page class.
 	 * @global object $url The Url class.
 	 * @return mixed
@@ -353,9 +354,17 @@ class Post_Comments extends Plugin {
 	public function comments_full() {
 
 		// Access global variables.
-		global $page, $url;
+		global $L, $page, $url;
 
-		if ( 'page' !== $url->whereAmI() || disable_comments() ) {
+		if ( 'page' !== $url->whereAmI() ) {
+			return false;
+		}
+
+		if ( disable_comments() ) {
+			printf(
+				'<p class="comments-closed-notice">%s</p>',
+				$L->get( 'Comments are closed.' )
+			);
 			return false;
 		}
 
@@ -368,6 +377,11 @@ class Post_Comments extends Plugin {
 	}
 
 	// @return string
+	public function user_level() {
+		return $this->getValue( 'user_level' );
+	}
+
+	// @return string
 	public function post_types() {
 		return $this->getValue( 'post_types' );
 	}
@@ -375,16 +389,6 @@ class Post_Comments extends Plugin {
 	// @return boolean
 	public function logged_form() {
 		return $this->getValue( 'logged_form' );
-	}
-
-	// @return boolean
-	public function logged_name() {
-		return $this->getValue( 'logged_name' );
-	}
-
-	// @return boolean
-	public function logged_email() {
-		return $this->getValue( 'logged_email' );
 	}
 
 	// @return boolean

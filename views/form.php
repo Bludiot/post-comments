@@ -55,14 +55,14 @@ $time = date( 'h:i:s A' );
 
 	<div>
 		<label for="comment_name"><?php $L->p( 'pcs-form-name' ); ?></label> <sup class="required-field">*</sup><br />
-		<input type="text" name="comment_name" id="name" value="<?php echo $name; ?>" required <?php echo ( plugin()->logged_name() ? 'disabled' : '' ); ?> />
+		<input type="text" name="comment_name" id="name" value="<?php echo $name; ?>" required <?php echo ( user_logged_in() ? 'disabled' : '' ); ?> />
 	</div>
 
 	<input type="hidden" name="comment_username" id="username" value="<?php echo username(); ?>" />
 
 	<div>
 		<label for="comment_email"><?php $L->p( 'pcs-form-email' ); ?></label> <sup class="required-field">*</sup><br />
-		<input type="email" name="comment_email" id="email" placeholder="email@example.com" value="<?php echo $email; ?>" required <?php echo ( plugin()->logged_email() ? 'disabled' : '' ); ?> />
+		<input type="email" name="comment_email" id="email" placeholder="email@example.com" value="<?php echo $email; ?>" required <?php echo ( user_logged_in() ? 'disabled' : '' ); ?> />
 	</div>
 
 	<div>

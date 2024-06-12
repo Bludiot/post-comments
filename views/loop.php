@@ -9,11 +9,17 @@
 
 // Access namespaced functions.
 use function Post_Comments\{
+	login,
+	user_logged_in,
+	can_manage,
 	comment_count,
 	loop_heading,
 	user_avatar,
 	icon
 };
+
+// Access global variables.
+global $L, $page;
 
 ?>
 <?php
@@ -31,12 +37,47 @@ if ( file_exists( $file_path ) ) {
 
 		$username = (string) $comment->comment_username;
 
-		if ( (bool) $comment->approved || checkRole( [ 'admin' ], false ) ) {
+		$approve_comment = '';
+		if ( true !== (bool) $comment->approved ) {
+			$approve_comment = sprintf(
+				'<form class="inline-form" method="POST"><input type="hidden" name="publishComment" value="%1s" /><button type="submit" class="comment-admin-button comment-approve" title="%2s">%3s %4s</button></form>',
+				$comment['id'],
+				$L->get( 'Approve Comment' ),
+				icon( 'stamp', true, 'inline-svg-icon' ),
+				$L->get( 'Approve' )
+			);
+		}
+
+		$delete_comment = sprintf(
+			'<form class="inline-form" method="POST"><input type="hidden" name="deleteComment" value="%1s" /><button type="submit" class="comment-admin-button comment-delete" title="%2s">%3s %4s</button></form>',
+			$comment['id'],
+			$L->get( 'Delete Comment' ),
+			icon( 'trash', true, 'inline-svg-icon' ),
+			$L->get( 'Delete' )
+		);
+
+		$comment_details = sprintf(
+			'<p class="comment-details"><date>%s</date> <a href="%s" title="%s">%s<span class="screen-reader-text">%s</span></a></p>',
+			$comment->comment_date,
+			$page->permalink() . '#' . $comment['id'],
+			$L->get( 'Copy Link' ),
+			icon( 'link', true, 'inline-svg-icon' ),
+			$L->get( 'Link' )
+		);
+
+		/**
+		 * Begin top-level comment
+		 *
+		 * Print the comment list item only if it has been approved
+		 * or if the current user is logged in as administrator.
+		 */
+		if ( (bool) $comment->approved || can_manage() ) {
 
 			printf(
-				'<li id="%s" class="comments-entry post-comment"><header class="comment-header">',
+				'<li id="%s" class="comments-entry post-comment">',
 				$comment['id']
 			);
+			echo '<header class="comment-header">';
 
 			if ( $users->exists( $username ) && getPlugin( 'User_Profiles' ) ) {
 
@@ -46,82 +87,126 @@ if ( file_exists( $file_path ) ) {
 					user_avatar( $username ),
 					\UPRO_Tags\user_display_name( $username )
 				);
-				printf(
-					'<p class="comment-date">%s</p>',
-					$comment->comment_date
-				);
+				echo $comment_details;
 			} else {
 				printf(
 					'<p class="comment-name"><img src="%s" class="avatar comment-avatar" width="36" height="36" /> %s</p>',
 					user_avatar( $username ),
 					htmlspecialchars( $comment->comment_name, ENT_QUOTES, 'UTF-8' )
 				);
-				printf(
-					'<p class="comment-date"><date>%s</date></p>',
-					$comment->comment_date
-				);
+				echo $comment_details;
 			}
-
 			echo '</header>';
-
-			echo '<div class="comment-body">' . htmlspecialchars( $comment->comment_body, ENT_QUOTES, 'UTF-8' ) . '</div>';
-
+			printf(
+				'<div class="comment-body">%s</div>',
+				htmlspecialchars( $comment->comment_body, ENT_QUOTES, 'UTF-8' )
+			);
 			echo '<footer class="comment-footer">';
 
-			echo '<a href="#comment-form" class="comment-reply" data-name="' . $comment->comment_name . '" data-reply="' . $comment['id'] . '">' . icon( 'comment', true, 'inline-svg-icon' ) . $L->get( 'Reply' ) . '</a>';
+			printf(
+				'<a href="#comment-form" class="comment-reply" data-name="%1s" data-reply="%2s">%3s %4s</a>',
+				$comment->comment_name,
+				$comment['id'],
+				icon( 'comment', true, 'inline-svg-icon' ),
+				$L->get( 'Reply' )
+			);
 
-			if ( checkRole( [ 'admin' ], false ) ) {
-
-				if ( true !== (bool) $comment->approved ) {
-					echo '
-						<form class="inline-form" method="POST">
-						<input type="hidden" name="publishComment" value="' . $comment['id'] . '">' . icon( 'stamp', true, 'inline-svg-icon' ) . '
-						<input type="submit" class="comment-admin-button comment-approve" value="' . $L->get( 'Approve' ) . '">
-						</form>';
-				};
-
-				echo '<form class="inline-form" method="POST">';
-				echo '<input type="hidden" name="deleteComment" value="' . $comment['id'] . '">';
-				printf(
-					'<button type="submit" class="comment-admin-button comment-delete" title="%s">%s %s</button>',
-					$L->get( 'Delete Comment' ),
-					icon( 'trash', true, 'inline-svg-icon' ),
-					$L->get( 'Delete' )
-				);
-				echo '</form>';
+			if ( user_logged_in() ) {
+				if ( 'author' == login()->role() && login()->username() === $page->username() ) {
+					echo $approve_comment;
+					echo $delete_comment;
+				} elseif ( 'author' != login()->role() ) {
+					echo $approve_comment;
+					echo $delete_comment;
+				}
 			}
-
-			echo '</header>';
-			echo '</li>';
+			echo '</footer></li>';
 
 			if ( isset( $comment->response ) ) {
+
 				echo '<ol class="comments-list comments-reply-list">';
+
 				foreach ( $comment->response as $response ) {
 
-					if ( (bool) $response->approved || checkRole( [ 'admin' ], false ) ) {
+					$approve_response = '';
+					if ( true !== (bool) $response->approved ) {
+						$approve_response = sprintf(
+							'<form class="inline-form" method="POST"><input type="hidden" name="publishComment" value="%1s" /><button type="submit" class="comment-admin-button comment-approve" title="%2s">%3s %4s</button></form>',
+							$response['id'],
+							$L->get( 'Approve Reply' ),
+							icon( 'stamp', true, 'inline-svg-icon' ),
+							$L->get( 'Approve' )
+						);
+					}
 
-						echo '<li class="comments-entry post-comment-reply">';
+					$delete_response = sprintf(
+						'<form class="inline-form" method="POST"><input type="hidden" name="deleteComment" value="%1s" /><button type="submit" class="comment-admin-button comment-delete" title="%2s">%3s %4s</button></form>',
+						$response['id'],
+						$L->get( 'Delete Comment' ),
+						icon( 'trash', true, 'inline-svg-icon' ),
+						$L->get( 'Delete' )
+					);
 
-						if ( checkRole( [ 'admin' ], false ) ) {
+					$response_details = sprintf(
+						'<p class="comment-details"><date>%s</date> <a href="%s" title="%s">%s<span class="screen-reader-text">%s</span></a></p>',
+						$response->comment_date,
+						$page->permalink() . '#' . $response['id'],
+						$L->get( 'Copy Link' ),
+						icon( 'link', true, 'inline-svg-icon' ),
+						$L->get( 'Link' )
+					);
 
-							if ( true !== (bool) $response->approved ) {
-								echo '
-								<form class="inline-form" method="POST">
-								<input type="hidden" name="publishComment" value="' . $response['id'] . '">
-								<input type="submit" class="comment-admin-button comment-approve" value="Publish">
-								</form>';
-							};
+					if ( (bool) $response->approved || can_manage() ) {
 
-							echo  ' <form class="inline-form" method="POST">
-							<input type="hidden" name="deleteComment" value="' . $response['id'] . '">
-							<input type="submit" class="comment-admin-button comment-delete" value="Delete">
-							</form>';
-						};
+						printf(
+							'<li id="%s" class="comments-entry post-comment-reply">',
+							$response['id']
+						);
+						echo '<header class="comment-header">';
 
-						echo '<p class="comment-name">' . htmlspecialchars( $response->comment_name, ENT_QUOTES, 'UTF-8' ) . '</p>';
-						echo '<p>' . htmlspecialchars( $response->comment_body, ENT_QUOTES, 'UTF-8') . '</p>';
-						echo '<a href="#comment-form" class="comment-reply" data-name="' . $response->comment_name . '" data-reply="' . $comment['id'] . '">' . $L->get( 'Reply' ) . '</a>';
+						if ( $users->exists( $username ) && getPlugin( 'User_Profiles' ) ) {
 
+							printf(
+								'<p class="comment-name"><a href="%s"><img src="%s" class="avatar comment-avatar" width="36" height="36" />%s</a></p>',
+								\UPRO_Tags\user_link( $username ),
+								user_avatar( $username ),
+								\UPRO_Tags\user_display_name( $username )
+							);
+							echo $response_details;
+						} else {
+							printf(
+								'<p class="comment-name"><img src="%s" class="avatar comment-avatar" width="36" height="36" /> %s</p>',
+								user_avatar( $username ),
+								htmlspecialchars( $response->comment_name, ENT_QUOTES, 'UTF-8' )
+							);
+							echo $response_details;
+						}
+
+						echo '</header>';
+						printf(
+							'<div class="comment-body">%s</div>',
+							htmlspecialchars( $response->comment_body, ENT_QUOTES, 'UTF-8' )
+						);
+						echo '<footer class="comment-footer">';
+
+						printf(
+							'<a href="#comment-form" class="comment-reply" data-name="%1s" data-reply="%2s">%3s %4s</a>',
+							$response->comment_name,
+							$response['id'],
+							icon( 'comment', true, 'inline-svg-icon' ),
+							$L->get( 'Reply' )
+						);
+
+						if ( user_logged_in() ) {
+							if ( 'author' == login()->role() && login()->username() === $page->username() ) {
+								echo $approve_response;
+								echo $delete_response;
+							} elseif ( 'author' != login()->role() ) {
+								echo $approve_response;
+								echo $delete_response;
+							}
+						}
+						echo '</footer>';
 						echo '</li>';
 					}
 				}

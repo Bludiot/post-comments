@@ -17,6 +17,18 @@
 	<legend class="screen-reader-text"><?php $L->p( 'Comments Options' ); ?></legend>
 
 	<div class="form-field form-group row">
+		<label class="form-label col-sm-2 col-form-label" for="user_level"><?php $L->p( 'User Level' ); ?></label>
+		<div class="col-sm-10">
+			<select class="form-select" id="user_level" name="user_level">
+				<option value="admin" <?php echo ( $this->getValue( 'user_level' ) === 'admin' ? 'selected' : '' ); ?>><?php $L->p( 'Administrator' ); ?></option>
+				<option value="editor" <?php echo ( $this->getValue( 'user_level' ) === 'editor' ? 'selected' : '' ); ?>><?php $L->p( 'Editor' ); ?></option>
+				<option value="author" <?php echo ( $this->getValue( 'user_level' ) === 'author' ? 'selected' : '' ); ?>><?php $L->p( 'Author' ); ?></option>
+			</select>
+			<small class="form-text"><?php $L->p( 'The minimum user level for managing comments. If Author is selected then the author will only be able to manage their own content.' ); ?></small>
+		</div>
+	</div>
+
+	<div class="form-field form-group row">
 		<label class="form-label col-sm-2 col-form-label" for="post_types"><?php $L->p( 'Post Types' ); ?></label>
 		<div class="col-sm-10">
 			<select class="form-select" id="post_types" name="post_types">
@@ -36,28 +48,6 @@
 				<option value="false" <?php echo ( $this->getValue( 'logged_form' ) === false ? 'selected' : '' ); ?>><?php $L->p( 'All Users' ); ?></option>
 			</select>
 			<small class="form-text"><?php $L->p( 'Whether the comment form should be displayed only to logged in users.' ); ?></small>
-		</div>
-	</div>
-
-	<div class="form-field form-group row">
-		<label class="form-label col-sm-2 col-form-label" for="logged_name"><?php $L->p( 'Logged-In Name' ); ?></label>
-		<div class="col-sm-10">
-			<select class="form-select" id="logged_name" name="logged_name">
-				<option value="true" <?php echo ( $this->getValue( 'logged_name' ) === true ? 'selected' : '' ); ?>><?php $L->p( 'Registered Name' ); ?></option>
-				<option value="false" <?php echo ( $this->getValue( 'logged_name' ) === false ? 'selected' : '' ); ?>><?php $L->p( 'Any Name' ); ?></option>
-			</select>
-			<small class="form-text"><?php $L->p( 'Force logged-in users to use their display name.' ); ?></small>
-		</div>
-	</div>
-
-	<div class="form-field form-group row">
-		<label class="form-label col-sm-2 col-form-label" for="logged_email"><?php $L->p( 'Logged-In Email' ); ?></label>
-		<div class="col-sm-10">
-			<select class="form-select" id="logged_email" name="logged_email">
-				<option value="true" <?php echo ( $this->getValue( 'logged_email' ) === true ? 'selected' : '' ); ?>><?php $L->p( 'Registered Email' ); ?></option>
-				<option value="false" <?php echo ( $this->getValue( 'logged_email' ) === false ? 'selected' : '' ); ?>><?php $L->p( 'Any Email' ); ?></option>
-			</select>
-			<small class="form-text"><?php $L->p( 'Force logged-in users to use their registered email.' ); ?></small>
 		</div>
 	</div>
 

@@ -48,18 +48,26 @@ function debug_mode() {
 }
 
 /**
+ * Login class object
+ *
+ * @since  1.0.0
+ * @global object $L Language class
+ * @return object
+ */
+function login() {
+	global $login;
+	return $login;
+}
+
+/**
  * User logged in
  *
  * @since  1.0.0
- * @global object $login The Login class.
  * @return boolean Returns true if the current user is logged in.
  */
 function user_logged_in() {
 
-	// Access global variables.
-	global $login;
-
-	if ( $login->isLogged() ) {
+	if ( login()->isLogged() ) {
 		return true;
 	}
 	return false;
@@ -69,8 +77,7 @@ function username() {
 
 	$username = 'anonymous';
 	if ( user_logged_in() ) {
-		$session  = new \User( \Session :: get( 'username' ) );
-		$username = $session->username();
+		$username = login()->username();
 	}
 	return $username;
 }
@@ -86,6 +93,31 @@ function username() {
  */
 function user( $name = '' ) {
 	return new \User( $name );
+}
+
+/**
+ * User can manage comments
+ *
+ * @since  1.0.0
+ * @return boolean
+ */
+function can_manage() {
+
+	if ( ! user_logged_in() ) {
+		return false;
+	}
+
+	$roles = [ 'admin' ];
+	if ( 'author' == plugin()->user_level() ) {
+		$roles = array_merge( $roles, [ 'editor', 'author' ] );
+	} elseif ( 'editor' == plugin()->user_level() ) {
+		$roles = array_merge( $roles, [ 'editor' ] );
+	}
+
+	if ( checkRole( $roles, false ) ) {
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -405,6 +437,8 @@ function post_comments() {
 		$id = $page->title();
 
 		if ( isset( $_POST['captcha_answer'] ) && $_POST['captcha_answer'] == $_SESSION['captcha_question'] ) {
+
+			// Stop if a robot filled the hidden honeypot field.
 			if ( ! empty( $_POST['honeypot'] ) ) {
 				echo 'Nope!';
 				exit;
@@ -420,13 +454,13 @@ function post_comments() {
 
 			$to      = plugin()->admin_email();
 			$subject = "New comment: $name";
+
 			$body    = "New Comments: $name\n";
 			$body   .= "Email: $email\n";
-
 			$body   .= "Slug page with comment: $id\n";
 			$body   .= "message:\n$message";
 
-			$headers = "From: " . plugin()->admin_email() . "\r\n";
+			$headers  = "From: " . plugin()->admin_email() . "\r\n";
 			$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
 			if ( file_exists( $file_path ) ) {
@@ -452,6 +486,12 @@ function post_comments() {
 				$response->addAttribute( 'id', md5( uniqid( '', true ) ) );
 				$response->addChild( 'comment_email', $email );
 				$response->addChild( 'comment_body', strip_tags( html_entity_decode( $message ) ) );
+
+				$log_id   = $response['id'];
+				$log_text = $L->get( 'Reply awaiting moderation on' );
+				$log_date = $response->comment_date;
+				$log_time = $response->comment_time;
+
 			} else {
 				$comment = $xml->addChild( 'comment' );
 				$comment->addAttribute( 'id', uniqid() );
@@ -461,6 +501,11 @@ function post_comments() {
 				$comment->addChild( 'comment_time', $time );
 				$comment->addChild( 'comment_email', $email );
 				$comment->addChild( 'comment_body',  strip_tags( html_entity_decode( $message ) ) );
+
+				$log_id   = $comment['id'];
+				$log_text = $L->get( 'Comment awaiting moderation on' );
+				$log_date = $comment->comment_date;
+				$log_time = $comment->comment_time;
 			}
 
 			$xml->asXML( $file_path );
@@ -468,28 +513,28 @@ function post_comments() {
 			$log_path    = comments_log_path();
 			$actual_link = ( empty( $_SERVER['HTTPS'] ) ? 'http' : 'https' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
+			$security  = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
 			$log_entry = sprintf(
 				'<li>%s <a href="%s#%s" target="_blank" rel="noopener noreferrer">%s</a> <span class="comments-log-date-time"><date>%s</date> | <time>%s</time></span></li>',
-				$L->get( 'Comment awaiting moderation on' ),
+				$log_text,
 				$actual_link,
-				$comment['id'],
+				$log_id,
 				$page->title(),
-				$comment->comment_date,
-				$comment->comment_time
+				$log_date,
+				$log_time
 			);
 
-			$secure = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
 			if ( file_exists( $log_path ) ) {
 				mail( $to, $subject, $body, $headers );
 
 				file_put_contents(
 					$log_path,
-					$secure . $log_entry . file_get_contents( $log_path )
+					$security . $log_entry . file_get_contents( $log_path )
 				);
 
 			} else {
 				mail( $to, $subject, $body, $headers );
-				file_put_contents( $log_path, $secure . $log_entry );
+				file_put_contents( $log_path, $security . $log_entry );
 			}
 
 			echo '<div class="alert alert-success" id="comment-alert"><span>' . $L->get( 'commentadded' )  . '</span></div>';
@@ -509,24 +554,65 @@ function post_comments() {
 
 	if ( isset( $_POST['deleteComment'] ) ) {
 
-		$xmlFile = $file_path;
-		$xml     = simplexml_load_file( $xmlFile );
+		$xml_file = $file_path;
+		$xml      = simplexml_load_file( $xml_file );
 
-		$commentIdToDelete =  $_POST['deleteComment'];
-		$elementsToDelete  = $xml->xpath( "//comment[@id='$commentIdToDelete']" );
+		$log_path    = comments_log_path();
+		$actual_link = ( empty( $_SERVER['HTTPS'] ) ? 'http' : 'https' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-		foreach ( $elementsToDelete as $element ) {
-			$dom = dom_import_simplexml( $element );
+		$comment_id_to_delete =  $_POST['deleteComment'];
+		$comments_to_delete   = $xml->xpath( "//comment[@id='$comment_id_to_delete']" );
+
+		foreach ( $comments_to_delete as $comment ) {
+
+			$security  = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
+			$log_entry = sprintf(
+				'<li>%s <a href="%s#%s" target="_blank" rel="noopener noreferrer">%s</a> <span class="comments-log-date-time"><date>%s</date> | <time>%s</time></span></li>',
+				$L->get( 'Comment awaiting moderation on' ),
+				$actual_link,
+				$comment['id'],
+				$page->title(),
+				$comment->comment_date,
+				$comment->comment_time
+			);
+
+			$log_content = str_replace( $security, '', file_get_contents( $log_path ) );
+			$log_content = str_replace( $log_entry, '', $log_content );
+			file_put_contents(
+				$log_path,
+				$security . $log_content
+			);
+
+			$dom = dom_import_simplexml( $comment );
 			$dom->parentNode->removeChild( $dom );
 		}
 
-		$responsesToDelete = $xml->xpath( "//response[@id='$commentIdToDelete']" );
-		foreach ( $responsesToDelete as $response ) {
+		$responses_to_delete = $xml->xpath( "//response[@id='$comment_id_to_delete']" );
+
+		foreach ( $responses_to_delete as $response ) {
+
+			$security  = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
+			$log_entry = sprintf(
+				'<li>%s <a href="%s#%s" target="_blank" rel="noopener noreferrer">%s</a> <span class="comments-log-date-time"><date>%s</date> | <time>%s</time></span></li>',
+				$L->get( 'Reply awaiting moderation on' ),
+				$actual_link,
+				$response['id'],
+				$page->title(),
+				$response->comment_date,
+				$response->comment_time
+			);
+
+			$log_content = str_replace( $security, '', file_get_contents( $log_path ) );
+			$log_content = str_replace( $log_entry, '', $log_content );
+			file_put_contents(
+				$log_path,
+				$security . $log_content
+			);
+
 			$domResponse = dom_import_simplexml( $response );
 			$domResponse->parentNode->removeChild( $domResponse );
 		}
-
-		$xml->asXML( $xmlFile );
+		$xml->asXML( $xml_file );
 
 		echo '<div class="alert alert-success" id="comment-alert"><span>' . $L->get( 'deleted' ) . '</span></div>';
 		echo "<meta http-equiv='refresh' content='1'>";
@@ -534,25 +620,26 @@ function post_comments() {
 
 	if ( isset( $_POST['publishComment'] ) ) {
 
-		$xmlFile = $file_path;
-		$xml     = simplexml_load_file( $xmlFile );
+		$xml_file = $file_path;
+		$xml      = simplexml_load_file( $xml_file );
 
 		$log_path    = comments_log_path();
 		$actual_link = ( empty( $_SERVER['HTTPS'] ) ? 'http' : 'https' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-		$commentIdToPublish = $_POST['publishComment'];
-		$elementsToPublish  = $xml->xpath( "//comment[@id='$commentIdToPublish']" );
-		foreach ( $elementsToPublish as $element ) {
+		$comment_id_to_publish = $_POST['publishComment'];
+		$comments_to_publish   = $xml->xpath( "//comment[@id='$comment_id_to_publish']" );
+
+		foreach ( $comments_to_publish as $comment ) {
 
 			$secure    = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
 			$log_entry = sprintf(
 				'<li>%s <a href="%s#%s" target="_blank" rel="noopener noreferrer">%s</a> <span class="comments-log-date-time"><date>%s</date> | <time>%s</time></span></li>',
 				$L->get( 'Comment awaiting moderation on' ),
 				$actual_link,
-				$element['id'],
+				$comment['id'],
 				$page->title(),
-				$element->comment_date,
-				$element->comment_time
+				$comment->comment_date,
+				$comment->comment_time
 			);
 
 			$log_content = str_replace( $secure, '', file_get_contents( $log_path ) );
@@ -562,17 +649,34 @@ function post_comments() {
 				$secure . $log_content
 			);
 
-			var_dump($log_entry);
-
-			$element->addChild( 'approved' );
+			$comment->addChild( 'approved' );
 		}
 
-		$responsesToPublish = $xml->xpath( "//response[@id='$commentIdToPublish']" );
-		foreach ( $responsesToPublish as $response ) {
+		$responses_to_publish = $xml->xpath( "//response[@id='$comment_id_to_publish']" );
+
+		foreach ( $responses_to_publish as $response ) {
+
+			$secure    = "<?php defined( 'BLUDIT' ) or die( 'Not Allowed' ); ?>" . PHP_EOL;
+			$log_entry = sprintf(
+				'<li>%s <a href="%s#%s" target="_blank" rel="noopener noreferrer">%s</a> <span class="comments-log-date-time"><date>%s</date> | <time>%s</time></span></li>',
+				$L->get( 'Reply awaiting moderation on' ),
+				$actual_link,
+				$response['id'],
+				$page->title(),
+				$response->comment_date,
+				$response->comment_time
+			);
+
+			$log_content = str_replace( $secure, '', file_get_contents( $log_path ) );
+			$log_content = str_replace( $log_entry, '', $log_content );
+			file_put_contents(
+				$log_path,
+				$secure . $log_content
+			);
+
 			$response->addChild( 'approved' );
 		}
-
-		$xml->asXML( $xmlFile );
+		$xml->asXML( $xml_file );
 
 		echo '<div class="alert alert-success" id="comment-alert"><span>' . $L->get( 'published' ) . '</span></div>';
 
