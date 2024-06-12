@@ -20,6 +20,9 @@ $sec_token = $security->getTokenCSRF();
 // Settings page URL.
 $settings_page = DOMAIN_ADMIN . 'configure-plugin/' . $this->className();
 
+// Guide page URL.
+$guide_page = DOMAIN_ADMIN . 'plugin/' . $this->className() . '?page=guide';
+
 ?>
 <style>
 #comments-log-list {
@@ -41,16 +44,8 @@ pre {
 <h1><?php $L->p( 'Post Comments Log' ); ?></h1>
 
 <div class="alert alert-primary alert-post-comments" role="alert">
-	<p class="m-0"><?php $L->p( "Go to the <a href='{$settings_page}'>comments options</a> page." ); ?></p>
+	<p class="m-0"><?php $L->p( "Go to the <a href='{$settings_page}'>comments options</a> page." ); ?> <?php $L->p( "Go to the <a href='{$guide_page}'>comments guide</a> page." ); ?></p>
 </div>
-
-<pre>
-"disable_comments": {
-	"type"  : "bool",
-	"label" : "Disable Comments",
-	"tip"   : "Close comments for this content."
-}
-</pre>
 
 <form class="plugin-form" method="post" action="" enctype="" autocomplete="off">
 	<input type="hidden" id="jstokenCSRF" name="tokenCSRF" value="<?php echo $sec_token; ?>">

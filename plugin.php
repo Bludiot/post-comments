@@ -266,7 +266,11 @@ class Post_Comments extends Plugin {
 
 		$html = '';
 		ob_start();
-		include( $this->phpPath() . '/views/page-admin.php' );
+		if ( isset( $_GET['page'] ) && 'guide' == $_GET['page'] ) {
+			include( $this->phpPath() . '/views/page-info.php' );
+		} else {
+			include( $this->phpPath() . '/views/page-admin.php' );
+		}
 		$html .= ob_get_clean();
 
 		return $html;
