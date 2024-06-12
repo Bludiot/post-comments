@@ -20,8 +20,10 @@
 	align-items: center;
 	justify-content: space-between;
 
-	.comment-date {
-		font-weight: 600;
+	.comment-details {
+		date {
+			font-weight: 600;
+		}
 	}
 }
 
@@ -46,7 +48,7 @@
 
 .comment-footer {
 	display: flex;
-	align-items: first baseline;
+	align-items: center;
 	gap: 0.5rem;
 }
 
