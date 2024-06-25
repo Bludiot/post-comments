@@ -141,6 +141,29 @@ function default_avatar() {
 }
 
 /**
+ * Page type
+ *
+ * @since  1.0.0
+ * @global object $page The Page class.
+ * @global object $url The Url class.
+ * @return mixed Returns the page type or null.
+ */
+function page_type() {
+
+	// Access global variables.
+	global $page, $url;
+
+	if ( 'page' != $url->whereAmI() ) {
+		return null;
+	}
+
+	if ( $page->isStatic() ) {
+		return 'page';
+	}
+	return 'post';
+}
+
+/**
  * Disable comments
  *
  * Looks for the Disable Comments field
@@ -424,7 +447,7 @@ function post_comments() {
 	global $L, $page, $url;
 
 	// Stop if not on a post.
-	if ( 'page' !== $url->whereAmI() ) {
+	if ( 'page' !== $url->whereAmI() || $url->notFound() ) {
 		return false;
 	}
 
@@ -444,13 +467,15 @@ function post_comments() {
 				exit;
 			}
 
-			$name      = htmlentities( $_POST['comment_name'] );
-			$username  = $_POST['comment_username'];
-			$date      = $_POST['comment_date'];
-			$time      = $_POST['comment_time'];
-			$email     = htmlentities( $_POST['comment_email'] );
-			$message   = htmlentities( $_POST['comment_body'] );
-			$parent_id = $_POST['parent_id'] !== '' ? htmlentities( $_POST['parent_id'] ) : null;
+			$name       = htmlentities( $_POST['comment_name'] );
+			$username   = $_POST['comment_username'];
+			$date       = $_POST['comment_date'];
+			$time       = $_POST['comment_time'];
+			$reply_id   = $_POST['reply_id'];
+			$reply_name = $_POST['reply_name'];
+			$email      = htmlentities( $_POST['comment_email'] );
+			$message    = htmlentities( $_POST['comment_body'] );
+			$parent_id  = $_POST['parent_id'] !== '' ? htmlentities( $_POST['parent_id'] ) : null;
 
 			$to      = plugin()->admin_email();
 			$subject = "New comment: $name";
@@ -483,6 +508,8 @@ function post_comments() {
 				$response->addChild( 'comment_username', $username );
 				$response->addChild( 'comment_date', $date );
 				$response->addChild( 'comment_time', $time );
+				$response->addChild( 'reply_id', $reply_id );
+				$response->addChild( 'reply_name', $reply_name );
 				$response->addAttribute( 'id', md5( uniqid( '', true ) ) );
 				$response->addChild( 'comment_email', $email );
 				$response->addChild( 'comment_body', strip_tags( html_entity_decode( $message ) ) );

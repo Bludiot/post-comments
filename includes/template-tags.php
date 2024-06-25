@@ -264,3 +264,21 @@ function user_avatar( $name = '' ) {
 	}
 	return $src;
 }
+
+/**
+ * Terms page URL
+ *
+ * @since  1.0.0
+ * @return string
+ */
+function terms_page_url() {
+
+	$terms_url  = '';
+	$terms_key  = plugin()->terms_page();
+
+	if ( ! empty( $terms_key ) ) {
+		$terms_page = new \Page( $terms_key );
+		$terms_url  = $terms_page->permalink();
+	}
+	return $terms_url;
+}
