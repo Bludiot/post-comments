@@ -7,6 +7,10 @@
  * @since      1.0.0
  */
 
+// Get array of pages in the database.
+global $pages;
+$get_pages = $pages->getDB();
+
 ?>
 <div class="alert alert-primary alert-search-forms" role="alert">
 	<p class="m-0"><?php $L->p( 'Options for the post comments form and for the loop/list.' ); ?></p>
@@ -59,6 +63,35 @@
 				<option value="false" <?php echo ( $this->getValue( 'accept_terms' ) === false ? 'selected' : '' ); ?>><?php $L->p( 'Disabled' ); ?></option>
 			</select>
 			<small class="form-text"><?php $L->p( 'Require users to accept the terms of commenting before submitting the form.' ); ?></small>
+		</div>
+	</div>
+
+	<div id="terms-options" style="display: <?php echo ( $this->accept_terms() == true ? 'block' : 'none' ); ?>;">
+		<div class="form-field form-group row">
+			<label for="terms_page" class="col-sm-2 col-form-label"><?php $L->p( 'Terms Page' ); ?></label>
+			<div class="col-sm-10">
+				<select id="terms_page" name="terms_page" class="form-select">
+
+					<option value="" <?php echo ( empty( $this->terms_page() ) ? 'selected' : '' ); ?>><?php $L->p( 'None' ); ?></option>
+
+					<?php
+					// Static page options.
+					foreach ( $get_pages as $key ) {
+
+						$page = new \Page( $key );
+						if ( ! $page->isStatic() ) {
+							continue;
+						}
+						printf(
+							'<option value="%s" %s>%s</option>',
+							$page->key(),
+							( $page->key() == $this->terms_page() ? 'selected' : '' ),
+							$page->title()
+						);
+					} ?>
+				</select>
+				<small class="form-text text-muted"><?php $L->p( 'Select a page that contains the terms of commenting, privacy policy, etc.' ); ?></small>
+			</div>
 		</div>
 	</div>
 
@@ -148,3 +181,16 @@
 		</div>
 	</div>
 </fieldset>
+
+<script>
+jQuery(document).ready( function($) {
+	$( '#accept_terms' ).on( 'change', function() {
+    	var show = $(this).val();
+		if ( show == 'true' ) {
+			$( "#terms-options" ).fadeIn( 250 );
+		} else if ( show == 'false' ) {
+			$( "#terms-options" ).fadeOut( 250 );
+		}
+    });
+});
+</script>
