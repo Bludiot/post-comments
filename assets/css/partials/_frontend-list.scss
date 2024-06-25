@@ -19,6 +19,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 0 1rem;
 
 	.comment-details {
 		date {
@@ -40,6 +42,11 @@
 .comment-name {
 	font-size: var( --pcs-comment--name--font-size, 1.375em );
 	font-weight: var( --pcs-comment--name--font-weight, 700 );
+}
+
+.reply-to {
+	font-size: 0.625em;
+	font-weight: 400;
 }
 
 .comment-body {
