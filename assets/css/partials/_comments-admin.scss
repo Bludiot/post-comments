@@ -1,0 +1,29 @@
+///
+/// Backend comments table
+///
+
+.comments-management {
+
+	.table {
+		margin: 2rem 0 0 0;
+		display: table;
+		border: solid 1px rgba( 0, 0, 0, 0.325 );
+
+		.table-head {
+			display: table-header-group;
+			padding: 0.5em;
+			font-weight: 600;
+		}
+
+		.table-row {
+			display: table-row;
+			padding: 0.5em;
+		}
+
+		.table-cell {
+			display: table-cell;
+			padding: 0.325em 0.625em;
+			border: solid 1px rgba( 0, 0, 0, 0.325 );
+		}
+	}
+}

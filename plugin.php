@@ -121,7 +121,7 @@ class Post_Comments extends Plugin {
 			'admin_email'     => '',
 			'terms_page'      => '',
 			'accept_terms'    => false,
-			'dashboard_log'   => true
+			'dashboard_log'   => true,
 		];
 
 		// Array of custom hooks.
@@ -184,7 +184,7 @@ class Post_Comments extends Plugin {
 	}
 
 	/**
-	 * Load scripts & styles
+	 * Load frontend scripts & styles
 	 *
 	 * @since  1.0.0
 	 * @access public
@@ -248,6 +248,26 @@ class Post_Comments extends Plugin {
 		$html .= ob_get_clean();
 
 		return $html;
+	}
+
+	/**
+	 * Load backend scripts & styles
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return string
+	 */
+	public function adminHead() {
+
+		// Maybe get non-minified assets.
+		$suffix = '';
+		if ( ! debug_mode() ) {
+			$suffix = '.min';
+		}
+
+		$assets = '<link rel="stylesheet" type="text/css" href="' . $this->domainPath() . "assets/css/admin{$suffix}.css?version=" . $this->getMetadata( 'version' ) . '" />' . PHP_EOL;
+
+		return "\n" . $assets;
 	}
 
 	/**
@@ -433,6 +453,11 @@ class Post_Comments extends Plugin {
 	// @return boolean
 	public function accept_terms() {
 		return $this->getValue( 'accept_terms' );
+	}
+
+	// @return string
+	public function terms_page() {
+		return $this->getValue( 'terms_page' );
 	}
 
 	// @return boolean
