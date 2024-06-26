@@ -90,7 +90,7 @@ $get_pages = $pages->getDB();
 						);
 					} ?>
 				</select>
-				<small class="form-text text-muted"><?php $L->p( 'Select a page that contains the terms of commenting, privacy policy, etc.' ); ?></small>
+				<small class="form-text text-muted"><?php $L->p( 'Select a static page that contains the terms of commenting, privacy policy, etc.' ); ?></small>
 			</div>
 		</div>
 	</div>
