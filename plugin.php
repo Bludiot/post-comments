@@ -218,7 +218,9 @@ class Post_Comments extends Plugin {
 	public function adminController() {
 
 		// Access global variables.
-		global $L, $layout, $site;
+		global $L, $layout, $pages, $site, $url;
+
+		checkRole( [ 'admin', 'editor', 'author' ] );
 
 		$layout['title'] = $L->get( 'Post Comments Log' ) . ' | ' . $site->title();
 
