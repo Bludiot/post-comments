@@ -82,7 +82,7 @@ if ( file_exists( $file_path ) ) {
 			if ( $users->exists( $username ) && getPlugin( 'User_Profiles' ) ) {
 
 				printf(
-					'<p class="comment-name"><a href="%s"><img src="%s" class="avatar comment-avatar" width="36" height="36" />%s</a></p>',
+					'<p class="comment-name"><a href="%s"><img src="%s" class="avatar comment-avatar" width="36" height="36" role="presentation" />%s</a></p>',
 					\UPRO_Tags\user_link( $username ),
 					user_avatar( $username ),
 					\UPRO_Tags\user_display_name( $username )
@@ -90,7 +90,7 @@ if ( file_exists( $file_path ) ) {
 				echo $comment_details;
 			} else {
 				printf(
-					'<p class="comment-name"><img src="%s" class="avatar comment-avatar" width="36" height="36" /> %s</p>',
+					'<p class="comment-name"><img src="%s" class="avatar comment-avatar" width="36" height="36" role="presentation" /> %s</p>',
 					user_avatar( $username ),
 					htmlspecialchars( $comment->comment_name, ENT_QUOTES, 'UTF-8' )
 				);
@@ -128,6 +128,8 @@ if ( file_exists( $file_path ) ) {
 
 				foreach ( $comment->response as $response ) {
 
+					$username = (string) $response->comment_username;
+
 					$approve_response = '';
 					if ( true !== (bool) $response->approved ) {
 						$approve_response = sprintf(
@@ -164,20 +166,32 @@ if ( file_exists( $file_path ) ) {
 						);
 						echo '<header class="comment-header">';
 
+						$reply_tag = '';
+						if ( $response->reply_id && $response->reply_name ) {
+							$reply_tag = sprintf(
+								' <span class="reply-to">%s <a href="#%s">%s</a></span>',
+								$L->get( 'Reply to' ),
+								$response->reply_id,
+								$response->reply_name
+							);
+						}
+
 						if ( $users->exists( $username ) && getPlugin( 'User_Profiles' ) ) {
 
 							printf(
-								'<p class="comment-name"><a href="%s"><img src="%s" class="avatar comment-avatar" width="36" height="36" />%s</a></p>',
+								'<p class="comment-name"><a href="%s"><img src="%s" class="avatar comment-avatar" width="36" height="36" role="presentation" />%s</a>%s</p>',
 								\UPRO_Tags\user_link( $username ),
 								user_avatar( $username ),
-								\UPRO_Tags\user_display_name( $username )
+								\UPRO_Tags\user_display_name( $username ),
+								$reply_tag
 							);
 							echo $response_details;
 						} else {
 							printf(
-								'<p class="comment-name"><img src="%s" class="avatar comment-avatar" width="36" height="36" /> %s</p>',
+								'<p class="comment-name"><img src="%s" class="avatar comment-avatar" width="36" height="36" role="presentation" /> %s%s</p>',
 								user_avatar( $username ),
-								htmlspecialchars( $response->comment_name, ENT_QUOTES, 'UTF-8' )
+								htmlspecialchars( $response->comment_name, ENT_QUOTES, 'UTF-8' ),
+								$reply_tag
 							);
 							echo $response_details;
 						}
@@ -237,7 +251,9 @@ replyButtons.forEach( function( replyButton ) {
 
 		var parent_name = replyButton.getAttribute( 'data-name' );
 
-		document.getElementById( 'reply_to' ).innerText = parent_name;
+		document.getElementById( 'replying_to' ).innerText = parent_name;
+		document.getElementById( 'reply_id' ).value = parent_id;
+		document.getElementById( 'reply_name' ).value = parent_name;
 	});
 });
 </script>
