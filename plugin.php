@@ -20,7 +20,7 @@ use function Post_Comments\{
 	debug_mode,
 	enqueue_assets,
 	comments_log_path,
-	post_comments,
+	post_comments_full,
 	disable_comments
 };
 
@@ -222,11 +222,7 @@ class Post_Comments extends Plugin {
 
 		checkRole( [ 'admin', 'editor', 'author' ] );
 
-		$layout['title'] = $L->get( 'Post Comments Log' ) . ' | ' . $site->title();
-
-		if ( isset( $_POST['delete_log'] ) && file_exists( comments_log_path() ) ) {
-			unlink( comments_log_path() );
-		};
+		$layout['title'] = $L->get( 'Manage Post Comments' ) . ' | ' . $site->title();
 	}
 
 	/**
@@ -326,9 +322,7 @@ class Post_Comments extends Plugin {
 		// Access global variables.
 		global $L;
 
-		$slug = strtolower( __CLASS__ );
-		$url  = HTML_PATH_ADMIN_ROOT . 'plugin/' . $slug;
-
+		$url  = DOMAIN_ADMIN . 'plugin/' . $this->className();
 		$html = sprintf(
 			'<a class="nav-link" href="%s"><span class="fa fa-comments"></span>%s</a>',
 			$url,
@@ -395,9 +389,9 @@ class Post_Comments extends Plugin {
 		}
 
 		if ( $page->isStatic() && ( 'page' == $this->post_types() || 'both' == $this->post_types() ) ) {
-			return post_comments();
+			return post_comments_full();
 		} elseif ( ! $page->isStatic() && 'page' !== $this->post_types() ) {
-			return post_comments();
+			return post_comments_full();
 		}
 		return false;
 	}
