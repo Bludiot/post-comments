@@ -1,0 +1,13 @@
+///
+/// Define CSS variables
+///
+
+:root {
+
+	// Admin management.
+	--pcp-admin--table--width: 100%;
+	--pcp-admin--table--max-width: 1000px;
+	--pcp-admin--table--border-style: solid;
+	--pcp-admin--table--border-width: 1px;
+	--pcp-admin--table--border-color: #{rgba( $color: black, $alpha: 0.25 )};
+}
