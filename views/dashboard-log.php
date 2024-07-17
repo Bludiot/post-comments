@@ -36,7 +36,7 @@ if ( isset( $_POST['delete_log'] ) && file_exists( comments_log_path() ) ) {
 }
 </style>
 
-<h2><?php $L->p( 'Post Comments Log' ); ?></h2>
+<h2><?php $L->p( 'Comments Log' ); ?></h2>
 
 <form class="plugin-form" method="post" action="" enctype="" autocomplete="off">
 	<input type="hidden" id="jstokenCSRF" name="tokenCSRF" value="<?php echo $sec_token; ?>">
