@@ -1,10 +1,12 @@
 {
-	"author"      : "Bludiot",
-	"email"       : "santa@north.pole",
-	"website"     : "https://github.com/Bludiot/post-comments",
-	"version"     : "1.0.0",
-	"releaseDate" : "",
-	"license"     : "Nope",
-	"compatible"  : "3.15.0",
-	"notes"       : ""
+	"author"       : "Bludiot",
+	"email"        : "",
+	"website"      : "https://github.com/Bludiot/post-comments",
+	"version"      : "1.0.0",
+	"releaseDate"  : "",
+	"license"      : "Nope",
+	"compatible"   : "3.16.0",
+	"notes"        : "",
+	"theme_compat" : [ "configureight" ],
+	"theme_desc"   : "The Post Comments plugin adds the ability for users to comment on your website content. Includes replies to comments and admin moderation tools, as well as the ability to add a terms agreement page. Many options are available for presentation of the comments section."
 }
