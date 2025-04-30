@@ -36,7 +36,7 @@ if ( isset( $_POST['delete_log'] ) && file_exists( comments_log_path() ) ) {
 }
 </style>
 
-<h2><?php $L->p( 'Comments Log' ); ?></h2>
+<h2><?php $L->p( 'Comments Activity' ); ?></h2>
 
 <form class="plugin-form" method="post" action="" enctype="" autocomplete="off">
 	<input type="hidden" id="jstokenCSRF" name="tokenCSRF" value="<?php echo $sec_token; ?>">
@@ -50,7 +50,7 @@ if ( isset( $_POST['delete_log'] ) && file_exists( comments_log_path() ) ) {
 <script>
 $( function() {
 	$( '#delete_log' ).bind( 'click', function() {
-		if ( ! confirm( '<?php $L->p( 'Are you sure you want to clear the comments log?' ); ?>' ) ) {
+		if ( ! confirm( '<?php $L->p( 'Are you sure you want to clear the comments activity log?' ); ?>' ) ) {
 			return false;
 		}
 	});
