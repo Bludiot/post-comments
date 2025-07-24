@@ -1,66 +1,36 @@
 <?php
-/**
- * Post Comments plugin
- *
- * @package  Post Comments
- * @category Plugins
- * @version  1.0.0
- * @since    1.0.0
+/*
+ |  Snicker Plus - A FlatFile Comment Plugin for Bludit
+ |  @file       ./snicker.php
+ |  @author     Steve Harris (Harris Lineage)
+ |  @version    1.0.0
+ |  @website    https://github.com/harrislineage/snicker-plus
+ |  @license    MIT License
+ |  @copyright  Copyright © 2025 Steve Harris (Harris Lineage)
  */
-
-// Stop if accessed directly.
-if ( ! defined( 'BLUDIT' ) ) {
-	die( 'You are not allowed direct access to this file.' );
+if (!defined("BLUDIT")) {
+	die("Access denied");
 }
+require_once "system/functions.php";    // Load Basic Functions
 
-require_once 'system/functions.php';
-
-class Post_Comments extends Plugin {
-
-	/**
-	 * Is in the back end
-	 *
-	 * @since  1.0.0
-	 * @access private
-	 * @var    boolean
+class SnickerPlugin extends Plugin
+{
+	/*
+	 |  BACKEND VARIABLES
 	 */
-	private $backend = false;
+	private $backend = false;               // Is Backend
+	private $backendView = null;            // Backend View / File
+	private $backendRequest = null;         // Backend Request Type ("post", "get", "ajax")
 
-	/**
-	 * Backend view/file
-	 *
-	 * @since  1.0.0
-	 * @access private
-	 * @var    string
+	/*
+	 |  CONSTRUCTOR
+	 |  @since  0.1.0
 	 */
-	private $backend_view = null;
-
-	/**
-	 * Backend request type
-	 *
-	 * `post`, `get`, `ajax`
-	 *
-	 * @since  1.0.0
-	 * @access private
-	 * @var    string
-	 */
-	private $backend_request = null;
-
-	/**
-	 * Constructor method
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return self
-	 */
-	public function __construct() {
-
-		// Define global variables.
-		global $post_comments;
-		$post_comments = $this;
-
-		// Run parent constructor.
-		parent :: __construct();
+	public function __construct()
+	{
+		global $SnickerPlugin;
+		$SnickerPlugin = $this;
+		parent::__construct();
 	}
 
 
@@ -625,7 +595,7 @@ class Post_Comments extends Plugin {
 		// Return
 		return $this->response(array(
 			"success" => sn__("The backup has been created successfully!"),
-			"referer" => DOMAIN_ADMIN . "uninstall-plugin/" . $this->className()
+			"referer" => DOMAIN_ADMIN . "uninstall-plugin/SnickerPlugin"
 		), "alert");
 	}
 
@@ -710,7 +680,7 @@ class Post_Comments extends Plugin {
 			?>
 					<script type="text/javascript">
 						document.addEventListener("DOMContentLoaded", function () {
-							var link = document.querySelector("tr#<?php echo $this->className(); ?> td a");
+							var link = document.querySelector("tr#SnickerPlugin td a");
 							if (link) {
 								link.addEventListener("click", function (event) {
 									event.preventDefault();
@@ -751,7 +721,7 @@ class Post_Comments extends Plugin {
 	 */
 	public function adminBodyEnd()
 	{
-		global $url, $post_comments;
+		global $url, $SnickerPlugin;
 		if (!$this->backend || !$this->backendView) {
 			$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
 			if ($slug[0] === "plugins") {

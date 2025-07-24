@@ -55,8 +55,8 @@ function sn_e($string, $args = array())
  */
 function sn_config($key)
 {
-    global $post_comments;
-    return $post_comments->getValue($key);
+    global $SnickerPlugin;
+    return $SnickerPlugin->getValue($key);
 }
 
 /*
@@ -67,8 +67,8 @@ function sn_config($key)
  */
 function sn_response($data, $key = null)
 {
-    global $post_comments;
-    return $post_comments->response($data, $key);
+    global $SnickerPlugin;
+    return $SnickerPlugin->response($data, $key);
 }
 
 /*
@@ -79,8 +79,8 @@ function sn_response($data, $key = null)
  */
 function sn_selected($field, $value = true, $print = true)
 {
-    global $post_comments;
-    return $post_comments->selected($field, $value, $print);
+    global $SnickerPlugin;
+    return $SnickerPlugin->selected($field, $value, $print);
 }
 
 /*
@@ -91,6 +91,6 @@ function sn_selected($field, $value = true, $print = true)
  */
 function sn_checked($field, $value = true, $print = true)
 {
-    global $post_comments;
-    return $post_comments->checked($field, $value, $print);
+    global $SnickerPlugin;
+    return $SnickerPlugin->checked($field, $value, $print);
 }
