@@ -479,13 +479,13 @@ class CommentsIndex extends dbJSON
      */
     public function sortBy()
     {
-        global $SnickerPlugin;
+        global $comments_plugin;
 
-        if ($SnickerPlugin->getValue("frontend_order") === "date_asc") {
+        if ($comments_plugin->getValue("frontend_order") === "date_asc") {
             uasort($this->db, function ($a, $b) {
                 return $a["date"] > $b["date"];
             });
-        } else if ($SnickerPlugin->getValue("frontend_order") === "date_desc") {
+        } else if ($comments_plugin->getValue("frontend_order") === "date_desc") {
             uasort($this->db, function ($a, $b) {
                 return $a["date"] < $b["date"];
             });

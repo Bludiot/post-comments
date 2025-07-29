@@ -13,10 +13,10 @@ if (!defined('BLUDIT')) {
 	die('Access denied');
 }
 
-global $pages, $security, $post_comments, $SnickerIndex, $SnickerPlugin, $SnickerUsers;
+global $pages, $security, $post_comments, $SnickerIndex, $comments_plugin, $SnickerUsers;
 
 // Get Data
-$limit = $SnickerPlugin->getValue("frontend_per_page");
+$limit = $comments_plugin->getValue("frontend_per_page");
 if ($limit === 0) {
 	$limit = 15;
 }
@@ -137,7 +137,7 @@ foreach ($tabs as $status) {
 				<tr>
 					<td class="">
 						<?php
-						if ($SnickerPlugin->getValue("comment_title") !== "disabled" && !empty($data["title"])) {
+						if ($comments_plugin->getValue("comment_title") !== "disabled" && !empty($data["title"])) {
 							echo '<b class="d-inline-block">' . $data["title"] . '</b>';
 						}
 						echo '<p class="text-muted m-0" style="font-size:12px;">' . (isset($data["excerpt"]) ? $data["excerpt"] : "") . '</p>';

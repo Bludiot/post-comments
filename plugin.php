@@ -28,8 +28,8 @@ class SnickerPlugin extends Plugin
 	 */
 	public function __construct()
 	{
-		global $SnickerPlugin;
-		$SnickerPlugin = $this;
+		global $comments_plugin;
+		$comments_plugin = $this;
 		parent::__construct();
 	}
 
@@ -721,7 +721,7 @@ class SnickerPlugin extends Plugin
 	 */
 	public function adminBodyEnd()
 	{
-		global $url, $SnickerPlugin;
+		global $url, $comments_plugin;
 		if (!$this->backend || !$this->backendView) {
 			$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
 			if ($slug[0] === "plugins") {
