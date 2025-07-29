@@ -18,31 +18,24 @@ $comment = new Comment($_GET["uid"], $data["page_uuid"]);
 $page = new Page($pages->getByUUID($data["page_uuid"]));
 
 ?>
-<h1 class="page-title">
-	<?php sn_e("Edit Comment"); ?>
-</h1>
-
-<p class="page-description mt-0"><?php sn_e("Comment posted in"); ?> <a href="<?php echo $page->permalink(); ?>" target="_blank" rel="noopener noreferrer"><?php echo $page->title(); ?></a></p>
-
 <form method="post" action="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker">
-	<div class="card" style="margin: 1.5rem 0;">
-		<div class="card-body">
-			<div class="row">
-				<div class="col-sm-6">
-					<input type="hidden" id="tokenUser" name="tokenUser" value="<?php echo $login->username(); ?>" />
-					<input type="hidden" id="tokenCSRF" name="tokenCSRF" value="<?php echo $security->getTokenCSRF(); ?>" />
-					<input type="hidden" id="sn-action" name="action" value="snicker" />
-					<input type="hidden" id="sn-snicker" name="snicker" value="edit" />
-					<input type="hidden" id="sn-unique" name="uid" value="<?php echo $comment->uid(); ?>" />
-					<button class="btn btn-primary" name="type" value="edit"><?php sn_e("Update Comment"); ?></button>
-				</div>
 
-				<div class="col-sm-6 text-right">
-					<button class="btn btn-danger" name="type" value="delete"><?php sn_e("Delete Comment"); ?></button>
-				</div>
-			</div>
+	<div class="align-middle">
+
+		<div class="float-right mt-1">
+			<button class="btn btn-primary" name="type" value="edit"><?php sn_e("Update"); ?></button>
+			<button class="btn btn-danger" name="type" value="delete"><?php sn_e("Delete"); ?></button>
 		</div>
+		<h1 class="page-title"><span class="page-title-icon fa fa-comments"></span><span class="page-title-text"><?php sn_e( 'Edit Comment' ); ?></span></h1>
 	</div>
+
+	<p class="page-description mt-0"><?php sn_e("Comment posted in"); ?> <a href="<?php echo $page->permalink(); ?>" target="_blank" rel="noopener noreferrer"><?php echo $page->title(); ?></a></p>
+
+	<input type="hidden" id="tokenUser" name="tokenUser" value="<?php echo $login->username(); ?>" />
+	<input type="hidden" id="tokenCSRF" name="tokenCSRF" value="<?php echo $security->getTokenCSRF(); ?>" />
+	<input type="hidden" id="sn-action" name="action" value="snicker" />
+	<input type="hidden" id="sn-snicker" name="snicker" value="edit" />
+	<input type="hidden" id="sn-unique" name="uid" value="<?php echo $comment->uid(); ?>" />
 
 	<div class="row mb-4">
 		<div class="col">
