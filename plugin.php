@@ -31,7 +31,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access private
-	 * @var    string
+	 * @var    mixed
 	 */
 	private $backend_view = null;
 
@@ -42,7 +42,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access private
-	 * @var    string
+	 * @var    mixed
 	 */
 	private $backend_request = null;
 
@@ -692,6 +692,12 @@ class Post_Comments extends Plugin {
 		$css  = PC_DOMAIN . "assets/css/";
 		$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
 
+		// Maybe get non-minified assets.
+		$suffix = '.min';
+		if ( defined( 'DEBUG_MODE' ) && DEBUG_MODE ) {
+			$suffix = '';
+		}
+
 		// Admin Header
 		ob_start();
 		if ($slug[0] === "new-content" || $slug[0] === "edit-content") {
@@ -725,7 +731,7 @@ class Post_Comments extends Plugin {
 			<?php
 		} else if ($slug[0] === "snicker") {
 			?>
-				<script type="text/javascript" src="<?php echo $js; ?>admin.snicker.js"></script>
+				<script type="text/javascript" src="<?php echo $js; ?>admin.snicker<?php echo $suffix; ?>.js"></script>
 				<link type="text/css" rel="stylesheet" href="<?php echo $css; ?>admin.snicker.css" />
 			<?php
 		} else if ($slug[0] === "plugins") {
@@ -921,8 +927,8 @@ class Post_Comments extends Plugin {
 		if ( ( $theme = $post_comments->getTheme() ) === false ) {
 			return false;
 		}
-		if ( ! empty( $theme :: SNICKER_JS ) ) {
-			$file = PC_DOMAIN . 'themes/' . sn_config( 'frontend_template' ) . '/' . $theme :: SNICKER_JS;
+		if ( ! empty( $theme->theme_js ) ) {
+			$file = PC_DOMAIN . 'themes/' . sn_config( 'frontend_template' ) . '/' . $theme->theme_js;
 			?>
 			<script type="text/javascript">
 				var COMMENTS_AJAX = <?php echo sn_config( 'frontend_ajax' ) ? 'true' : 'false'; ?>;
@@ -933,8 +939,8 @@ class Post_Comments extends Plugin {
 			<?php
 		}
 
-		if ( ! empty( $theme :: SNICKER_CSS ) ) {
-			$file = PC_DOMAIN . 'themes/' . sn_config( 'frontend_template' ) . '/' . $theme :: SNICKER_CSS;
+		if ( ! empty( $theme->theme_css ) ) {
+			$file = PC_DOMAIN . 'themes/' . sn_config( 'frontend_template' ) . '/' . $theme->theme_css;
 			?>
 			<link id="snicker-css" type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
 			<?php

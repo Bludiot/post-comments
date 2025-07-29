@@ -243,7 +243,7 @@ $static = $pages->getStaticDB( false );
 									<?php
 									foreach ($post_comments->themes as $key => $theme) {
 										?>
-										<option value="<?php echo $key; ?>" <?php sn_selected( 'frontend_template', $key ); ?>><?php echo $theme :: SNICKER_NAME; ?></option>
+										<option value="<?php echo $key; ?>" <?php sn_selected( 'frontend_template', $key ); ?>><?php echo $theme->theme_name; ?></option>
 										<?php
 									}
 									?>

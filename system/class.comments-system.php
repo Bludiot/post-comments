@@ -217,16 +217,16 @@ class Comments_System
                 if (!is_dir($dir . $theme) || in_array($theme, array(".", ".."))) {
                     continue;
                 }
-                if (!file_exists($dir . $theme . DS . "snicker.php")) {
+                if (!file_exists($dir . $theme . DS . "template-default.php")) {
                     continue;
                 }
-                require_once($dir . $theme . DS . "snicker.php");
+                require_once($dir . $theme . DS . "template-default.php");
 
                 // Load Class
-                if (!class_exists(ucFirst($theme) . "_SnickerTemplate")) {
+                if (!class_exists(ucFirst($theme) . "_Template")) {
                     continue;
                 }
-                $class = ucFirst($theme) . "_SnickerTemplate";
+                $class = ucFirst($theme) . "_Template";
                 $themes[$theme] = new $class();
             }
         }
