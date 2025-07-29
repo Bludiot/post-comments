@@ -206,7 +206,7 @@ $static = $pages->getStaticDB( false );
 									<?php
 									// Custom hook from this plugin.
 									if ( $theme_compat ) : ?>
-									<option value="comments_full" <?php sn_selected( 'frontend_filter', 'comments_full' ); ?>><?php sn_e( 'Use Theme Location' ); ?></option>
+									<option value="comments_full" <?php sn_selected( 'frontend_filter', 'comments_full' ); ?>><?php sn_e( 'Use comments_full' ); ?></option>
 									<?php endif; ?>
 
 									<option value="pageBegin" <?php sn_selected( 'frontend_filter', 'pageBegin' ); ?>><?php sn_e( 'Use pageBegin' ); ?></option>
