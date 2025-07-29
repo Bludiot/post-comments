@@ -666,8 +666,8 @@ class Post_Comments extends Plugin {
 	{
 		global $page, $security, $url;
 
-		$js = SNICKER_DOMAIN . "admin/js/";
-		$css = SNICKER_DOMAIN . "admin/css/";
+		$js   = SNICKER_DOMAIN . "assets/js/";
+		$css  = SNICKER_DOMAIN . "assets/css/";
 		$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
 
 		// Admin Header
