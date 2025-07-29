@@ -13,7 +13,7 @@ if (!defined('BLUDIT')) {
 	die('Access denied');
 }
 
-global $pages, $security, $post_comments, $SnickerIndex, $comments_plugin, $SnickerUsers;
+global $pages, $security, $post_comments, $comments_index, $comments_plugin, $comments_users;
 
 // Get Data
 $limit = $comments_plugin->getValue("frontend_per_page");
@@ -41,19 +41,19 @@ foreach ($tabs as $status) {
 
 	// Get Comments
 	if ($view === "index") {
-		$comments = $SnickerIndex->getList($status, $page, $limit);
-		$total = $SnickerIndex->count($status);
+		$comments = $comments_index->getList($status, $page, $limit);
+		$total = $comments_index->count($status);
 	} else if ($view === "search") {
-		$comments = $SnickerIndex->searchComments(isset($_GET["search"]) ? $_GET["search"] : "");
+		$comments = $comments_index->searchComments(isset($_GET["search"]) ? $_GET["search"] : "");
 		$total = count($comments);
 	} else if ($view === "single") {
-		$comments = $SnickerIndex->getListByParent(isset($_GET["single"]) ? $_GET["single"] : "");
+		$comments = $comments_index->getListByParent(isset($_GET["single"]) ? $_GET["single"] : "");
 		$total = count($comments);
 	} else if ($view === "uuid") {
-		$comments = $SnickerIndex->getListByUUID(isset($_GET["uuid"]) ? $_GET["uuid"] : "");
+		$comments = $comments_index->getListByUUID(isset($_GET["uuid"]) ? $_GET["uuid"] : "");
 		$total = count($comments);
 	} else if ($view === "user") {
-		$comments = $SnickerIndex->getListByUser(isset($_GET["user"]) ? $_GET["user"] : "");
+		$comments = $comments_index->getListByUser(isset($_GET["user"]) ? $_GET["user"] : "");
 		$total = count($comments);
 	}
 
@@ -127,12 +127,12 @@ foreach ($tabs as $status) {
 		<tbody class="shadow-sm-both">
 			<?php foreach ($comments as $uid) { ?>
 				<?php
-				$data = $SnickerIndex->getComment($uid, $status);
+				$data = $comments_index->getComment($uid, $status);
 				if (!(isset($data["page_uuid"]) && is_string($data["page_uuid"]))) {
 					continue;
 				}
 				$page = new Page($pages->getByUUID($data["page_uuid"]));
-				$user = $SnickerUsers->getByString($data["author"]);
+				$user = $comments_users->getByString($data["author"]);
 				?>
 				<tr>
 					<td class="">
@@ -141,9 +141,9 @@ foreach ($tabs as $status) {
 							echo '<b class="d-inline-block">' . $data["title"] . '</b>';
 						}
 						echo '<p class="text-muted m-0" style="font-size:12px;">' . (isset($data["excerpt"]) ? $data["excerpt"] : "") . '</p>';
-						if (!empty($data["parent_uid"]) && $SnickerIndex->exists($data["parent_uid"]) && $view !== "single") {
+						if (!empty($data["parent_uid"]) && $comments_index->exists($data["parent_uid"]) && $view !== "single") {
 							$reply = DOMAIN_ADMIN . "snicker?view=single&single={$uid}";
-							$reply = '<a href="' . $reply . '" title="' . sn__("Show all replies") . '">' . $SnickerIndex->getComment($data["parent_uid"])["title"] . '</a>';
+							$reply = '<a href="' . $reply . '" title="' . sn__("Show all replies") . '">' . $comments_index->getComment($data["parent_uid"])["title"] . '</a>';
 							echo "<div class='text-muted mt-1' style='font-size:12px;'>" . sn__("Reply To") . ": " . $reply . "</div>";
 						}
 						?>

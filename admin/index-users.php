@@ -12,12 +12,12 @@
 if (!defined('BLUDIT')) {
 	exit('No direct access');
 }
-global $SnickerUsers;
+global $comments_users;
 
 // Get Data
 $page = max((isset($_GET["page"]) ? (int) $_GET["page"] : 1), 1);
 $limit = sn_config("frontend_per_page");
-$total = count($SnickerUsers->db);
+$total = count($comments_users->db);
 
 // Get Users
 $search = null;
@@ -26,7 +26,7 @@ if (isset($_GET["view"]) && $_GET["view"] === "users") {
 	$limit = -1;
 	$search = isset($_GET["search"]) ? $_GET["search"] : null;
 }
-$users = $SnickerUsers->getList($search, $page, $limit);
+$users = $comments_users->getList($search, $page, $limit);
 
 // Link
 $link = DOMAIN_ADMIN . "snicker?page=%d&tab=users#users";

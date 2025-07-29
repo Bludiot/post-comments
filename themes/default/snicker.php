@@ -237,11 +237,11 @@ class Default_SnickerTemplate extends CommentsTheme
 	 */
 	public function comment($comment, $uid, $depth)
 	{
-		global $users, $security, $post_comments, $SnickerUsers;
+		global $users, $security, $post_comments, $comments_users;
 
 		// Get Page
 		$page = new Page($comment->page_key());
-		$user = $SnickerUsers->getByString($comment->getValue("author"));
+		$user = $comments_users->getByString($comment->getValue("author"));
 
 		// Render
 		$token = $security->getTokenCSRF();

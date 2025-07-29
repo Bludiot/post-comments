@@ -181,9 +181,9 @@ class SnickerPlugin extends Plugin
 	public function installed()
 	{
 		global $post_comments,            // Main Comment Handler
-		$SnickerIndex,       // Main Comment Indexer
-		$SnickerUsers,       // Main Comment Users
-		$SnickerVotes;       // Main Comment Votes
+		$comments_index,       // Main Comment Indexer
+		$comments_users,       // Main Comment Users
+		$comments_votes;       // Main Comment Votes
 
 		if (file_exists($this->filenameDb)) {
 			if (!defined("SNICKER")) {
@@ -214,9 +214,9 @@ class SnickerPlugin extends Plugin
 				require_once "includes/autoload.php";
 			} else {
 				$post_comments = new Snicker();
-				$SnickerIndex = new CommentsIndex();
-				$SnickerUsers = new CommentsUsers();
-				$SnickerVotes = new CommentsVotes();
+				$comments_index = new CommentsIndex();
+				$comments_users = new CommentsUsers();
+				$comments_votes = new CommentsVotes();
 				$this->request();
 			}
 			return true;
@@ -411,7 +411,7 @@ class SnickerPlugin extends Plugin
 	 */
 	private function user($data)
 	{
-		global $SnickerIndex, $SnickerUsers;
+		global $comments_index, $comments_users;
 
 		// Validate Data
 		if (!isset($data["uuid"]) || !isset($data["handle"])) {
@@ -421,7 +421,7 @@ class SnickerPlugin extends Plugin
 		}
 
 		// Validata UUID
-		if (!$SnickerUsers->exists($data["uuid"])) {
+		if (!$comments_users->exists($data["uuid"])) {
 			return $this->response(array(
 				"error" => sn__("An unique user ID does not exist!")
 			), "alert");
@@ -429,12 +429,12 @@ class SnickerPlugin extends Plugin
 
 		// Handle
 		if ($data["handle"] === "delete") {
-			$comments = $SnickerUsers->db[$data["uuid"]]["comments"];
+			$comments = $comments_users->db[$data["uuid"]]["comments"];
 			foreach ($comments as $uid) {
-				if (!$SnickerIndex->exists($uid)) {
+				if (!$comments_index->exists($uid)) {
 					continue;
 				}
-				$index = $SnickerIndex->getComment($uid);
+				$index = $comments_index->getComment($uid);
 				$comment = new Comments($index["page_uuid"]);
 
 				if (isset($data["anonymize"]) && $data["anonymize"] === "true") {
@@ -445,11 +445,11 @@ class SnickerPlugin extends Plugin
 					$comment->delete($uid);
 				}
 			}
-			$status = $SnickerUsers->delete($data["uuid"]);
+			$status = $comments_users->delete($data["uuid"]);
 		} else if ($data["handle"] === "block") {
-			$status = $SnickerUsers->edit($data["uuid"], null, null, true);
+			$status = $comments_users->edit($data["uuid"], null, null, true);
 		} else if ($data["handle"] === "unblock") {
-			$status = $SnickerUsers->edit($data["uuid"], null, null, false);
+			$status = $comments_users->edit($data["uuid"], null, null, false);
 		}
 
 		// Redirect
@@ -783,9 +783,9 @@ class SnickerPlugin extends Plugin
 	 */
 	public function adminSidebar()
 	{
-		global $SnickerIndex;
+		global $comments_index;
 
-		$count = $SnickerIndex->count("pending");
+		$count = $comments_index->count("pending");
 		$count = ($count > 99) ? "99+" : $count;
 
 		ob_start();

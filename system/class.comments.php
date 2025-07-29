@@ -218,7 +218,7 @@ class Comments extends dbJSON
      */
     public function getDepthList($page, $limit, $type = array("comment", "reply"), $status = array("approved"))
     {
-        global $login, $SnickerUsers;
+        global $login, $comments_users;
         $this->sortBy();
 
         // Validate Parameters
@@ -239,7 +239,7 @@ class Comments extends dbJSON
             if ($login->isLogged()) {
                 $user = "bludit::" . $login->username();
             } else {
-                if (($user = $SnickerUsers->getCurrent()) !== false) {
+                if (($user = $comments_users->getCurrent()) !== false) {
                     $user = "guest::" . $user;
                 }
             }
@@ -357,7 +357,7 @@ class Comments extends dbJSON
      */
     public function add($args)
     {
-        global $SnickerIndex, $SnickerUsers;
+        global $comments_index, $comments_users;
 
         // Loop Default Fields
         $row = array();
@@ -424,14 +424,14 @@ class Comments extends dbJSON
         }
 
         // Add Index
-        if (!is_a($SnickerIndex, "CommentsIndex")) {
-            $SnickerIndex = new CommentsIndex();
+        if (!is_a($comments_index, "CommentsIndex")) {
+            $comments_index = new CommentsIndex();
         }
-        if (!$SnickerIndex->add($uid, $row)) {
+        if (!$comments_index->add($uid, $row)) {
             return false;
         }
         if (strpos($row["author"], "guest::") === 0) {
-            $SnickerUsers->addComment(substr($row["author"], strlen("guest::")), $uid);
+            $comments_users->addComment(substr($row["author"], strlen("guest::")), $uid);
         }
 
         // Insert Comment
@@ -455,7 +455,7 @@ class Comments extends dbJSON
      */
     public function edit($uid, $args)
     {
-        global $SnickerIndex;
+        global $comments_index;
 
         // Loop Default Fields
         $row = array();
@@ -508,7 +508,7 @@ class Comments extends dbJSON
         }
 
         // Update Index
-        if (!$SnickerIndex->edit($uid, $row)) {
+        if (!$comments_index->edit($uid, $row)) {
             return false;
         }
 
@@ -532,18 +532,18 @@ class Comments extends dbJSON
      */
     public function delete($uid)
     {
-        global $SnickerIndex, $SnickerUsers;
+        global $comments_index, $comments_users;
         if (!isset($this->db[$uid])) {
             return false;
         }
         $row = $this->db[$uid];
 
         // Remove Index
-        if (!$SnickerIndex->delete($uid)) {
+        if (!$comments_index->delete($uid)) {
             return false;
         }
         if (strpos($row["author"], "guest::") === 0) {
-            $SnickerUsers->deleteComment(substr($row["author"], strlen("guest::")), $uid);
+            $comments_users->deleteComment(substr($row["author"], strlen("guest::")), $uid);
         }
 
         // Remove Database Item

@@ -11,9 +11,9 @@
 if (!defined('BLUDIT')) {
 	die('Access denied');
 }
-global $login, $pages, $security, $SnickerIndex;
+global $login, $pages, $security, $comments_index;
 
-$data = $SnickerIndex->getComment($_GET["uid"]);
+$data = $comments_index->getComment($_GET["uid"]);
 $comment = new Comment($_GET["uid"], $data["page_uuid"]);
 $page = new Page($pages->getByUUID($data["page_uuid"]));
 

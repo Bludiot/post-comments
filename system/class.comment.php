@@ -371,7 +371,7 @@ class Comment
      */
     public function username()
     {
-        global $L, $users, $SnickerUsers;
+        global $L, $users, $comments_users;
 
         list($type, $id) = array_pad(explode("::", $this->getValue("author"), 2), 2, null);
         switch ($type) {
@@ -382,10 +382,10 @@ class Comment
                 $user = new User($id);
                 return $user->nickname();
             case "guest":
-                if (!$SnickerUsers->exists($id)) {
+                if (!$comments_users->exists($id)) {
                     break;
                 }
-                return $SnickerUsers->db[$id]["username"];
+                return $comments_users->db[$id]["username"];
             case "unknown":
                 return $L->g("Unknown User");
         }
@@ -398,7 +398,7 @@ class Comment
      */
     public function email()
     {
-        global $L, $users, $SnickerUsers;
+        global $L, $users, $comments_users;
 
         list($type, $id) = array_pad(explode("::", $this->getValue("author"), 2), 2, null);
         switch ($type) {
@@ -409,10 +409,10 @@ class Comment
                 $user = new User($id);
                 return $user->email();
             case "guest":
-                if (!$SnickerUsers->exists($id)) {
+                if (!$comments_users->exists($id)) {
                     break;
                 }
-                return $SnickerUsers->db[$id]["email"];
+                return $comments_users->db[$id]["email"];
             case "unknown":
                 return "unknown@" . $_SERVER["SERVER_NAME"];
         }

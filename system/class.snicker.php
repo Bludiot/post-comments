@@ -518,13 +518,13 @@ class Snicker
      */
     public function getComment($uid, $return = "list")
     {
-        global $SnickerIndex;
-        if (!is_a($SnickerIndex, "CommentsIndex")) {
-            $SnickerIndex = new CommentsIndex();
+        global $comments_index;
+        if (!is_a($comments_index, "CommentsIndex")) {
+            $comments_index = new CommentsIndex();
         }
 
         // Get Comment
-        $comment = $SnickerIndex->getComment($uid);
+        $comment = $comments_index->getComment($uid);
         if ($return === "list") {
             return $comment;
         }
@@ -583,20 +583,20 @@ class Snicker
      */
     public function getIndex($type = null)
     {
-        global $SnickerIndex;
+        global $comments_index;
         switch ($type) {
             case "pending":
-                return $SnickerIndex->getPending();
+                return $comments_index->getPending();
             case "approved":
-                return $SnickerIndex->getApproved();
+                return $comments_index->getApproved();
             case "rejected":
-                return $SnickerIndex->getRejected();
+                return $comments_index->getRejected();
             case "spam":
-                return $SnickerIndex->getSpam();
+                return $comments_index->getSpam();
             case "all":
-                return $SnickerIndex->getDB();
+                return $comments_index->getDB();
         }
-        return $SnickerIndex;
+        return $comments_index;
     }
 
 
@@ -667,8 +667,8 @@ class Snicker
      */
     public function hasRated($uid, $type = null)
     {
-        global $SnickerVotes;
-        return $SnickerVotes->hasVoted($uid, $type);
+        global $comments_votes;
+        return $comments_votes->hasVoted($uid, $type);
     }
     public function hasLiked($uid)
     {
@@ -690,7 +690,7 @@ class Snicker
      */
     public function writeComment($data, $key = null)
     {
-        global $login, $pages, $users, $url, $SnickerIndex, $SnickerUsers;
+        global $login, $pages, $users, $url, $comments_index, $comments_users;
 
         // Temp
         if (!is_a($login, "Login")) {
@@ -762,7 +762,7 @@ class Snicker
             }
             $data["author"] = "bludit::" . $user->username();
         } else if (isset($data["username"]) && isset($data["email"])) {
-            if (($user = $SnickerUsers->user($data["username"], $data["email"])) === false) {
+            if (($user = $comments_users->user($data["username"], $data["email"])) === false) {
                 $email = strtolower(Sanitize::email($data["email"]));
                 $error = !Valid::email($email) ? "string_error_3" : "string_error_2";
                 return sn_response(array(
@@ -770,7 +770,7 @@ class Snicker
                     "error" => sn_config($error)
                 ), $key);
             }
-            if ($SnickerUsers->db[$user]["blocked"]) {
+            if ($comments_users->db[$user]["blocked"]) {
                 return sn_response(array(
                     "referer" => $referer . "#snicker-comments-form",
                     "error" => sn_config("string_error_7")
@@ -805,9 +805,9 @@ class Snicker
             }
             if (sn_config("moderation_approved")) {
                 if (strpos($data["author"], "guest::") === 0) {
-                    $user = $SnickerUsers->get(substr($data["author"], strlen("guest::")));
+                    $user = $comments_users->get(substr($data["author"], strlen("guest::")));
                     foreach ($user["comments"] as $uuid) {
-                        if (($check = $SnickerIndex->getComment($uuid)) === false) {
+                        if (($check = $comments_index->getComment($uuid)) === false) {
                             continue;
                         }
                         if ($check["status"] === "approved") {
@@ -854,7 +854,7 @@ class Snicker
      */
     public function editComment($uid, $data, $key = null)
     {
-        global $url, $users, $SnickerIndex, $SnickerUsers;
+        global $url, $users, $comments_index, $comments_users;
 
         // Start Session
         if (!Session::started()) {
@@ -865,7 +865,7 @@ class Snicker
         $referer = DOMAIN . HTML_PATH_ADMIN_ROOT . $url->slug();
 
         // Get Comment
-        if (($comment = $SnickerIndex->getComment($uid)) === false) {
+        if (($comment = $comments_index->getComment($uid)) === false) {
             return sn_response(array(
                 "error" => sn__("The comment UID doesn't exist or is invalid!"),
                 "referer" => $referer
@@ -904,7 +904,7 @@ class Snicker
             }
             $data["author"] = "bludit::" . $user->username();
         } else if (isset($data["username"]) && isset($data["email"])) {
-            if (($user = $SnickerUsers->user($data["username"], $data["email"])) === false) {
+            if (($user = $comments_users->user($data["username"], $data["email"])) === false) {
                 return sn_response(array(
                     "error" => sn_config("string_error_2"),
                     "referer" => $referer
@@ -942,11 +942,11 @@ class Snicker
      */
     public function moderateComment($uid, $status = "approved", $key = null)
     {
-        global $url, $SnickerIndex;
+        global $url, $comments_index;
         $referer = DOMAIN . HTML_PATH_ADMIN_ROOT . $url->slug();
 
         // Check Parameters
-        if (($comment = $SnickerIndex->getComment($uid)) === false) {
+        if (($comment = $comments_index->getComment($uid)) === false) {
             return sn_response(array(
                 "error" => sn__("The comment UID doesn't exist or is invalid!"),
                 "referer" => $referer . "#{$_GET["status"]}"
@@ -984,10 +984,10 @@ class Snicker
      */
     public function rateComment($uid, $type, $key = null)
     {
-        global $pages, $SnickerIndex, $SnickerVotes;
+        global $pages, $comments_index, $comments_votes;
 
         // Check Parameters
-        if (($comment = $SnickerIndex->getComment($uid)) === false) {
+        if (($comment = $comments_index->getComment($uid)) === false) {
             return sn_response(array(
                 "error" => sn__("The comment UID doesn't exist or is invalid!")
             ), $key);
@@ -1014,17 +1014,17 @@ class Snicker
         $rating = $comments->getCommentDB($uid)["rating"];
 
         // Get Ratings
-        if ($SnickerVotes->hasVoted($uid, null)) {
-            if ($SnickerVotes->hasVoted($uid, $type)) {
+        if ($comments_votes->hasVoted($uid, null)) {
+            if ($comments_votes->hasVoted($uid, $type)) {
                 return sn_response(array(
                     "error" => sn_config("string_error_8"),
                     "referer" => $referer
                 ));
             }
-            $SnickerVotes->delete($uid);
+            $comments_votes->delete($uid);
             $rating[($type == "like") ? 1 : 0]--;
         }
-        if (!$SnickerVotes->add($uid, $type)) {
+        if (!$comments_votes->add($uid, $type)) {
             return sn_response(array(
                 "error" => sn_config("string_error_1"),
                 "referer" => $referer
@@ -1056,11 +1056,11 @@ class Snicker
      */
     public function deleteComment($uid, $key = null)
     {
-        global $url, $SnickerIndex;
+        global $url, $comments_index;
         $referer = DOMAIN . HTML_PATH_ADMIN_ROOT . "snicker";
 
         // Check Parameters
-        if (($comment = $SnickerIndex->getComment($uid)) === false) {
+        if (($comment = $comments_index->getComment($uid)) === false) {
             return sn_response(array(
                 "error" => sn__("The comment UID doesn't exist or is invalid!"),
                 "referer" => $referer

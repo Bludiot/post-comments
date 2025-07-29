@@ -310,7 +310,7 @@ class CommentsIndex extends dbJSON
      */
     public function getListByUser($string, $page = 1, $limit = -1)
     {
-        global $users, $SnickerUsers;
+        global $users, $comments_users;
 
         // Get Member / Guest
         $guest = false;
@@ -324,7 +324,7 @@ class CommentsIndex extends dbJSON
                 $member = "bludit::{$string}";
             }
         }
-        if (($user = $SnickerUsers->get($string)) !== false) {
+        if (($user = $comments_users->get($string)) !== false) {
             $guest = "guest::{$user["uuid"]}";
         }
         if (!$member && !$guest) {
