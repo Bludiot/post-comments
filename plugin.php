@@ -1,26 +1,50 @@
 <?php
-/*
- |  Snicker Plus - A FlatFile Comment Plugin for Bludit
- |  @file       ./snicker.php
- |  @author     Steve Harris (Harris Lineage)
- |  @version    1.0.0
- |  @website    https://github.com/harrislineage/snicker-plus
- |  @license    MIT License
- |  @copyright  Copyright © 2025 Steve Harris (Harris Lineage)
+/**
+ * Post Comments plugin
+ *
+ * @package  Post Comments
+ * @category Plugins
+ * @version  1.0.0
+ * @since    1.0.0
  */
-if (!defined("BLUDIT")) {
-	die("Access denied");
-}
-require_once "system/functions.php";    // Load Basic Functions
 
-class Post_Comments extends Plugin
-{
-	/*
-	 |  BACKEND VARIABLES
+// Stop if accessed directly.
+if ( ! defined( 'BLUDIT' ) ) {
+	die( 'You are not allowed direct access to this file.' );
+}
+
+require_once 'includes/functions.php';
+
+class Post_Comments extends Plugin {
+
+	/**
+	 * Is in the back end
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    boolean
 	 */
-	private $backend = false;               // Is Backend
-	private $backend_view = null;            // Backend View / File
-	private $backend_request = null;         // Backend Request Type ("post", "get", "ajax")
+	private $backend = false;
+
+	/**
+	 * Backend view/file
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string
+	 */
+	private $backend_view = null;
+
+	/**
+	 * Backend request type
+	 *
+	 * `post`, `get`, `ajax`
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string
+	 */
+	private $backend_request = null;
 
 	/*
 	 |  CONSTRUCTOR
@@ -119,55 +143,62 @@ class Post_Comments extends Plugin
 	{
 		global $url;
 
-		// Init Default Settings
-		$this->dbFields = array(
-			"moderation" => true,
-			"moderation_loggedin" => true,
-			"moderation_approved" => true,
-			"comment_on_public" => true,
-			"comment_on_static" => false,
-			"comment_on_sticky" => true,
-			"comment_title" => "optional",
-			"comment_limit" => 0,
-			"comment_depth" => 3,
-			"comment_markup_html" => true,
-			"comment_markup_markdown" => false,
-			"comment_vote_storage" => "session",
-			"comment_enable_like" => true,
-			"comment_enable_dislike" => true,
-			"frontend_captcha" => function_exists("imagettfbbox") ? "gregwar" : "purecaptcha",
-			"frontend_recaptcha_public" => "",
-			"frontend_recaptcha_private" => "",
-			"frontend_terms" => "default",
-			"frontend_filter" => "pageEnd",
-			"frontend_template" => "default",
-			"frontend_order" => "date_desc",
-			"frontend_form" => "top",
-			"frontend_per_page" => 15,
-			"frontend_ajax" => true,
-			"frontend_avatar" => "gravatar",
-			"frontend_avatar_users" => true,
-			"frontend_gravatar" => "mp",
-			"subscription" => false,
-			"subscription_from" => "ticker@{$_SERVER["SERVER_NAME"]}",
-			"subscription_reply" => "noreply@{$_SERVER["SERVER_NAME"]}",
-			"subscription_optin" => "default",
-			"subscription_ticker" => "default",
+		// Plugin options for database.
+		$this->dbFields = [
+			'moderation'              => true,
+			'moderation_loggedin'     => true,
+			'moderation_approved'     => true,
+			'comment_on_public'       => true,
+			'comment_on_static'       => false,
+			'comment_on_sticky'       => true,
+			'comment_title'           => 'disabled',
+			'comment_limit'           => 0,
+			'comment_depth'           => 3,
+			'comment_markup_html'     => true,
+			'comment_markup_markdown' => false,
+			'comment_vote_storage'    => 'session',
+			'comment_enable_like'     => true,
+			'comment_enable_dislike'  => true,
+			'frontend_captcha'        => function_exists( 'imagettfbbox' ) ? 'gregwar' : 'purecaptcha',
+			'frontend_recaptcha_public'  => '',
+			'frontend_recaptcha_private' => '',
+			'frontend_terms'        => 'default',
+			'frontend_filter'       => 'comments_full',
+			'frontend_template'     => 'default',
+			'frontend_order'        => 'date_desc',
+			'frontend_form'         => 'top',
+			'frontend_per_page'     => 15,
+			'frontend_ajax'         => true,
+			'frontend_avatar'       => 'gravatar',
+			'frontend_avatar_users' => true,
+			'frontend_gravatar'     => 'mp',
+			'subscription'          => false,
+			'subscription_from'     => "ticker@{$_SERVER['SERVER_NAME']}",
+			'subscription_reply'    => "noreply@{$_SERVER['SERVER_NAME']}",
+			'subscription_optin'    => 'default',
+			'subscription_ticker'   => 'default',
 
 			// Frontend Messages, can be changed by the user
-			"string_success_1" => sn__("Thanks for your comment!"),
-			"string_success_2" => sn__("Thanks for your comment, please confirm your subscription via the link we sent to your eMail address!"),
-			"string_success_3" => sn__("Thanks for voting this comment!"),
-			"string_error_1" => sn__("An unknown error occured, please reload the page and try it again!"),
-			"string_error_2" => sn__("An error occured: The passed Username is invalid or too long (42 characters only)!"),
-			"string_error_3" => sn__("An error occured: The passed eMail address is invalid!"),
-			"string_error_4" => sn__("An error occured: The comment text is missing!"),
-			"string_error_5" => sn__("An error occured: The comment title is missing!"),
-			"string_error_6" => sn__("An error occured: You need to accept the Terms to comment!"),
-			"string_error_7" => sn__("An error occured: Your IP address or eMail address has been marked as Spam!"),
-			"string_error_8" => sn__("An error occured: You already rated this comment!"),
-			"string_terms_of_use" => sn__("I agree that my data (incl. my anonymized IP address) gets stored!")
-		);
+			'string_success_1' => sn__('Thanks for your comment!'),
+			'string_success_2' => sn__('Thanks for your comment, please confirm your subscription via the link we sent to your eMail address!'),
+			'string_success_3' => sn__('Thanks for voting this comment!'),
+			'string_error_1' => sn__('An unknown error occurred, please reload the page and try it again!'),
+			'string_error_2' => sn__('An error occurred: The passed Username is invalid or too long (42 characters only)!'),
+			'string_error_3' => sn__('An error occurred: The passed eMail address is invalid!'),
+			'string_error_4' => sn__('An error occurred: The comment text is missing!'),
+			'string_error_5' => sn__('An error occurred: The comment title is missing!'),
+			'string_error_6' => sn__('An error occurred: You need to accept the Terms to comment!'),
+			'string_error_7' => sn__('An error occurred: Your IP address or eMail address has been marked as Spam!'),
+			'string_error_8' => sn__('An error occurred: You already rated this comment!'),
+			'string_terms_of_use' => sn__('I agree that my data (incl. my anonymized IP address) gets stored!')
+		];
+
+		// Array of custom hooks.
+		$this->customHooks = [
+			'comments_full',
+			'comments_list',
+			'comments_form'
+		];
 
 		// Check Backend
 		$this->backend = (trim($url->activeFilter(), "/") == ADMIN_URI_FILTER);
@@ -210,7 +241,7 @@ class Post_Comments extends Plugin
 				require_once "system/class.comments-index.php";
 				require_once "system/class.comments-users.php";
 				require_once "system/class.comments-votes.php";
-				require_once "system/class.snicker.php";
+				require_once "system/class.comments-system.php";
 				require_once "includes/autoload.php";
 			} else {
 				$post_comments = new Comments_System();
