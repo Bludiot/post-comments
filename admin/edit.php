@@ -1,16 +1,18 @@
 <?php
-/*
- |  Snicker Plus - A FlatFile Comment Plugin for Bludit
- |  @file       ./admin/edit.php
- |  @author     Steve Harris (Harris Lineage)
- |  @version    1.0.0
- |  @website    https://github.com/harrislineage/snicker-plus
- |  @license    MIT License
- |  @copyright  Copyright © 2025 Steve Harris (Harris Lineage)
+/**
+ * Edit comment form
+ *
+ * @package    Post Comments
+ * @subpackage Views
+ * @category   Forms
+ * @since      1.0.0
  */
-if (!defined('BLUDIT')) {
-	die('Access denied');
+
+// Stop if accessed directly.
+if ( ! defined( 'BLUDIT' ) ) {
+	die( 'You are not allowed direct access to this file.' );
 }
+
 global $login, $pages, $security, $comments_index;
 
 $data = $comments_index->getComment($_GET["uid"]);
