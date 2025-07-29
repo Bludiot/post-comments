@@ -212,12 +212,6 @@ class Post_Comments extends Plugin {
 		$this->backend = ( trim( $url->activeFilter(), '/' ) == ADMIN_URI_FILTER );
 	}
 
-	/*
-	 |  PLUGIN :: OVERWRITE INSTALLED
-	 |  @since  0.1.0
-	 |  @update 0.1.1
-	 */
-
 	/**
 	 * Plugin installed
 	 *
@@ -235,32 +229,30 @@ class Post_Comments extends Plugin {
 		if ( file_exists( $this->filenameDb ) ) {
 			if ( ! defined( 'POST_COMMENTS' ) ) {
 				define( 'POST_COMMENTS', true );
-				define("PC_PATH", PATH_PLUGINS . basename(__DIR__) . DS);
-				define("PC_DOMAIN", DOMAIN_PLUGINS . basename(__DIR__) . "/");
-				define("PC_VERSION", "1.0.0");
+				define( 'PC_PATH', PATH_PLUGINS . basename( __DIR__ ) . DS );
+				define( 'PC_DOMAIN', DOMAIN_PLUGINS . basename( __DIR__ ) . '/' );
+				define( 'PC_VERSION', '1.0.0' );
 
 				// DataBases
-				define("PC_DB_COMMENTS", $this->workspace() . "pages" . DS);
-				define("PC_DB_INDEX", $this->workspace() . "comments-index.php");
-				define("PC_DB_USERS", $this->workspace() . "comments-users.php");
-				define("PC_DB_VOTES", $this->workspace() . "comments-votes.php");
+				define( 'PC_DB_COMMENTS', $this->workspace() . 'pages' . DS );
+				define( 'PC_DB_INDEX', $this->workspace() . 'comments-index.php' );
+				define( 'PC_DB_USERS', $this->workspace() . 'comments-users.php' );
+				define( 'PC_DB_VOTES', $this->workspace() . 'comments-votes.php' );
 
 				// Pages Filter
-				if (!file_exists(PC_DB_COMMENTS)) {
-					@mkdir(PC_DB_COMMENTS);
+				if ( ! file_exists( PC_DB_COMMENTS ) ) {
+					@mkdir( PC_DB_COMMENTS );
 				}
 
-				// Load Plugin
-				require_once "system/abstract.comments-theme.php";
-				require_once "system/class.comment.php";
-				require_once "system/class.comments.php";
-				require_once "system/class.comments-index.php";
-				require_once "system/class.comments-users.php";
-				require_once "system/class.comments-votes.php";
-				require_once "system/class.comments-system.php";
-				require_once "includes/autoload.php";
+				// Plugin path.
+				$path = PATH_PLUGINS . $this->directoryName . DS;
+
+				foreach ( glob( $path . 'system/*.php' ) as $filename ) {
+					require_once $filename;
+				}
+				require_once 'includes/autoload.php';
 			} else {
-				$post_comments = new Comments_System();
+				$post_comments  = new Comments_System();
 				$comments_index = new CommentsIndex();
 				$comments_users = new CommentsUsers();
 				$comments_votes = new CommentsVotes();
@@ -271,248 +263,261 @@ class Post_Comments extends Plugin {
 		return false;
 	}
 
-
-	##
-##  API METHODs
-##
-
-	/*
-	 |  API :: HANDLE RESPONSE
-	 |  @since  0.1.0
-	 |
-	 |  @param  array   The response data, which MUST contain at least the status:
-	 |                      "error"     The error message (required).
-	 |                      "success"   The success message (required).
-	 |
-	 |                  ::  NON-AJAX ONLY
-	 |                      "referer"   A referer URL (The current URL is used, if not present)
-	 |
-	 |                  ::  AJAX-BASED ONLY
-	 |                      :any        Any additional data, which should return to the client.
-	 |
-	 |  @return none    This method calls the die(); method at any time!
+	/**
+	 * Form submission response
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @param  array $data The response data. Must contain at least status.
+	 *                     `error` The error message.
+	 *                     `success` The success message.
+	 *                     `referer` A referer URL (The current URL is used
+	 *                          if not present). non-AJAX only.
+	 *                     Any additional data, which should return
+	 *                     to the client. AJAX only.
+	 * @param  mixed $key
+	 * @return void This method calls the `die()` method at any time.
 	 */
-	public function response($data = array(), $key = null)
-	{
+	public function response( $data = [], $key = null ) {
+
+		// Access global variables.
 		global $url;
 
 		// Validate
-		if (isset($data["success"]) || isset($data["error"])) {
-			$status = isset($data["success"]);
+		if ( isset( $data['success'] ) || isset( $data['error'] ) ) {
+			$status = isset( $data['success'] );
 		} else {
 			$status = false;
-			$data["error"] = sn__("An unknown error occured!");
+			$data['error'] = sn__( 'An unknown error occurred.' );
 		}
 
-		// POST Redirect
-		if ($this->backend_request !== "ajax") {
-			if ($status) {
-				$key = empty($key) ? "snicker-success" : $key;
-				Alert::set($data["success"], ALERT_STATUS_OK, $key);
+		// POST redirect.
+		if ( $this->backend_request !== 'ajax' ) {
+			if ( $status ) {
+				$key = empty( $key ) ? 'snicker-success' : $key;
+				Alert :: set( $data['success'], ALERT_STATUS_OK, $key );
 			} else {
-				$key = empty($key) ? "snicker-alert" : $key;
-				Alert::set($data["error"], ALERT_STATUS_FAIL, $key);
+				$key = empty( $key ) ? 'snicker-alert' : $key;
+				Alert :: set( $data['error'], ALERT_STATUS_FAIL, $key );
 			}
 
-			if (!empty($data["referer"])) {
-				Redirect::url($data["referer"]);
+			if ( ! empty( $data['referer'] ) ) {
+				Redirect :: url( $data['referer'] );
 			} else {
-				$action = isset($_GET["snicker"]) ? $_GET["snicker"] : $_POST["snicker"];
-				Redirect::url(HTML_PATH_ADMIN_ROOT . $url->slug() . "#{$action}");
+				$action = isset( $_GET['snicker'] ) ? $_GET['snicker'] : $_POST['snicker'];
+				Redirect :: url( HTML_PATH_ADMIN_ROOT . $url->slug() . '#{$action}' );
 			}
 			die();
 		}
 
-		// AJAX Print
-		if (!is_array($data)) {
-			$data = array();
+		// AJAX print.
+		if ( ! is_array( $data ) ) {
+			$data = [];
 		}
-		$data["status"] = ($status) ? "success" : "error";
-		$data = json_encode($data);
+		$data['status'] = ( $status ) ? 'success' : 'error';
+		$data = json_encode( $data );
 
-		header("Content-Type: application/json");
-		header("Content-Length: " . strlen($data));
-		print ($data);
+		header( 'Content-Type: application/json' );
+		header( 'Content-Length: ' . strlen( $data ) );
+		print ( $data );
 		die();
 	}
 
-	/*
-	 |  API :: HANDLE REQUESTS
-	 |  @since  0.1.0
-	 |  @update 0.1.1
+	/**
+	 * Form submission request
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return mixed
 	 */
-	public function request()
-	{
+	public function request() {
+
+		// Access global variables.
 		global $login, $security, $url, $post_comments;
 
-		// Get POST/GET Request
-		if (isset($_POST["action"]) && $_POST["action"] === "snicker") {
+		// POST/GET request.
+		if ( isset( $_POST['action'] ) && $_POST['action'] === 'snicker' ) {
 			$data = $_POST;
-			$this->backend_request = "post";
-		} else if (isset($_GET["action"]) && $_GET["action"] === "snicker") {
+			$this->backend_request = 'post';
+		} elseif ( isset( $_GET['action'] ) && $_GET['action'] === 'snicker' ) {
 			$data = $_GET;
-			$this->backend_request = "get";
+			$this->backend_request = 'get';
 		}
-		if (!(isset($data) && isset($data["snicker"]))) {
+		if ( ! ( isset( $data ) && isset( $data['snicker'] ) ) ) {
 			$this->backend_request = null;
 			return null;
 		}
 
-		// Get AJAX Request
-		$ajax = "HTTP_X_REQUESTED_WITH";
-		if (strpos($url->slug(), "snicker/ajax") === 0) {
-			if (isset($_SERVER[$ajax]) && $_SERVER[$ajax] === "XMLHttpRequest") {
-				$this->backend_request = "ajax";
+		// AJAX request.
+		$ajax = 'HTTP_X_REQUESTED_WITH';
+		if ( strpos( $url->slug(), 'snicker/ajax' ) === 0 ) {
+			if ( isset( $_SERVER[$ajax] ) && $_SERVER[$ajax] === 'XMLHttpRequest' ) {
+				$this->backend_request = 'ajax';
 			} else {
-				return Redirect::url(HTML_PATH_ADMIN_ROOT . "snicker/");
+				return Redirect :: url( HTML_PATH_ADMIN_ROOT . 'snicker/' );
 			}
-		} else if (isset($_SERVER[$ajax]) && $_SERVER[$ajax] === "XMLHttpRequest") {
-			print ("Invalid AJAX Call");
+		} elseif ( isset( $_SERVER[$ajax] ) && $_SERVER[$ajax] === 'XMLHttpRequest' ) {
+			print ( 'Invalid AJAX call' );
 			die();
 		}
-		if ($this->backend_request === "ajax" && !sn_config("frontend_template")) {
-			print ("AJAX Calls has been disabled");
+		if ( $this->backend_request === 'ajax' && ! sn_config( 'frontend_template' ) ) {
+			print ( 'AJAX calls have been disabled' );
 			die();
 		}
 
-		// Start Session
-		if (!Session::started()) {
-			Session::start('', true);
+		// Start session.
+		if ( ! Session :: started() ) {
+			Session :: start( '', true );
 		}
 
-		$key = null;
-		if (in_array($data["snicker"], array("add", "edit", "delete", "config", "users", "backup", "moderate"))) {
-			$key = "alert";
+		$key    = null;
+		$action = [
+			'add',
+			'edit',
+			'delete',
+			'config',
+			'users',
+			'backup',
+			'moderate'
+		];
+		if ( in_array( $data['snicker'], $action ) ) {
+			$key = 'alert';
 		}
 
-		// Check CSRF Token
-		if (!empty($key)) {
-			if (!isset($data["tokenCSRF"])) {
-				return $this->response(array(
-					"error" => sn__("The CSRF Token is missing!")
-				));
+		// Check CSRF token.
+		if ( ! empty( $key ) ) {
+			if ( ! isset( $data['tokenCSRF'] ) ) {
+				return $this->response( [
+					'error' => sn__( 'The CSRF token is missing' )
+				] );
 			}
-			if (!$security->validateTokenCSRF($data["tokenCSRF"])) {
-				return $this->response(array(
-					"error" => sn__("The CSRF Token is invalid!")
-				));
+			if ( ! $security->validateTokenCSRF( $data['tokenCSRF'] ) ) {
+				return $this->response( [
+					'error' => sn__( 'The CSRF token is invalid' )
+				] );
 			}
 		}
 
-		// Check Permissions
-		if (!empty($key)) {
-			if (!is_a($login, "Login")) {
+		// Check permissions.
+		if ( ! empty( $key ) ) {
+			if ( ! is_a( $login, 'Login' ) ) {
 				$login = new Login();
 			}
-			if (!$login->isLogged()) {
-				return $this->response(array(
-					"error" => sn__("You don't have the permission to call this action!")
-				));
+			if ( ! $login->isLogged() ) {
+				return $this->response( [
+					'error' => sn__( 'You don\'t have the permission to call this action' )
+				] );
 			}
-			if ($login->role() !== "admin") {
-				return $this->response(array(
-					"error" => sn__("You don't have the permission to perform this action!")
-				));
+			if ( $login->role() !== 'admin' ) {
+				return $this->response( [
+					'error' => sn__( 'You don\'t have the permission to perform this action' )
+				] );
 			}
 		}
 
-		// Route
-		switch ($data["snicker"]) {
-			case "comment": //@fallthrough
-			case "reply":   //@fallthrough
-			case "add":
-				return $post_comments->writeComment($data["comment"], $key);
-			/* case "update": */        //@todo User can edit his own comments
-			case "edit":
-				return $post_comments->editComment($data["uid"], $data["comment"], $key);
-			/* case "remove": */        //@todo User can delete his own comments
-			case "delete":
-				return $post_comments->deleteComment($data["uid"], $key);
-			case "moderate":
-				return $post_comments->moderateComment($data["uid"], $data["status"], $key);
-			case "list":    //@fallthrough
-			case "get":
-				return $post_comments->renderComment($data);
-			case "rate":
-				return $post_comments->rateComment($data["uid"], $data["type"]);
-			case "users":
-				return $this->user($data);
-			case "settings":
-				return $this->config($data);
-			case "backup":
+		// Route.
+		switch ( $data['snicker'] ) {
+			case 'comment': // @fallthrough
+			case 'reply': // @fallthrough
+			case 'add':
+				return $post_comments->writeComment( $data['comment'], $key );
+			/* case 'update': */ // @todo User can edit his own comments.
+			case 'edit':
+				return $post_comments->editComment( $data['uid'], $data['comment'], $key );
+			/* case 'remove': */ // @todo User can delete his own comments.
+			case 'delete':
+				return $post_comments->deleteComment( $data['uid'], $key );
+			case 'moderate':
+				return $post_comments->moderateComment( $data['uid'], $data['status'], $key );
+			case 'list': // @fallthrough
+			case 'get':
+				return $post_comments->renderComment( $data );
+			case 'rate':
+				return $post_comments->rateComment( $data['uid'], $data['type'] );
+			case 'users':
+				return $this->user( $data );
+			case 'settings':
+				return $this->config( $data );
+			case 'backup':
 				return $this->backup();
-			case "captcha":
-				return $this->response(array(
-					"success" => sn__("The Captcha Image could be successfully created!"),
-					"captcha" => $post_comments->generateCaptcha(150, 40, true)
-				));
+			case 'captcha':
+				return $this->response( [
+					'success' => sn__( 'The Captcha image was successfully created' ),
+					'captcha' => $post_comments->generateCaptcha( 150, 40, true )
+				] );
 		}
-		return $this->response(array(
-			"error" => sn__("The passed action is unknown or invalid!")
-		), "alert");
+		return $this->response( [
+			'error' => sn__( 'The passed action is unknown or invalid' )
+		], 'alert' );
 	}
 
-	/*
-	 |  API :: HANDLE USERs
-	 |  @since  0.1.0
+	/**
+	 * Handle users.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @param  array $data
+	 * @return void
 	 */
-	private function user($data)
-	{
+	private function user( $data ) {
+
+		// Access global variables.
 		global $comments_index, $comments_users;
 
-		// Validate Data
-		if (!isset($data["uuid"]) || !isset($data["handle"])) {
-			return $this->response(array(
-				"error" => sn__("An unknown error is occured!")
-			), "alert");
+		// Validate data.
+		if ( ! isset( $data['uuid'] ) || ! isset( $data['handle'] ) ) {
+			return $this->response( [
+				'error' => sn__( 'An unknown error is occurred' )
+			], 'alert' );
 		}
 
-		// Validata UUID
-		if (!$comments_users->exists($data["uuid"])) {
-			return $this->response(array(
-				"error" => sn__("An unique user ID does not exist!")
-			), "alert");
+		// Validate UUID.
+		if ( ! $comments_users->exists( $data['uuid'] ) ) {
+			return $this->response( [
+				'error' => sn__( 'An unique user ID does not exist' )
+			], 'alert' );
 		}
 
-		// Handle
-		if ($data["handle"] === "delete") {
-			$comments = $comments_users->db[$data["uuid"]]["comments"];
-			foreach ($comments as $uid) {
-				if (!$comments_index->exists($uid)) {
+		// Handle.
+		if ( $data['handle'] === 'delete' ) {
+			$comments = $comments_users->db[$data['uuid']]['comments'];
+
+			foreach ( $comments as $uid ) {
+				if ( ! $comments_index->exists( $uid ) ) {
 					continue;
 				}
-				$index = $comments_index->getComment($uid);
-				$comment = new Comments($index["page_uuid"]);
+				$index   = $comments_index->getComment( $uid );
+				$comment = new Comments( $index['page_uuid'] );
 
-				if (isset($data["anonymize"]) && $data["anonymize"] === "true") {
-					$comment = new Comments($index["page_uuid"]);
-					$comment->edit($uid, array("author" => "anonymous"));
+				if ( isset( $data['anonymize'] ) && $data['anonymize'] === 'true' ) {
+					$comment = new Comments( $index['page_uuid'] );
+					$comment->edit( $uid, [ 'author' => 'anonymous' ] );
 				} else {
-					$comment = new Comments($index["page_uuid"]);
-					$comment->delete($uid);
+					$comment = new Comments( $index['page_uuid'] );
+					$comment->delete( $uid );
 				}
 			}
-			$status = $comments_users->delete($data["uuid"]);
-		} else if ($data["handle"] === "block") {
-			$status = $comments_users->edit($data["uuid"], null, null, true);
-		} else if ($data["handle"] === "unblock") {
-			$status = $comments_users->edit($data["uuid"], null, null, false);
+			$status = $comments_users->delete( $data['uuid'] );
+		} elseif ( $data['handle'] === 'block' ) {
+			$status = $comments_users->edit( $data['uuid'], null, null, true );
+		} elseif ( $data['handle'] === 'unblock' ) {
+			$status = $comments_users->edit( $data['uuid'], null, null, false );
 		}
 
-		// Redirect
-		if (!isset($status)) {
-			return $this->response(array(
-				"error" => sn__("The passed action is unknown or invalid!")
-			), "alert");
+		// Redirect.
+		if ( ! isset( $status ) ) {
+			return $this->response( [
+				'error' => sn__( 'The passed action is unknown or invalid' )
+			], 'alert' );
 		}
-		if ($status === false) {
-			return $this->response(array(
-				"error" => sn__("An unknown error is occured!")
-			), "alert");
+		if ( $status === false ) {
+			return $this->response( [
+				'error' => sn__( 'An unknown error is occurred' )
+			], 'alert' );
 		}
-		return $this->response(array(
-			"success" => sn__("The action has been performed successfully!")
-		), "alert");
+		return $this->response( [
+			'success' => sn__( 'The action has been performed successfully' )
+		], 'alert' );
 	}
 
 	/*
@@ -520,8 +525,9 @@ class Post_Comments extends Plugin {
 	 |  @since  0.1.0
 	 |  @update 0.2.0
 	 */
-	private function config($data)
-	{
+	private function config($data) {
+
+		// Access global variables.
 		global $pages, $post_comments;
 		$config = array();
 
@@ -618,11 +624,11 @@ class Post_Comments extends Plugin {
 		$this->db = array_merge($this->db, $config);
 		if (!$this->save()) {
 			return $this->response(array(
-				"error" => sn__("An unknown error is occured!")
+				"error" => sn__("An unknown error is occurred.")
 			), "alert");
 		}
 		return $this->response(array(
-			"success" => sn__("The settings has been updated successfully!")
+			"success" => sn__("The settings has been updated successfully.")
 		), "alert");
 	}
 
@@ -829,8 +835,6 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
-	 * @global object $L Language class.
-	 * @global object $site Site class.
 	 * @return string Returns the markup of the page.
 	 */
 	public function adminView() {
@@ -901,18 +905,27 @@ class Post_Comments extends Plugin {
 	 |  HOOK :: FRONTEND HEADER
 	 |  @since  0.1.0
 	 */
-	public function siteHead()
-	{
+
+	/**
+	 * Site head hook
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
+	 */
+	public function siteHead() {
+
+		// Access global variables.
 		global $post_comments;
 
-		if (($theme = $post_comments->getTheme()) === false) {
+		if ( ( $theme = $post_comments->getTheme() ) === false ) {
 			return false;
 		}
-		if (!empty($theme::SNICKER_JS)) {
-			$file = PC_DOMAIN . "themes/" . sn_config("frontend_template") . "/" . $theme::SNICKER_JS;
+		if ( ! empty( $theme :: SNICKER_JS ) ) {
+			$file = PC_DOMAIN . 'themes/' . sn_config( 'frontend_template' ) . '/' . $theme :: SNICKER_JS;
 			?>
 			<script type="text/javascript">
-				var COMMENTS_AJAX = <?php echo sn_config("frontend_ajax") ? "true" : "false"; ?>;
+				var COMMENTS_AJAX = <?php echo sn_config( 'frontend_ajax' ) ? 'true' : 'false'; ?>;
 				var PC_PATH = "<?php echo HTML_PATH_ADMIN_ROOT ?>snicker/ajax/";
 			</script>
 			<script id="snicker-js" type="text/javascript" src="<?php echo $file; ?>"></script>
@@ -920,76 +933,103 @@ class Post_Comments extends Plugin {
 			<?php
 		}
 
-
-
-
-
-		if (!empty($theme::SNICKER_CSS)) {
-			$file = PC_DOMAIN . "themes/" . sn_config("frontend_template") . "/" . $theme::SNICKER_CSS;
+		if ( ! empty( $theme :: SNICKER_CSS ) ) {
+			$file = PC_DOMAIN . 'themes/' . sn_config( 'frontend_template' ) . '/' . $theme :: SNICKER_CSS;
 			?>
 			<link id="snicker-css" type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
 			<?php
 		}
 	}
 
-	public function comments_full()
-	{
+	/**
+	 * Add comments to theme hook `comments_full`
+	 *
+	 * This hook is established by this plugin.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
+	 */
+	public function comments_full() {
+
+		// Access global variables.
 		global $post_comments;
-		if (sn_config("frontend_filter") !== "comments_full") {
-			return false; // owo
+
+		if ( sn_config( 'frontend_filter' ) !== 'comments_full' ) {
+			return false;
 		}
-		print ($post_comments->render());
+		print( $post_comments->render() );
 	}
 
-	/*
-	 |  HOOK :: FRONTEND CONTENT
-	 |  @since  0.1.0
+	/**
+	 * Add comments to theme hook `siteBodyBegin`
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
 	 */
-	public function siteBodyBegin()
-	{
+	public function siteBodyBegin() {
+
+		// Access global variables.
 		global $post_comments;
-		if (sn_config("frontend_filter") !== "siteBodyBegin") {
-			return false; // owo
+
+		if ( sn_config( 'frontend_filter' ) !== 'siteBodyBegin' ) {
+			return false;
 		}
-		print ($post_comments->render());
+		print( $post_comments->render() );
 	}
 
-	/*
-	 |  HOOK :: FRONTEND CONTENT
-	 |  @since  0.1.0
+	/**
+	 * Add comments to theme hook `pageBegin`
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
 	 */
-	public function pageBegin()
-	{
+	public function pageBegin() {
+
+		// Access global variables.
 		global $post_comments;
-		if (sn_config("frontend_filter") !== "pageBegin") {
-			return false; // Owo
+
+		if ( sn_config( 'frontend_filter' ) !== 'pageBegin' ) {
+			return false;
 		}
-		print ($post_comments->render());
+		print( $post_comments->render() );
 	}
 
-	/*
-	 |  HOOK :: FRONTEND CONTENT
-	 |  @since  0.1.0
+	/**
+	 * Add comments to theme hook `pageEnd`
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
 	 */
-	public function pageEnd()
-	{
+	public function pageEnd() {
+
+		// Access global variables.
 		global $post_comments;
-		if (sn_config("frontend_filter") !== "pageEnd") {
-			return false; // owO
+
+		if ( sn_config( 'frontend_filter' ) !== 'pageEnd' ) {
+			return false;
 		}
-		print ($post_comments->render());
+		print( $post_comments->render() );
 	}
 
-	/*
-	 |  HOOK :: FRONTEND CONTENT
-	 |  @since  0.1.0
+	/**
+	 * Add comments to theme hook `siteBodyEnd`
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
 	 */
-	public function siteBodyEnd()
-	{
+	public function siteBodyEnd() {
+
+		// Access global variables.
 		global $post_comments;
-		if (sn_config("frontend_filter") !== "siteBodyEnd") {
-			return false; // OwO
+
+		if ( sn_config( 'frontend_filter' ) !== 'siteBodyEnd' ) {
+			return false;
 		}
-		print ($post_comments->render());
+		print( $post_comments->render() );
 	}
 }
