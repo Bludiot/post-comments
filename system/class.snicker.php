@@ -11,7 +11,7 @@
 if (!defined('BLUDIT')) {
     exit('Access denied');
 }
-class Snicker
+class Comments_System
 {
     /*
      |  AVAILABLE THEMES

@@ -213,7 +213,7 @@ class Post_Comments extends Plugin
 				require_once "system/class.snicker.php";
 				require_once "includes/autoload.php";
 			} else {
-				$post_comments = new Snicker();
+				$post_comments = new Comments_System();
 				$comments_index = new CommentsIndex();
 				$comments_users = new CommentsUsers();
 				$comments_votes = new CommentsVotes();
