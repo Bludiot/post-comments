@@ -110,9 +110,9 @@ $static = $pages->getStaticDB( false );
 							<label for="sn-comment-title" class="col-sm-3 col-form-label"><?php sn_e( 'Comment Title' ); ?></label>
 							<div class="col-sm-9">
 								<select id="sn-comment-title" name="comment_title" class="form-control custom-select">
-									<option value="optional" <?php sn_selected( 'comment_title", "optional' ); ?>><?php sn_e( 'Enable (Optional)' ); ?></option>
-									<option value="required" <?php sn_selected( 'comment_title", "required' ); ?>><?php sn_e( 'Enable (Required)' ); ?></option>
-									<option value="disabled" <?php sn_selected( 'comment_title", "disabled' ); ?>><?php sn_e( 'Disable' ); ?></option>
+									<option value="optional" <?php sn_selected( 'comment_title', 'optional' ); ?>><?php sn_e( 'Enable (Optional)' ); ?></option>
+									<option value="required" <?php sn_selected( 'comment_title', 'required' ); ?>><?php sn_e( 'Enable (Required)' ); ?></option>
+									<option value="disabled" <?php sn_selected( 'comment_title', 'disabled' ); ?>><?php sn_e( 'Disable' ); ?></option>
 								</select>
 							</div>
 						</div>
