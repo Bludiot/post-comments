@@ -25,7 +25,7 @@ $strings = array(
 	"approved" => sn__("Approved"),
 	"rejected" => sn__("Rejected"),
 	"spam" => sn__("Spam"),
-	"search" => sn__("Search Comments"),
+	"search" => sn__("Search"),
 	"single" => sn__("Single Comment"),
 	"uuid" => sn__("Page Comments"),
 	"user" => sn__("User Comments")
@@ -40,10 +40,17 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
 	$current = isset($_GET["tab"]) ? $_GET["tab"] : "pending";
 	$tabs = array("pending", "approved", "rejected", "spam");
 }
+
 ?>
-<h2 class="mt-0 mb-3">
-	<?php sn_e("Post Comments"); ?>
-</h2>
+
+<div class="align-middle">
+	<?php if ( isset( $_GET["search"] ) ) : ?>
+	<div class="float-right mt-1">
+		<a class="button btn btn-primary btn-sm" href="<?php echo HTML_PATH_ADMIN_ROOT . 'snicker' ?>" role="button"><?php $L->p( 'All Comments' ) ?></a>
+	</div>
+	<?php endif; ?>
+	<h1 class="page-title"><span class="page-title-icon fa fa-comments"></span><span class="page-title-text"><?php $L->p( 'Post Comments' ); ?></span></h1>
+</div>
 
 <nav>
 	<ul class="nav nav-tabs" data-handle="tabs">

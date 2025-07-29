@@ -31,7 +31,7 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
 	$tabs = array("pending", "approved", "rejected", "spam");
 }
 
-// Render Comemnts Tab
+// Render Comments Tab
 foreach ($tabs as $status) {
 	if (isset($_GET["tab"]) && $_GET["tab"] === $status) {
 		$page = max((isset($_GET["page"]) ? (int) $_GET["page"] : 1), 1);
@@ -65,9 +65,9 @@ foreach ($tabs as $status) {
 		<div class="card shadow-sm" style="margin: 1.5rem 0;">
 			<div class="card-body">
 				<div class="row">
-					<form class="w-100" method="get" action="<?php echo DOMAIN_ADMIN; ?>snicker">
+					<form class="pr-4 pl-4 w-100" method="get" action="<?php echo DOMAIN_ADMIN; ?>snicker">
 						<div class="form-row align-items-center">
-							<div class="row w-100">
+							<div class="w-100 row flex-nowrap">
 								<?php $search = isset($_GET["search"]) ? $_GET["search"] : ""; ?>
 								<input type="text" name="search" value="<?php echo $search; ?>" class="form-control" placeholder="<?php sn_e("Comment Title or Excerpt"); ?>" />
 								<button class="btn btn-primary" name="view" value="search"><?php sn_e("Search"); ?></button>
