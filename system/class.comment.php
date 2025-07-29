@@ -478,9 +478,6 @@ class Comment
 		}
 
 		// Return IMG Tag
-		if (sn_config("frontend_avatar") === "identicon" && !$force) {
-			return '<img src="' . $avatar . '" width="' . $size . 'px" height="' . $size . 'px" data-identicon="' . $email . '" alt="' . $user . '" />';
-		}
 		return '<img src="' . $avatar . '" width="' . $size . 'px" height="' . $size . 'px" alt="' . $user . '" />';
 	}
 
@@ -501,13 +498,6 @@ class Comment
 					return $avatar;
 				}
 			}
-		}
-
-		// Return Identicon
-		if (sn_config("frontend_avatar") === "identicon") {
-			$hash = md5(strtolower(trim($this->email())));
-			$ident = new Identicon\Identicon();
-			return $ident->getImageDataUri($hash, $size);
 		}
 
 		// Return Mystery Man

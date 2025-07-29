@@ -10,7 +10,7 @@
  */
 
 spl_autoload_register(function($class) {
-    foreach (array("Gregwar", "Identicon", "PIT", "OWASP") as $allowed) {
+    foreach (array("Gregwar", "PIT", "OWASP") as $allowed) {
         if (strpos($class, $allowed) !== 0) {
             continue;
         }

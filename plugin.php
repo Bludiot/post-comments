@@ -537,7 +537,7 @@ class Post_Comments extends Plugin {
 			"comment_title" => array("optional", "required", "disabled"),
 			"comment_vote_storage" => array("cookie", "session", "database"),
 			"frontend_captcha" => array("disabled", "purecaptcha", "gregwar", "recaptchav2", "recaptchav3"),
-			"frontend_avatar" => array( "identicon", "static", "initials"),
+			"frontend_avatar" => array( "static", "initials"),
 			"frontend_filter" => array("disabled", "comments_full", "pageBegin", "pageEnd", "siteBodyBegin", "siteBodyEnd"),
 			"frontend_order" => array("date_desc", "date_asc"),
 			"frontend_form" => array("top", "bottom")

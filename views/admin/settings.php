@@ -312,7 +312,6 @@ $static = $pages->getStaticDB( false );
 							<label for="sn-avatar" class="col-sm-3 col-form-label"><?php sn_e( 'Comment Avatar' ); ?></label>
 							<div class="col-sm-9">
 								<select id="sn-avatar" name="frontend_avatar" class="form-control custom-select">
-									<option value="identicon" <?php sn_selected( 'frontend_avatar", "identicon' ); ?>><?php sn_e( 'Use Identicon' ); ?></option>
 									<option value="static" <?php sn_selected( 'frontend_avatar", "static' ); ?>><?php sn_e( 'Use Mystery Men' ); ?></option>
 								</select>
 
