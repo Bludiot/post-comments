@@ -73,7 +73,7 @@
         if (form) {
             form.addEventListener("submit", function (event) {
                 event.preventDefault();
-                if (typeof (FormData) !== "function" || !SNICKER_AJAX) {
+                if (typeof (FormData) !== "function" || !COMMENTS_AJAX) {
                     return true;
                 }
                 var data = new FormData(this), self = this;
@@ -147,7 +147,7 @@
          */
         if (captcha) {
             captcha.addEventListener("click", function (event) {
-                if (!SNICKER_AJAX) {
+                if (!COMMENTS_AJAX) {
                     return false;
                 }
                 event.preventDefault();
@@ -242,7 +242,7 @@
          */
         if (list) {
             list.addEventListener("click", function (event) {
-                if (event.target.tagName != "A" || !SNICKER_AJAX) {
+                if (event.target.tagName != "A" || !COMMENTS_AJAX) {
                     return true;
                 }
                 if (event.target.classList.contains("disabled")) {

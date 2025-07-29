@@ -891,7 +891,7 @@ class Post_Comments extends Plugin {
 			$file = PC_DOMAIN . "themes/" . sn_config("frontend_template") . "/" . $theme::SNICKER_JS;
 			?>
 			<script type="text/javascript">
-				var SNICKER_AJAX = <?php echo sn_config("frontend_ajax") ? "true" : "false"; ?>;
+				var COMMENTS_AJAX = <?php echo sn_config("frontend_ajax") ? "true" : "false"; ?>;
 				var PC_PATH = "<?php echo HTML_PATH_ADMIN_ROOT ?>snicker/ajax/";
 			</script>
 			<script id="snicker-js" type="text/javascript" src="<?php echo $file; ?>"></script>
