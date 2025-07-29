@@ -179,7 +179,6 @@ class Post_Comments extends Plugin {
 			'frontend_ajax'         => true,
 			'frontend_avatar'       => 'static',
 			'frontend_avatar_users' => true,
-			'frontend_gravatar'     => 'mp',
 			'subscription'          => false,
 			'subscription_from'     => "ticker@{$_SERVER['SERVER_NAME']}",
 			'subscription_reply'    => "noreply@{$_SERVER['SERVER_NAME']}",
@@ -538,8 +537,7 @@ class Post_Comments extends Plugin {
 			"comment_title" => array("optional", "required", "disabled"),
 			"comment_vote_storage" => array("cookie", "session", "database"),
 			"frontend_captcha" => array("disabled", "purecaptcha", "gregwar", "recaptchav2", "recaptchav3"),
-			"frontend_avatar" => array("gravatar", "identicon", "static", "initials"),
-			"frontend_gravatar" => array("mp", "identicon", "monsterid", "wavatar", "retro", "robohash", "blank"),
+			"frontend_avatar" => array( "identicon", "static", "initials"),
 			"frontend_filter" => array("disabled", "comments_full", "pageBegin", "pageEnd", "siteBodyBegin", "siteBodyEnd"),
 			"frontend_order" => array("date_desc", "date_asc"),
 			"frontend_form" => array("top", "bottom")

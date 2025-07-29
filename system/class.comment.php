@@ -503,12 +503,6 @@ class Comment
 			}
 		}
 
-		// Return Gravatar
-		if (sn_config("frontend_avatar") === "gravatar") {
-			$hash = md5(strtolower(trim($this->email())));
-			return "https://www.gravatar.com/avatar/{$hash}?s={$size}&d=" . sn_config("frontend_gravatar");
-		}
-
 		// Return Identicon
 		if (sn_config("frontend_avatar") === "identicon") {
 			$hash = md5(strtolower(trim($this->email())));

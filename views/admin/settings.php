@@ -312,7 +312,6 @@ $static = $pages->getStaticDB( false );
 							<label for="sn-avatar" class="col-sm-3 col-form-label"><?php sn_e( 'Comment Avatar' ); ?></label>
 							<div class="col-sm-9">
 								<select id="sn-avatar" name="frontend_avatar" class="form-control custom-select">
-									<option value="gravatar" <?php sn_selected( 'frontend_avatar", "gravatar' ); ?>><?php sn_e( 'Use Gravatar' ); ?></option>
 									<option value="identicon" <?php sn_selected( 'frontend_avatar", "identicon' ); ?>><?php sn_e( 'Use Identicon' ); ?></option>
 									<option value="static" <?php sn_selected( 'frontend_avatar", "static' ); ?>><?php sn_e( 'Use Mystery Men' ); ?></option>
 								</select>
@@ -322,19 +321,6 @@ $static = $pages->getStaticDB( false );
 										   class="custom-control-input" <?php sn_checked( 'frontend_avatar_users' ); ?> />
 									<label class="custom-control-label" for="sn-moderation-users"><?php sn_e( 'Use & Prefer profile pictures on logged-in Users' ); ?></label>
 								</div>
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label for="sn-gravatar" class="col-sm-3 col-form-label"><?php sn_e( 'Comment Gravatar' ); ?></label>
-							<div class="col-sm-9">
-								<select id="sn-gravatar" name="frontend_gravatar" class="form-control custom-select">
-									<option value="mp" <?php sn_selected( 'frontend_gravatar", "mp' ); ?>><?php sn_e( 'Show Mystery Person' ); ?></option>
-									<option value="identicon" <?php sn_selected( 'frontend_gravatar", "identicon' ); ?>><?php sn_e( 'Show' ); ?> Identicon</option>
-									<option value="monsterid" <?php sn_selected( 'frontend_gravatar", "monsterid' ); ?>><?php sn_e( 'Show' ); ?> Monster ID</option>
-									<option value="wavatar" <?php sn_selected( 'frontend_gravatar", "wavatar' ); ?>><?php sn_e( 'Show' ); ?> WAvatar</option>
-								</select>
-								<small class="form-text text-muted"><?php sn_e( 'The default Gravatar image, if the user has no Gravatar!' ); ?></small>
 							</div>
 						</div>
 					</div>
