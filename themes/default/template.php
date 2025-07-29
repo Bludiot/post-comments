@@ -225,7 +225,18 @@ class Default_Template extends Comments_Template {
 		<div id="comment-<?php echo $comment->uid(); ?>" class="comment" style="margin-left: <?php echo (15 * ($depth - 1)); ?>px;">
 			<div class="table">
 				<div class="table-cell comment-avatar">
-					<?php echo $comment->avatar(); ?>
+					<?php
+					if ( $comment->user_has_profile( $user["username"] ) ) {
+						printf(
+							'<a href="%s">',
+							$comment->profile_link( $comment->getValue("author") )
+						);
+					}
+					echo $comment->avatar();
+					if ( $comment->user_has_profile($user["username"]) ) {
+						echo '</a>';
+					}
+					?>
 
 					<?php
 						if (isset($user["role"]) && $user["username"] === $page->username()) {
