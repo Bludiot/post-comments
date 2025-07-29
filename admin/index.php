@@ -80,6 +80,6 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
 	<?php
 	include "index-comments.php";
 	include "index-users.php";
-	include "index-config.php";
+	include "settings.php";
 	?>
 </div>
