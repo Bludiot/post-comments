@@ -19,8 +19,8 @@ class SnickerPlugin extends Plugin
 	 |  BACKEND VARIABLES
 	 */
 	private $backend = false;               // Is Backend
-	private $backendView = null;            // Backend View / File
-	private $backendRequest = null;         // Backend Request Type ("post", "get", "ajax")
+	private $backend_view = null;            // Backend View / File
+	private $backend_request = null;         // Backend Request Type ("post", "get", "ajax")
 
 	/*
 	 |  CONSTRUCTOR
@@ -258,7 +258,7 @@ class SnickerPlugin extends Plugin
 		}
 
 		// POST Redirect
-		if ($this->backendRequest !== "ajax") {
+		if ($this->backend_request !== "ajax") {
 			if ($status) {
 				$key = empty($key) ? "snicker-success" : $key;
 				Alert::set($data["success"], ALERT_STATUS_OK, $key);
@@ -301,13 +301,13 @@ class SnickerPlugin extends Plugin
 		// Get POST/GET Request
 		if (isset($_POST["action"]) && $_POST["action"] === "snicker") {
 			$data = $_POST;
-			$this->backendRequest = "post";
+			$this->backend_request = "post";
 		} else if (isset($_GET["action"]) && $_GET["action"] === "snicker") {
 			$data = $_GET;
-			$this->backendRequest = "get";
+			$this->backend_request = "get";
 		}
 		if (!(isset($data) && isset($data["snicker"]))) {
-			$this->backendRequest = null;
+			$this->backend_request = null;
 			return null;
 		}
 
@@ -315,7 +315,7 @@ class SnickerPlugin extends Plugin
 		$ajax = "HTTP_X_REQUESTED_WITH";
 		if (strpos($url->slug(), "snicker/ajax") === 0) {
 			if (isset($_SERVER[$ajax]) && $_SERVER[$ajax] === "XMLHttpRequest") {
-				$this->backendRequest = "ajax";
+				$this->backend_request = "ajax";
 			} else {
 				return Redirect::url(HTML_PATH_ADMIN_ROOT . "snicker/");
 			}
@@ -323,7 +323,7 @@ class SnickerPlugin extends Plugin
 			print ("Invalid AJAX Call");
 			die();
 		}
-		if ($this->backendRequest === "ajax" && !sn_config("frontend_template")) {
+		if ($this->backend_request === "ajax" && !sn_config("frontend_template")) {
 			print ("AJAX Calls has been disabled");
 			die();
 		}
@@ -621,9 +621,9 @@ class SnickerPlugin extends Plugin
 		// Set Backend View
 		$split = str_replace("snicker", "", trim($url->slug(), "/"));
 		if (!empty($split) && $split !== "/" && isset($_GET["uid"])) {
-			$this->backendView = "edit";
+			$this->backend_view = "edit";
 		} else {
-			$this->backendView = "index";
+			$this->backend_view = "index";
 		}
 	}
 
@@ -709,7 +709,7 @@ class SnickerPlugin extends Plugin
 	 */
 	public function adminBodyBegin()
 	{
-		if (!$this->backend || !$this->backendView) {
+		if (!$this->backend || !$this->backend_view) {
 			return false;
 		}
 		ob_start();
@@ -722,7 +722,7 @@ class SnickerPlugin extends Plugin
 	public function adminBodyEnd()
 	{
 		global $url, $comments_plugin;
-		if (!$this->backend || !$this->backendView) {
+		if (!$this->backend || !$this->backend_view) {
 			$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
 			if ($slug[0] === "plugins") {
 				?>
@@ -763,8 +763,8 @@ class SnickerPlugin extends Plugin
 
 		// Snicker Admin Content
 		ob_start();
-		if (file_exists(SNICKER_PATH . "admin" . DS . "{$this->backendView}.php")) {
-			require SNICKER_PATH . "admin" . DS . "{$this->backendView}.php";
+		if (file_exists(SNICKER_PATH . "admin" . DS . "{$this->backend_view}.php")) {
+			require SNICKER_PATH . "admin" . DS . "{$this->backend_view}.php";
 			$add = ob_get_contents();
 		}
 		ob_end_clean();
