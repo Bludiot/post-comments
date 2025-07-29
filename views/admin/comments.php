@@ -157,7 +157,7 @@ foreach ($tabs as $status) {
 							<button class="dropdown-toggle button btn btn-sm" data-toggle="dropdown">
 								<?php sn_e("Manage"); ?>
 							</button>
-							<ul class="dropdown-menu mr-0">
+							<ul class="dropdown-menu p-0 m-0" style="margin: 0; padding: 0;">
 								<li>
 									<a class="dropdown-item text-primary" href="<?php echo DOMAIN_ADMIN . "snicker/edit/?uid=" . $uid; ?>"><?php sn_e("Edit Comment"); ?></a>
 								</li>
