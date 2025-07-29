@@ -161,9 +161,11 @@ foreach ($tabs as $status) {
 								<li>
 									<a class="dropdown-item text-primary" href="<?php echo DOMAIN_ADMIN . "snicker/edit/?uid=" . $uid; ?>"><?php sn_e("Edit Comment"); ?></a>
 								</li>
+								<?php if ($status !== "pending") { ?>
 								<li>
-									<a class="dropdown-item text-danger" href="<?php printf($link, "delete", $uid, "delete"); ?>"><?php sn_e("Delete Comment"); ?></a>
+									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "pending"); ?>"><?php sn_e("Mark as Pending"); ?></a>
 								</li>
+								<?php } ?>
 
 								<?php if ($status !== "approved") { ?>
 								<li>
@@ -182,10 +184,10 @@ foreach ($tabs as $status) {
 								<?php } ?>
 								<?php if ($status !== "pending") { ?>
 								<li>
-									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "pending"); ?>"><?php sn_e("Back to Pending"); ?></a>
+									<a class="dropdown-item" href="<?php echo $page->permalink(); ?>#comment-<?php echo $uid; ?>" target="_blank" rel="noopener noreferrer"><?php sn_e("View in Page"); ?></a>
 								</li>
 								<li>
-									<a class="dropdown-item" href="<?php echo $page->permalink(); ?>#comment-<?php echo $uid; ?>" target="_blank" rel="noopener noreferrer"><?php sn_e("View in Page"); ?></a>
+									<a class="dropdown-item text-danger" href="<?php printf($link, "delete", $uid, "delete"); ?>"><?php sn_e("Delete Comment"); ?></a>
 								</li>
 								<?php } ?>
 							</ul>
