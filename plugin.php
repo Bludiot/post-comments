@@ -13,7 +13,7 @@ if (!defined("BLUDIT")) {
 }
 require_once "system/functions.php";    // Load Basic Functions
 
-class SnickerPlugin extends Plugin
+class Post_Comments extends Plugin
 {
 	/*
 	 |  BACKEND VARIABLES
@@ -595,7 +595,7 @@ class SnickerPlugin extends Plugin
 		// Return
 		return $this->response(array(
 			"success" => sn__("The backup has been created successfully!"),
-			"referer" => DOMAIN_ADMIN . "uninstall-plugin/SnickerPlugin"
+			"referer" => DOMAIN_ADMIN . "uninstall-plugin/Post_Comments"
 		), "alert");
 	}
 
@@ -680,7 +680,7 @@ class SnickerPlugin extends Plugin
 			?>
 					<script type="text/javascript">
 						document.addEventListener("DOMContentLoaded", function () {
-							var link = document.querySelector("tr#SnickerPlugin td a");
+							var link = document.querySelector("tr#Post_Comments td a");
 							if (link) {
 								link.addEventListener("click", function (event) {
 									event.preventDefault();
