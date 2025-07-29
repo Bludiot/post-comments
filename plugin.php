@@ -61,6 +61,8 @@ class Post_Comments extends Plugin {
 
 		// Run the parent constructor.
 		parent :: __construct();
+
+		// $this->formButtons = false;
 	}
 
 	/**
@@ -260,6 +262,29 @@ class Post_Comments extends Plugin {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Admin settings form
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object $L Language class.
+	 * @global object $plugin Plugin class.
+	 * @global object $site Site class.
+	 * @return string Returns the markup of the form.
+	 */
+	public function form() {
+
+		// Access global variables.
+		global $L, $plugin, $site;
+
+		$html = '';
+		ob_start();
+		include( $this->phpPath() . '/views/admin/page-form.php' );
+		$html .= ob_get_clean();
+
+		return $html;
 	}
 
 	/**
