@@ -276,7 +276,7 @@
 
 /* Main Elements */
 .snicker-comments .snicker-comments-form,
-.snicker-comments .snicker-comments-list {
+.snicker-comments .post-comments-list {
     width: auto;
     margin: 0;
     padding: 0;
@@ -287,7 +287,7 @@
     -webkit-border-radius: 5px;
 }
 
-.snicker-comments .snicker-comments-list {
+.snicker-comments .post-comments-list {
     border-width: 0;
 }
 
@@ -512,7 +512,7 @@ form.comment-form .comment-reply .reply-title {
 /* @end COMMENT FORM */
 
 /* @start COMMENT LIST */
-.snicker-comments-list .comment {
+.post-comments-list .comment {
     width: auto;
     margin: 15px 0;
     padding: 0;
@@ -523,23 +523,23 @@ form.comment-form .comment-reply .reply-title {
     -webkit-border-radius: 5px;
 }
 
-.snicker-comments-list .comment.new-comment {
+.post-comments-list .comment.new-comment {
     border-color: #007bff;
 }
 
-.snicker-comments-list .comment .comment-avatar {
+.post-comments-list .comment .comment-avatar {
     width: 110px;
     padding: 15px 10px;
     position: relative;
 }
 
-.snicker-comments-list .comment .comment-avatar img {
+.post-comments-list .comment .comment-avatar img {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
 
-.snicker-comments-list .comment .comment-avatar .avatar-role {
+.post-comments-list .comment .comment-avatar .avatar-role {
     top: 15px;
     right: 10px;
     color: #ffffff;
@@ -559,11 +559,11 @@ form.comment-form .comment-reply .reply-title {
     -webkit-border-radius: 0 4px 0 3px;
 }
 
-.snicker-comments-list .comment .comment-content {
+.post-comments-list .comment .comment-content {
     padding: 10px;
 }
 
-.snicker-comments-list .comment .comment-content .comment-title {
+.post-comments-list .comment .comment-content .comment-title {
     margin: 0;
     padding: 5px 5px 2px 5px;
     display: block;
@@ -573,7 +573,7 @@ form.comment-form .comment-reply .reply-title {
     font-weight: 600;
 }
 
-.snicker-comments-list .comment .comment-content .comment-moderation {
+.post-comments-list .comment .comment-content .comment-moderation {
     color: #fff;
     margin-left: 10px;
     padding: 2px 6px;
@@ -589,7 +589,7 @@ form.comment-form .comment-reply .reply-title {
     -webkit-border-radius: 3px;
 }
 
-.snicker-comments-list .comment .comment-content .comment-meta {
+.post-comments-list .comment .comment-content .comment-meta {
     margin: 0;
     padding: 1px 6px;
     display: inline-block;
@@ -597,19 +597,19 @@ form.comment-form .comment-reply .reply-title {
     line-height: 1.25em;
 }
 
-.snicker-comments-list .comment .comment-content .comment-comment {
+.post-comments-list .comment .comment-content .comment-comment {
     margin: 0;
     padding: 10px;
     display: block;
 }
 
-.snicker-comments-list .comment .comment-action {
+.post-comments-list .comment .comment-action {
     margin: 0;
     padding: 0;
     display: block;
 }
 
-.snicker-comments-list .comment .comment-action a {
+.post-comments-list .comment .comment-action a {
     color: #606468;
     margin: 2px 0;
     padding: 2px 7px;
@@ -628,46 +628,46 @@ form.comment-form .comment-reply .reply-title {
     -webkit-transition: color 142ms linear, background 142ms linear, border 142ms linear;
 }
 
-.snicker-comments-list .comment .comment-action a.action-like {
+.post-comments-list .comment .comment-action a.action-like {
     color: #28a745;
     border-color: #28a745;
 }
 
-.snicker-comments-list .comment .comment-action a.action-dislike {
+.post-comments-list .comment .comment-action a.action-dislike {
     color: #dc3545;
     border-color: #dc3545;
 }
 
-.snicker-comments-list .comment .comment-action a.action-reply {
+.post-comments-list .comment .comment-action a.action-reply {
     color: #007bff;
     border-color: #007bff;
     padding: 5px 20px;
 }
 
-.snicker-comments-list .comment .comment-action a:hover,
-.snicker-comments-list .comment .comment-action a.active {
+.post-comments-list .comment .comment-action a:hover,
+.post-comments-list .comment .comment-action a.active {
     color: #ffffff;
     opacity: 0.9;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
 }
 
-.snicker-comments-list .comment .comment-action a.action-like:hover,
-.snicker-comments-list .comment .comment-action a.action-like.active {
+.post-comments-list .comment .comment-action a.action-like:hover,
+.post-comments-list .comment .comment-action a.action-like.active {
     background-color: #28a745;
 }
 
-.snicker-comments-list .comment .comment-action a.action-dislike:hover,
-.snicker-comments-list .comment .comment-action a.action-dislike.active {
+.post-comments-list .comment .comment-action a.action-dislike:hover,
+.post-comments-list .comment .comment-action a.action-dislike.active {
     background-color: #dc3545;
 }
 
-.snicker-comments-list .comment .comment-action a.action-reply:hover,
-.snicker-comments-list .comment .comment-action a.action-reply.active {
+.post-comments-list .comment .comment-action a.action-reply:hover,
+.post-comments-list .comment .comment-action a.action-reply.active {
     background-color: #007bff;
     padding: 5px 20px;
 }
 
-.snicker-comments-list .comment .comment-action a span {
+.post-comments-list .comment .comment-action a span {
     margin: 0 3px 0 2px;
     display: inline-block;
 }
@@ -675,14 +675,14 @@ form.comment-form .comment-reply .reply-title {
 
 
 /* Pagination */
-.snicker-comments-list .pagination {
+.post-comments-list .pagination {
     width: 100%;
     margin: 10px 0;
     padding: 0;
     display: block;
 }
 
-.snicker-comments-list .pagination .pagination-button {
+.post-comments-list .pagination .pagination-button {
     color: #ffffff;
     width: auto;
     min-width: 30px;
@@ -704,44 +704,44 @@ form.comment-form .comment-reply .reply-title {
     -webkit-transition: background 142ms linear;
 }
 
-.snicker-comments-list .pagination .pagination-button:hover,
-.snicker-comments-list .pagination .pagination-button.hover {
+.post-comments-list .pagination .pagination-button:hover,
+.post-comments-list .pagination .pagination-button.hover {
     background-color: #0062cc;
 }
 
-.snicker-comments-list .pagination .pagination-button:active,
-.snicker-comments-list .pagination .pagination-button.active {
+.post-comments-list .pagination .pagination-button:active,
+.post-comments-list .pagination .pagination-button.active {
     background-color: #004999;
 }
 
-.snicker-comments-list .pagination .pagination-button:disabled,
-.snicker-comments-list .pagination .pagination-button.disabled {
+.post-comments-list .pagination .pagination-button:disabled,
+.post-comments-list .pagination .pagination-button.disabled {
     color: rgba(255, 255, 255, 0.5);
     cursor: not-allowed;
     opacity: 0.5;
     background-color: #555;
 }
 
-.snicker-comments-list .pagination.pagination-top .pagination-button.button-next {
+.post-comments-list .pagination.pagination-top .pagination-button.button-next {
     float: right;
 }
 
-.snicker-comments-list .pagination.pagination-bottom {
+.post-comments-list .pagination.pagination-bottom {
     text-align: center;
 }
 
-.snicker-comments-list .pagination.pagination-bottom:after {
+.post-comments-list .pagination.pagination-bottom:after {
     clear: both;
     content: "";
     display: table;
 }
 
-.snicker-comments-list .pagination.pagination-bottom .pagination-inner {
+.post-comments-list .pagination.pagination-bottom .pagination-inner {
     margin: 0 auto;
     display: inline-block;
 }
 
-.snicker-comments-list .pagination.pagination-bottom .pagination-button {
+.post-comments-list .pagination.pagination-bottom .pagination-button {
     float: left;
     margin: 0;
     border-radius: 0;
@@ -749,15 +749,15 @@ form.comment-form .comment-reply .reply-title {
     -webkit-border-radius: 0;
 }
 
-.snicker-comments-list .pagination.pagination-bottom .pagination-button.button-first,
-.snicker-comments-list .pagination.pagination-bottom .pagination-button.button-previous,
-.snicker-comments-list .pagination.pagination-bottom .pagination-button.button-next,
-.snicker-comments-list .pagination.pagination-bottom .pagination-button.button-last {
+.post-comments-list .pagination.pagination-bottom .pagination-button.button-first,
+.post-comments-list .pagination.pagination-bottom .pagination-button.button-previous,
+.post-comments-list .pagination.pagination-bottom .pagination-button.button-next,
+.post-comments-list .pagination.pagination-bottom .pagination-button.button-last {
     font-size: 20px;
     line-height: 18px;
 }
 
-.snicker-comments-list .pagination.pagination-bottom .pagination-button:first-child {
+.post-comments-list .pagination.pagination-bottom .pagination-button:first-child {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     -moz-border-radius-topleft: 3px;
@@ -766,7 +766,7 @@ form.comment-form .comment-reply .reply-title {
     -webkit-border-bottom-left-radius: 3px;
 }
 
-.snicker-comments-list .pagination.pagination-bottom .pagination-button:last-child {
+.post-comments-list .pagination.pagination-bottom .pagination-button:last-child {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     -moz-border-radius-right: 3px;

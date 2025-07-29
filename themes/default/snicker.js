@@ -64,7 +64,7 @@
 
         // Main Elements
         var form = d.querySelector("form.comment-form"),
-            list = d.querySelector(".snicker-comments-list"),
+            list = d.querySelector(".post-comments-list"),
             captcha = d.querySelector("a[data-captcha='reload']");
 
         /*

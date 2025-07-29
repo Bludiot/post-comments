@@ -158,7 +158,7 @@ class Default_SnickerTemplate extends CommentsTheme
 		global $url;
 
 		// Data
-		$link = DOMAIN . $url->uri() . "?cpage=%d#snicker-comments-list";
+		$link = DOMAIN . $url->uri() . "?cpage=%d#post-comments-list";
 		$maxpages = (int) ceil($count / $limit);
 		$prev = ($cpage === 1) ? false : $cpage - 1;
 		$next = ($cpage === $maxpages) ? false : $cpage + 1;

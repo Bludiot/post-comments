@@ -416,7 +416,7 @@ class Comments_System
         $list = $comments->getList($cpage, $limit);
         ob_start();
         ?>
-        <div id="comments-list" class="snicker-comments-list"><?php
+        <div id="post-comments-list" class="post-comments-list"><?php
         if (empty($list)) {
             if ($this->commentsAllowed($page)) {
                 ?>
