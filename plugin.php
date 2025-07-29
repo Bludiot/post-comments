@@ -46,101 +46,109 @@ class Post_Comments extends Plugin {
 	 */
 	private $backend_request = null;
 
-	/*
-	 |  CONSTRUCTOR
-	 |  @since  0.1.0
+	/**
+	 * Constructor method
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return self
 	 */
-	public function __construct()
-	{
+	public function __construct() {
+
+		// Define global variable for this class.
 		global $comments_plugin;
 		$comments_plugin = $this;
-		parent::__construct();
+
+		// Run the parent constructor.
+		parent :: __construct();
 	}
 
-
-	##
-##  HELPER METHODs
-##
-
-	/*
-	 |  HELPER :: SELECTED
-	 |  @since  0.1.0
-	 |
-	 |  @param  string  The respective option key (used in `getValue()`).
-	 |  @param  multi   The value to compare with.
-	 |  @param  bool    TRUE to print `selected="selected"`, FALSE to return the string.
-	 |                  Use `null` to return as boolean!
-	 |
-	 |  @return multi   The respective string, nothing or a BOOLEAN indicator.
+	/**
+	 * Selected helper method
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @param  string $field The respective option key (used in `getValue()`).
+	 * @param  boolean $value The value to compare with.
+	 * @param  boolean $print True to print `selected="selected"`.
+	 *                       False to return the string.
+	 *                       Use `null` to return as boolean.
+	 * @return mixed
 	 */
-	public function selected($field, $value = true, $print = true)
-	{
-		if (sn_config($field) == $value) {
+	public function selected( $field = '', $value = true, $print = true ) {
+
+		if ( sn_config( $field ) == $value ) {
 			$selected = 'selected="selected"';
 		} else {
 			$selected = '';
 		}
-		if ($print === null) {
-			return !empty($selected);
+		if ( null === $print ) {
+			return ! empty( $selected );
 		}
-		if (!$print) {
+		if ( ! $print ) {
 			return $selected;
 		}
-		print ($selected);
+		print( $selected );
 	}
 
-	/*
-	 |  HELPER :: CHECKED
-	 |  @since  0.1.0
-	 |
-	 |  @param  string  The respective option key (used in `getValue()`).
-	 |  @param  multi   The value to compare with.
-	 |  @param  bool    TRUE to print `checked="checked"`, FALSE to return the string.
-	 |                  Use `null` to return as boolean!
-	 |
-	 |  @return multi   The respective string, nothing or a BOOLEAN indicator.
+	/**
+	 * Checked helper method
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @param  string $field The respective option key (used in `getValue()`).
+	 * @param  boolean $value The value to compare with.
+	 * @param  boolean $print True to print `checked="checked"`.
+	 *                        False to return the string.
+	 *                        Use `null` to return as boolean.
+	 * @return mixed
 	 */
-	public function checked($field, $value = true, $print = true)
-	{
-		if (sn_config($field) == $value) {
+	public function checked( $field = '', $value = true, $print = true ) {
+
+		if ( sn_config( $field ) == $value ) {
 			$checked = 'checked="checked"';
 		} else {
 			$checked = '';
 		}
-		if ($print === null) {
-			return !empty($checked);
+		if ( null === $print ) {
+			return ! empty( $checked );
 		}
-		if (!$print) {
+		if ( ! $print ) {
 			return $checked;
 		}
-		print ($checked);
+		print( $checked );
 	}
 
-
-	##
-##  PLUGIN HOOKs
-##
-
-	/*
-	 |  PLUGIN :: GET VALUE
-	 |  @since  0.1.2
+	/**
+	 * Get database value
+	 *
+	 * Supersedes parent method.
+	 *
+	 * @param [type] $field
+	 * @param boolean $html
+	 * @return void
 	 */
-	public function getValue($field, $html = true)
-	{
-		if (isset($this->db[$field])) {
-			$data = strpos($field, "string_") === 0 ? sn__($this->db[$field]) : $this->db[$field];
-			return ($html) ? $data : Sanitize::htmlDecode($data);
+	public function getValue( $field, $html = true ) {
+
+		if ( isset( $this->db[$field] ) ) {
+			$data = strpos( $field, 'string_' ) === 0 ? sn__( $this->db[$field] ) : $this->db[$field];
+
+			return ( $html ) ? $data : Sanitize :: htmlDecode( $data );
 		}
-		return isset($this->dbFields[$field]) ? $this->dbFields[$field] : null;
+		return isset( $this->dbFields[$field] ) ? $this->dbFields[$field] : null;
 	}
 
-	/*
-	 |  PLUGIN :: INIT
-	 |  @since  0.1.0
-	 |  @update 0.1.1
+	/**
+	 * Initialize plugin
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object $url The Url class.
+	 * @return void
 	 */
-	public function init()
-	{
+	public function init() {
+
+		// Access global variables.
 		global $url;
 
 		// Plugin options for database.
@@ -179,18 +187,18 @@ class Post_Comments extends Plugin {
 			'subscription_ticker'   => 'default',
 
 			// Frontend Messages, can be changed by the user
-			'string_success_1' => sn__('Thanks for your comment!'),
-			'string_success_2' => sn__('Thanks for your comment, please confirm your subscription via the link we sent to your eMail address!'),
-			'string_success_3' => sn__('Thanks for voting this comment!'),
-			'string_error_1' => sn__('An unknown error occurred, please reload the page and try it again!'),
-			'string_error_2' => sn__('An error occurred: The passed Username is invalid or too long (42 characters only)!'),
-			'string_error_3' => sn__('An error occurred: The passed eMail address is invalid!'),
-			'string_error_4' => sn__('An error occurred: The comment text is missing!'),
-			'string_error_5' => sn__('An error occurred: The comment title is missing!'),
-			'string_error_6' => sn__('An error occurred: You need to accept the Terms to comment!'),
-			'string_error_7' => sn__('An error occurred: Your IP address or eMail address has been marked as Spam!'),
-			'string_error_8' => sn__('An error occurred: You already rated this comment!'),
-			'string_terms_of_use' => sn__('I agree that my data (incl. my anonymized IP address) gets stored!')
+			'string_success_1' => sn__( 'Thanks for your comment!' ),
+			'string_success_2' => sn__( 'Thanks for your comment, please confirm your subscription via the link we sent to your eMail address!' ),
+			'string_success_3' => sn__( 'Thanks for voting this comment!' ),
+			'string_error_1' => sn__( 'An unknown error occurred, please reload the page and try it again!' ),
+			'string_error_2' => sn__( 'An error occurred: The passed Username is invalid or too long (42 characters only)!' ),
+			'string_error_3' => sn__( 'An error occurred: The passed eMail address is invalid!' ),
+			'string_error_4' => sn__( 'An error occurred: The comment text is missing!' ),
+			'string_error_5' => sn__( 'An error occurred: The comment title is missing!' ),
+			'string_error_6' => sn__( 'An error occurred: You need to accept the Terms to comment!' ),
+			'string_error_7' => sn__( 'An error occurred: Your IP address or eMail address has been marked as Spam!' ),
+			'string_error_8' => sn__( 'An error occurred: You already rated this comment!' ),
+			'string_terms_of_use' => sn__( 'I agree that my data (incl. my anonymized IP address) gets stored!' )
 		];
 
 		// Array of custom hooks.
@@ -200,8 +208,8 @@ class Post_Comments extends Plugin {
 			'comments_form'
 		];
 
-		// Check Backend
-		$this->backend = (trim($url->activeFilter(), "/") == ADMIN_URI_FILTER);
+		// Check admin URI filter.
+		$this->backend = ( trim( $url->activeFilter(), '/' ) == ADMIN_URI_FILTER );
 	}
 
 	/*
@@ -209,15 +217,23 @@ class Post_Comments extends Plugin {
 	 |  @since  0.1.0
 	 |  @update 0.1.1
 	 */
-	public function installed()
-	{
-		global $post_comments,            // Main Comment Handler
-		$comments_index,       // Main Comment Indexer
-		$comments_users,       // Main Comment Users
-		$comments_votes;       // Main Comment Votes
 
-		if (file_exists($this->filenameDb)) {
-			if (!defined("SNICKER")) {
+	/**
+	 * Plugin installed
+	 *
+	 * Supersedes parent method.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
+	 */
+	public function installed() {
+
+		// Access global variables.
+		global $post_comments, $comments_index, $comments_users, $comments_votes;
+
+		if ( file_exists( $this->filenameDb ) ) {
+			if ( ! defined( "SNICKER" ) ) {
 				define("SNICKER", true);
 				define("SNICKER_PATH", PATH_PLUGINS . basename(__DIR__) . DS);
 				define("SNICKER_DOMAIN", DOMAIN_PLUGINS . basename(__DIR__) . "/");
