@@ -384,7 +384,7 @@ class Comments_System
 		// Validate Call
 		if (empty($page_uuid) && !is_a($comments, "Comments")) {
 			return false;
-		} else if (!empty($page_uuid)) {
+		} elseif (!empty($page_uuid)) {
 			if (!$pages->exists($page_uuid)) {
 				return false;
 			}
@@ -756,7 +756,7 @@ class Comments_System
 				), $key);
 			}
 			$data["author"] = "bludit::" . $user->username();
-		} else if (isset($data["username"]) && isset($data["email"])) {
+		} elseif (isset($data["username"]) && isset($data["email"])) {
 			if (($user = $comments_users->user($data["username"], $data["email"])) === false) {
 				$email = strtolower(Sanitize::email($data["email"]));
 				$error = !Valid::email($email) ? "string_error_3" : "string_error_2";
@@ -790,10 +790,10 @@ class Comments_System
 				if (sn_config("moderation_loggedin")) {
 					$data["status"] = "approved";
 					break;
-				} else if ($login->role() === "admin") {
+				} elseif ($login->role() === "admin") {
 					$data["status"] = "approved";
 					break;
-				} else if ($page->username() === $login->username()) {
+				} elseif ($page->username() === $login->username()) {
 					$data["status"] = "approved";
 					break;
 				}
@@ -898,7 +898,7 @@ class Comments_System
 				), $key);
 			}
 			$data["author"] = "bludit::" . $user->username();
-		} else if (isset($data["username"]) && isset($data["email"])) {
+		} elseif (isset($data["username"]) && isset($data["email"])) {
 			if (($user = $comments_users->user($data["username"], $data["email"])) === false) {
 				return sn_response(array(
 					"error" => sn_config("string_error_2"),

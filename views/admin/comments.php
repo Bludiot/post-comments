@@ -43,16 +43,16 @@ foreach ($tabs as $status) {
 	if ($view === "index") {
 		$comments = $comments_index->getList($status, $page, $limit);
 		$total = $comments_index->count($status);
-	} else if ($view === "search") {
+	} elseif ($view === "search") {
 		$comments = $comments_index->searchComments(isset($_GET["search"]) ? $_GET["search"] : "");
 		$total = count($comments);
-	} else if ($view === "single") {
+	} elseif ($view === "single") {
 		$comments = $comments_index->getListByParent(isset($_GET["single"]) ? $_GET["single"] : "");
 		$total = count($comments);
-	} else if ($view === "uuid") {
+	} elseif ($view === "uuid") {
 		$comments = $comments_index->getListByUUID(isset($_GET["uuid"]) ? $_GET["uuid"] : "");
 		$total = count($comments);
-	} else if ($view === "user") {
+	} elseif ($view === "user") {
 		$comments = $comments_index->getListByUser(isset($_GET["user"]) ? $_GET["user"] : "");
 		$total = count($comments);
 	}

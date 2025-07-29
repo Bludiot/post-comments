@@ -86,7 +86,7 @@ class Comments extends dbJSON
     {
         if (function_exists("random_bytes")) {
             return md5(bin2hex(random_bytes(16)) . time());
-        } else if (function_exists("openssl_random_pseudo_bytes")) {
+        } elseif (function_exists("openssl_random_pseudo_bytes")) {
             return md5(bin2hex(openssl_random_pseudo_bytes(16)) . time());
         }
         return md5(uniqid() . time());
@@ -561,7 +561,7 @@ class Comments extends dbJSON
             uasort($this->db, function($a, $b) {
                 return strtotime($a["date"]) <=> strtotime($b["date"]);
             });
-        } else if ($comments_plugin->getValue("frontend_order") === "date_desc") {
+        } elseif ($comments_plugin->getValue("frontend_order") === "date_desc") {
             uasort($this->db, function($a, $b) {
                 return strtotime($b["date"]) <=> strtotime($a["date"]);
             });

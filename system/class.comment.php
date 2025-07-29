@@ -339,7 +339,7 @@ class Comment
 
 			if ($return === "uids" || $return == "keys") {
 				$return[] = $uid;
-			} else if ($return === "objects") {
+			} elseif ($return === "objects") {
 				$return[$uid] = new Comment($uid);
 			} else {
 				$return[$uid] = $value;

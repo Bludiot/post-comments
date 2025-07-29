@@ -352,7 +352,7 @@ class CommentsIndex extends dbJSON
         foreach ($this->db as $key => $value) {
             if (isset($value["title"]) && stripos($value["title"], $search) !== false) {
                 $list[] = $key;
-            } else if (isset($value["excerpt"]) && stripos($value["excerpt"], $search) !== false) {
+            } elseif (isset($value["excerpt"]) && stripos($value["excerpt"], $search) !== false) {
                 $list[] = $key;
             }
         }
@@ -477,7 +477,7 @@ class CommentsIndex extends dbJSON
             uasort($this->db, function ($a, $b) {
                 return $a["date"] > $b["date"];
             });
-        } else if ($comments_plugin->getValue("frontend_order") === "date_desc") {
+        } elseif ($comments_plugin->getValue("frontend_order") === "date_desc") {
             uasort($this->db, function ($a, $b) {
                 return $a["date"] < $b["date"];
             });

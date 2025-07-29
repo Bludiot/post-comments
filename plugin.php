@@ -752,12 +752,12 @@ class Post_Comments extends Plugin {
 				}());
 			</script>
 			<?php
-		} else if ($slug[0] === "comments") {
+		} elseif ($slug[0] === "comments") {
 			?>
 				<script type="text/javascript" src="<?php echo $js; ?>admin.comments<?php echo $suffix; ?>.js"></script>
 				<link type="text/css" rel="stylesheet" href="<?php echo $css; ?>admin.comments.css" />
 			<?php
-		} else if ($slug[0] === "plugins") {
+		} elseif ($slug[0] === "plugins") {
 			$link = DOMAIN_ADMIN . "comments?action=comments&comments=backup&tokenCSRF=" . $security->getTokenCSRF();
 			?>
 					<script type="text/javascript">
