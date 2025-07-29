@@ -12,7 +12,7 @@
 if (!defined('BLUDIT')) {
     exit('No direct access');
 }
-global $L, $login, $pages, $security, $Snicker, $SnickerPlugin;
+global $L, $login, $pages, $security, $post_comments, $SnickerPlugin;
 
 // Get Static Pages
 $static = $pages->getStaticDB(false);
@@ -213,7 +213,7 @@ $static = $pages->getStaticDB(false);
                             <div class="col-sm-9">
                                 <select id="sn-template" name="frontend_template" class="form-control custom-select">
                                     <?php
-                                    foreach ($Snicker->themes as $key => $theme) {
+                                    foreach ($post_comments->themes as $key => $theme) {
                                         ?>
                                         <option value="<?php echo $key; ?>" <?php sn_selected("frontend_template", $key); ?>><?php echo $theme::SNICKER_NAME; ?></option>
                                         <?php

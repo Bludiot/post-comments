@@ -13,7 +13,7 @@ if (!defined('BLUDIT')) {
 	die('Access denied');
 }
 
-global $pages, $security, $Snicker, $SnickerIndex, $SnickerPlugin, $SnickerUsers;
+global $pages, $security, $post_comments, $SnickerIndex, $SnickerPlugin, $SnickerUsers;
 
 // Get Data
 $limit = $SnickerPlugin->getValue("frontend_per_page");

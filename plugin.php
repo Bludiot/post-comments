@@ -180,7 +180,7 @@ class SnickerPlugin extends Plugin
 	 */
 	public function installed()
 	{
-		global $Snicker,            // Main Comment Handler
+		global $post_comments,            // Main Comment Handler
 		$SnickerIndex,       // Main Comment Indexer
 		$SnickerUsers,       // Main Comment Users
 		$SnickerVotes;       // Main Comment Votes
@@ -213,7 +213,7 @@ class SnickerPlugin extends Plugin
 				require_once "system/class.snicker.php";
 				require_once "includes/autoload.php";
 			} else {
-				$Snicker = new Snicker();
+				$post_comments = new Snicker();
 				$SnickerIndex = new CommentsIndex();
 				$SnickerUsers = new CommentsUsers();
 				$SnickerVotes = new CommentsVotes();
@@ -296,7 +296,7 @@ class SnickerPlugin extends Plugin
 	 */
 	public function request()
 	{
-		global $login, $security, $url, $Snicker;
+		global $login, $security, $url, $post_comments;
 
 		// Get POST/GET Request
 		if (isset($_POST["action"]) && $_POST["action"] === "snicker") {
@@ -374,20 +374,20 @@ class SnickerPlugin extends Plugin
 			case "comment": //@fallthrough
 			case "reply":   //@fallthrough
 			case "add":
-				return $Snicker->writeComment($data["comment"], $key);
+				return $post_comments->writeComment($data["comment"], $key);
 			/* case "update": */        //@todo User can edit his own comments
 			case "edit":
-				return $Snicker->editComment($data["uid"], $data["comment"], $key);
+				return $post_comments->editComment($data["uid"], $data["comment"], $key);
 			/* case "remove": */        //@todo User can delete his own comments
 			case "delete":
-				return $Snicker->deleteComment($data["uid"], $key);
+				return $post_comments->deleteComment($data["uid"], $key);
 			case "moderate":
-				return $Snicker->moderateComment($data["uid"], $data["status"], $key);
+				return $post_comments->moderateComment($data["uid"], $data["status"], $key);
 			case "list":    //@fallthrough
 			case "get":
-				return $Snicker->renderComment($data);
+				return $post_comments->renderComment($data);
 			case "rate":
-				return $Snicker->rateComment($data["uid"], $data["type"]);
+				return $post_comments->rateComment($data["uid"], $data["type"]);
 			case "users":
 				return $this->user($data);
 			case "configure":
@@ -397,7 +397,7 @@ class SnickerPlugin extends Plugin
 			case "captcha":
 				return $this->response(array(
 					"success" => sn__("The Captcha Image could be successfully created!"),
-					"captcha" => $Snicker->generateCaptcha(150, 40, true)
+					"captcha" => $post_comments->generateCaptcha(150, 40, true)
 				));
 		}
 		return $this->response(array(
@@ -475,7 +475,7 @@ class SnickerPlugin extends Plugin
 	 */
 	private function config($data)
 	{
-		global $pages, $Snicker;
+		global $pages, $post_comments;
 		$config = array();
 
 		// Validations
@@ -549,7 +549,7 @@ class SnickerPlugin extends Plugin
 
 			// Sanitize Template
 			if ($field == "frontend_template") {
-				if ($Snicker->hasTheme($data[$field])) {
+				if ($post_comments->hasTheme($data[$field])) {
 					$config[$field] = $data[$field];
 				} else {
 					$config[$field] = $value;
@@ -835,9 +835,9 @@ class SnickerPlugin extends Plugin
 	 */
 	public function siteHead()
 	{
-		global $Snicker;
+		global $post_comments;
 
-		if (($theme = $Snicker->getTheme()) === false) {
+		if (($theme = $post_comments->getTheme()) === false) {
 			return false;
 		}
 		if (!empty($theme::SNICKER_JS)) {
@@ -870,11 +870,11 @@ class SnickerPlugin extends Plugin
 	 */
 	public function siteBodyBegin()
 	{
-		global $Snicker;
+		global $post_comments;
 		if (sn_config("frontend_filter") !== "siteBodyBegin") {
 			return false; // owo
 		}
-		print ($Snicker->render());
+		print ($post_comments->render());
 	}
 
 	/*
@@ -883,11 +883,11 @@ class SnickerPlugin extends Plugin
 	 */
 	public function pageBegin()
 	{
-		global $Snicker;
+		global $post_comments;
 		if (sn_config("frontend_filter") !== "pageBegin") {
 			return false; // Owo
 		}
-		print ($Snicker->render());
+		print ($post_comments->render());
 	}
 
 	/*
@@ -896,11 +896,11 @@ class SnickerPlugin extends Plugin
 	 */
 	public function pageEnd()
 	{
-		global $Snicker;
+		global $post_comments;
 		if (sn_config("frontend_filter") !== "pageEnd") {
 			return false; // owO
 		}
-		print ($Snicker->render());
+		print ($post_comments->render());
 	}
 
 	/*
@@ -909,10 +909,10 @@ class SnickerPlugin extends Plugin
 	 */
 	public function siteBodyEnd()
 	{
-		global $Snicker;
+		global $post_comments;
 		if (sn_config("frontend_filter") !== "siteBodyEnd") {
 			return false; // OwO
 		}
-		print ($Snicker->render());
+		print ($post_comments->render());
 	}
 }

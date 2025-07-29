@@ -12,12 +12,12 @@
 if (!defined('BLUDIT')) {
 	exit('No direct access');
 }
-global $L, $Snicker;
+global $L, $post_comments;
 
 // Pending Counter
-$count = count($Snicker->getIndex("pending"));
+$count = count($post_comments->getIndex("pending"));
 $count = ($count > 99) ? "99+" : $count;
-$spam = count($Snicker->getIndex("spam"));
+$spam = count($post_comments->getIndex("spam"));
 
 // Tab Strings
 $strings = array(

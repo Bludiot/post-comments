@@ -25,7 +25,7 @@ class Default_SnickerTemplate extends CommentsTheme
      */
     public function form($username = "", $email = "", $title = "", $message = "")
     {
-        global $comments, $login, $page, $security, $Snicker;
+        global $comments, $login, $page, $security, $post_comments;
 
         // User Logged In
         if (!is_a($login, "Login")) {
@@ -92,7 +92,7 @@ class Default_SnickerTemplate extends CommentsTheme
                         <input type="text" name="comment[captcha]" value="" placeholder="<?php sn_e("Answer"); ?>" />
 
                         <a href="<?php echo $page->permalink(); ?>#snicker-comment-form" data-captcha="reload">
-                            <?php echo $Snicker->generateCaptcha(); ?>
+                            <?php echo $post_comments->generateCaptcha(); ?>
                         </a>
                     </div>
                 <?php } ?>
@@ -237,7 +237,7 @@ class Default_SnickerTemplate extends CommentsTheme
      */
     public function comment($comment, $uid, $depth)
     {
-        global $users, $security, $Snicker, $SnickerUsers;
+        global $users, $security, $post_comments, $SnickerUsers;
 
         // Get Page
         $page = new Page($comment->page_key());
@@ -291,12 +291,12 @@ class Default_SnickerTemplate extends CommentsTheme
                 <div class="table">
                     <div class="table-cell align-left">
                         <?php if (sn_config("comment_enable_like")) { ?>
-                            <a href="<?php echo $url; ?>&type=like" class="action-like <?php echo ($Snicker->hasLiked($comment->uid()) ? "active" : ""); ?>">
+                            <a href="<?php echo $url; ?>&type=like" class="action-like <?php echo ($post_comments->hasLiked($comment->uid()) ? "active" : ""); ?>">
                                 <?php sn_e("Like"); ?> <span data-snicker="like"><?php echo $comment->like(); ?></span>
                             </a>
                         <?php } ?>
                         <?php if (sn_config("comment_enable_dislike")) { ?>
-                            <a href="<?php echo $url; ?>&type=dislike" class="action-dislike <?php echo ($Snicker->hasDisliked($comment->uid()) ? "active" : ""); ?>">
+                            <a href="<?php echo $url; ?>&type=dislike" class="action-dislike <?php echo ($post_comments->hasDisliked($comment->uid()) ? "active" : ""); ?>">
                                 <?php sn_e("Dislike"); ?> <span data-snicker="dislike"><?php echo $comment->dislike(); ?></span>
                             </a>
                         <?php } ?>
