@@ -288,7 +288,7 @@ class Default_Template extends Comments_Template {
 					</div>
 					<div class="table-cell align-right">
 						<?php if ($maxdepth === 0 || $maxdepth > $comment->depth()) { ?>
-							<a href="<?php echo $page->permalink(); ?>?snicker=reply&uid=<?php echo $comment->key(); ?>#snicker-comments-form" class="action-reply">
+							<a href="<?php echo $page->permalink(); ?>?snicker=reply&uid=<?php echo $comment->key(); ?>#post-comments-form" class="action-reply">
 								<?php sn_e("Reply"); ?>
 							</a>
 						<?php } ?>
