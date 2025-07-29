@@ -421,7 +421,7 @@ class Post_Comments extends Plugin {
 				return $post_comments->rateComment($data["uid"], $data["type"]);
 			case "users":
 				return $this->user($data);
-			case "configure":
+			case "settings":
 				return $this->config($data);
 			case "backup":
 				return $this->backup();

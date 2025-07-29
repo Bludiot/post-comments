@@ -68,7 +68,7 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
 			</a>
 		</li>
 		<li class="nav-item">
-			<a id="configure-tab" href="#snicker-configure" class="nav-link nav-config" data-toggle="tab">
+			<a id="settings-tab" href="#snicker-settings" class="nav-link nav-config" data-toggle="tab">
 				<?php sn_e("Settings"); ?>
 			</a>
 		</li>

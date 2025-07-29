@@ -34,8 +34,8 @@ foreach ( $themes as $theme ) {
 $static = $pages->getStaticDB( false );
 
 ?>
-<div id="snicker-configure" class="tab-pane">
-	<form method="post" action="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker#configure">
+<div id="snicker-settings" class="tab-pane">
+	<form method="post" action="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker#settings">
 		<div class="card shadow-sm" style="margin: 1.5rem 0;">
 			<div class="card-body">
 				<div class="row">
@@ -43,11 +43,6 @@ $static = $pages->getStaticDB( false );
 						<input type="hidden" id="tokenUser" name="tokenUser" value="<?php echo $login->username(); ?>" />
 						<input type="hidden" id="tokenCSRF" name="tokenCSRF" value="<?php echo $security->getTokenCSRF(); ?>" />
 						<input type="hidden" id="sn-action" name="action" value="snicker" />
-						<button class="btn btn-primary" name="snicker" value="configure"><?php sn_e("Save Settings"); ?></button>
-					</div>
-
-					<div class="col-sm-6">
-
 					</div>
 				</div>
 			</div>
@@ -499,7 +494,7 @@ $static = $pages->getStaticDB( false );
 
 		<div class="card shadow-sm mt-4 mb-4">
 			<div class="card-body">
-				<button class="btn btn-primary" name="snicker" value="configure"><?php sn_e("Save Settings"); ?></button>
+				<button class="btn btn-primary" name="snicker" value="settings"><?php sn_e("Save Settings"); ?></button>
 			</div>
 		</div>
 	</form>
