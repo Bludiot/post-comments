@@ -163,7 +163,7 @@ class Post_Comments extends Plugin {
 			'frontend_recaptcha_public'  => '',
 			'frontend_recaptcha_private' => '',
 			'frontend_terms'        => 'default',
-			'frontend_filter'       => 'comments_full',
+			'frontend_filter'       => 'pageEnd',
 			'frontend_template'     => 'default',
 			'frontend_order'        => 'date_desc',
 			'frontend_form'         => 'top',
@@ -518,7 +518,7 @@ class Post_Comments extends Plugin {
 			"frontend_captcha" => array("disabled", "purecaptcha", "gregwar", "recaptchav2", "recaptchav3"),
 			"frontend_avatar" => array("gravatar", "identicon", "static", "initials"),
 			"frontend_gravatar" => array("mp", "identicon", "monsterid", "wavatar", "retro", "robohash", "blank"),
-			"frontend_filter" => array("disabled", "pageBegin", "pageEnd", "siteBodyBegin", "siteBodyEnd"),
+			"frontend_filter" => array("disabled", "comments_full", "pageBegin", "pageEnd", "siteBodyBegin", "siteBodyEnd"),
 			"frontend_order" => array("date_desc", "date_asc"),
 			"frontend_form" => array("top", "bottom")
 		);
@@ -893,6 +893,15 @@ class Post_Comments extends Plugin {
 			<link id="snicker-css" type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
 			<?php
 		}
+	}
+
+	public function comments_full()
+	{
+		global $post_comments;
+		if (sn_config("frontend_filter") !== "comments_full") {
+			return false; // owo
+		}
+		print ($post_comments->render());
 	}
 
 	/*
