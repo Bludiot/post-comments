@@ -730,14 +730,14 @@ class SnickerPlugin extends Plugin
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title"><?php sn_e("Snicker Plugin Deactivation"); ?></h5>
+								<h5 class="modal-title"><?php sn_e("Post Comments Deactivation"); ?></h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
 								<p>
-									<?php sn_e("You are about to deactivate the <b>Snicker</b> Plugin, which will delete all written comments!"); ?>
+									<?php sn_e("You are about to deactivate the Post Comments Plugin, which will delete all written comments!"); ?>
 									<?php sn_e("Do you want to Backup your comments before?"); ?>
 								</p>
 								<p>
@@ -791,7 +791,7 @@ class SnickerPlugin extends Plugin
 		ob_start();
 		?>
 		<a href="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker" class="nav-link" style="white-space: nowrap;">
-			<span class="oi oi-comment-square"></span>Snicker <?php sn_e("Comments"); ?>
+			<span class="fa fa-comments"></span> <?php sn_e("Comments"); ?>
 			<?php if (!empty($count)) { ?>
 				<span class="badge badge-success badge-pill"><?php echo $count; ?></span>
 			<?php } ?>

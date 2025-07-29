@@ -39,13 +39,13 @@ $static = $pages->getStaticDB(false);
 
         <div class="accordion shadow-sm" id="accordion-settings">
             <div class="card">
-                <div class="card-header text-uppercase pt-3 pb-3 pl-4 pr-4" data-toggle="collapse" data-target="#accordion-general"><?php sn_e("General Settings"); ?></div>
+                <div class="card-header" data-toggle="collapse" data-target="#accordion-general"><?php sn_e("General Settings"); ?></div>
                 <div id="accordion-general" class="collapse show" data-parent="#accordion-settings">
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="sn-moderation" class="col-sm-3 col-form-label"><?php sn_e("Comment Moderation"); ?></label>
                             <div class="col-sm-9">
-                                <select id="sn-moderation" name="moderation" class="custom-select custom-select-sm w-auto">
+                                <select id="sn-moderation" name="moderation" class="custom-select custom-select-sm">
                                     <option value="true" <?php sn_selected("moderation", true); ?>><?php sn_e("Moderate"); ?></option>
                                     <option value="false" <?php sn_selected("moderation", false); ?>><?php sn_e("Pass"); ?></option>
                                 </select>
@@ -155,7 +155,7 @@ $static = $pages->getStaticDB(false);
                                         <?php sn_e("The <b>Database Storage</b> generates and stores an anonymized but assignable value of the user, which also requires the appropriate permissions from the user."); ?>
                                     </p>
                                     <p class="bg-light border-top" style="margin: -.5rem -.75rem;padding: .5rem .75rem;border-radius: 0 0 3px 3px;">
-                                        <?php sn_e("<b>Please Note:</b> You are responsible for obtaining the appropriate permissions, Snicker just handles the permissions for data send (and stored) via the comment form!"); ?>
+                                        <?php sn_e("<b>Please Note:</b> You are responsible for obtaining the appropriate permissions, Post Comments just handles the permissions for data send (and stored) via the comment form!"); ?>
                                     </p>
                                 </div>
 
@@ -176,7 +176,7 @@ $static = $pages->getStaticDB(false);
             </div>
 
             <div class="card">
-                <div class="card-header text-uppercase pt-3 pb-3 pl-4 pr-4" data-toggle="collapse" data-target="#accordion-frontend"><?php sn_e("Frontend Settings"); ?></div>
+                <div class="card-header" data-toggle="collapse" data-target="#accordion-frontend"><?php sn_e("Frontend Settings"); ?></div>
                 <div id="accordion-frontend" class="collapse" data-parent="#accordion-settings">
                     <div class="card-body">
                         <div class="form-group row">
@@ -314,7 +314,7 @@ $static = $pages->getStaticDB(false);
             </div>
 
             <div class="card">
-                <div class="card-header text-uppercase pt-3 pb-3 pl-4 pr-4" data-toggle="collapse" data-target="#accordion-subscripton"><?php sn_e("Subscription Settings"); ?></div>
+                <div class="card-header" data-toggle="collapse" data-target="#accordion-subscripton"><?php sn_e("Subscription Settings"); ?></div>
                 <div id="accordion-subscripton" class="collapse" data-parent="#accordion-settings">
                     <div class="card-body">
                         <div class="alert alert-info"><?php sn_e("The Subscription system isn't available yet!"); ?> :(</div>
@@ -373,7 +373,7 @@ $static = $pages->getStaticDB(false);
             </div>
 
             <div class="card">
-                <div class="card-header text-uppercase pt-3 pb-3 pl-4 pr-4" data-toggle="collapse" data-target="#accordion-strings"><?php sn_e("Strings"); ?></div>
+                <div class="card-header" data-toggle="collapse" data-target="#accordion-strings"><?php sn_e("Strings"); ?></div>
                 <div id="accordion-strings" class="collapse" data-parent="#accordion-settings">
                     <div class="card-body">
                         <div class="form-group row">

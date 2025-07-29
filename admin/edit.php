@@ -18,9 +18,12 @@ $comment = new Comment($_GET["uid"], $data["page_uuid"]);
 $page = new Page($pages->getByUUID($data["page_uuid"]));
 
 ?>
-<h2 class="mt-0 mb-3">
-    <span class="oi oi-comment-square" style="font-size: 0.7em;"></span> Snicker <?php sn_e("Comments"); ?> / <?php sn_e("Edit"); ?>
-</h2>
+<h1 class="page-title">
+    <?php sn_e("Edit Comment"); ?>
+</h1>
+
+<p class="page-description mt-0"><?php sn_e("Comment posted in"); ?> <a href="<?php echo $page->permalink(); ?>" target="_blank" rel="noopener noreferrer"><?php echo $page->title(); ?></a></p>
+
 <form method="post" action="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker">
     <div class="card" style="margin: 1.5rem 0;">
         <div class="card-body">
