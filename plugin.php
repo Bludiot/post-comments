@@ -305,7 +305,7 @@ class Post_Comments extends Plugin {
 				Redirect :: url( $data['referer'] );
 			} else {
 				$action = isset( $_GET['snicker'] ) ? $_GET['snicker'] : $_POST['snicker'];
-				Redirect :: url( HTML_PATH_ADMIN_ROOT . $url->slug() . '#{$action}' );
+				Redirect :: url( HTML_PATH_ADMIN_ROOT . $url->slug() . "#{$action}" );
 			}
 			die();
 		}
