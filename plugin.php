@@ -824,6 +824,27 @@ class Post_Comments extends Plugin {
 		print ($content);
 	}
 
+	/**
+	 * Admin info pages
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object $L Language class.
+	 * @global object $site Site class.
+	 * @return string Returns the markup of the page.
+	 */
+	public function adminView() {
+
+		$html  = '';
+		ob_start();
+		if ( isset( $_GET['page'] ) && 'custom' == $_GET['page'] ) {
+			// include( $this->phpPath() . '/views/admin/filename.php' );
+		}
+		$html .= ob_get_clean();
+
+		return $html;
+	}
+
 	/*
 	 |  HOOK :: SHOW SIDEBAR MENU
 	 |  @since  0.1.0
