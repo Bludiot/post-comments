@@ -5,7 +5,7 @@ if (!defined('BLUDIT')) {
 }
 class CommentsVotes extends dbJSON
 {
-    const KEY = "snicker-ratings";
+    const KEY = "comments-ratings";
 
     /*
      |  DATABASE FIELDS

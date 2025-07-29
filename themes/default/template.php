@@ -91,12 +91,12 @@ class Default_Template extends Comments_Template {
 		$terms   = ( $user ) ? 'disabled' : sn_config( 'frontend_terms' );
 
 		// Is a reply.
-		$reply = isset( $_GET['snicker'] ) && $_GET['snicker'] == 'reply';
+		$reply = isset( $_GET['comments'] ) && $_GET['comments'] == 'reply';
 		if ( $reply && isset( $_GET['uid'] ) && $comments->exists( $_GET['uid'] ) ) {
 			$reply = new Comment( $_GET['uid'], $page->uuid() );
 		}
 		?>
-		<form class="comment-form" method="post" action="<?php echo $page->permalink(); ?>?snicker=comment#snicker">
+		<form class="comment-form" method="post" action="<?php echo $page->permalink(); ?>?comments=comment#comments">
 
 		<?php if ( is_array( $username ) ) { ?>
 			<div class="comment-header">
@@ -119,13 +119,13 @@ class Default_Template extends Comments_Template {
 			</div>
 		<?php } ?>
 			<div class="comment-article">
-				<?php if ( Alert :: get( 'snicker-alert' ) !== false ) { ?>
+				<?php if ( Alert :: get( 'comments-alert' ) !== false ) { ?>
 					<div class="comment-alert alert-error">
-						<?php Alert :: p( 'snicker-alert' ); ?>
+						<?php Alert :: p( 'comments-alert' ); ?>
 					</div>
-				<?php } elseif ( Alert :: get( 'snicker-success' ) !== false ) { ?>
+				<?php } elseif ( Alert :: get( 'comments-success' ) !== false ) { ?>
 						<div class="comment-alert alert-success">
-						<?php Alert :: p( 'snicker-success' ); ?>
+						<?php Alert :: p( 'comments-success' ); ?>
 						</div>
 				<?php } ?>
 
@@ -141,7 +141,7 @@ class Default_Template extends Comments_Template {
 					<div class="comment-captcha">
 						<input type="text" name="comment[captcha]" value="" placeholder="<?php sn_e("Answer"); ?>" />
 
-						<a href="<?php echo $page->permalink(); ?>#snicker-comment-form" data-captcha="reload">
+						<a href="<?php echo $page->permalink(); ?>#comments-comment-form" data-captcha="reload">
 							<?php echo $post_comments->generateCaptcha(); ?>
 						</a>
 					</div>
@@ -182,12 +182,12 @@ class Default_Template extends Comments_Template {
 					<div class="table-cell align-right">
 						<input type="hidden" name="tokenCSRF" value="<?php echo $security->getTokenCSRF(); ?>" />
 						<input type="hidden" name="comment[page_uuid]" value="<?php echo $page->uuid(); ?>" />
-						<input type="hidden" name="action" value="snicker" />
+						<input type="hidden" name="action" value="comments" />
 						<?php if (is_a($reply, "Comment")) { ?>
 							<input type="hidden" name="comment[parent_uid]" value="<?php echo $reply->uid(); ?>" />
-							<button name="snicker" value="reply" data-string="<?php sn_e("Comment"); ?>"><?php sn_e("Answer"); ?></button>
+							<button name="comments" value="reply" data-string="<?php sn_e("Comment"); ?>"><?php sn_e("Answer"); ?></button>
 						<?php } else { ?>
-							<button name="snicker" value="comment" data-string="<?php sn_e("Answer"); ?>"><?php sn_e("Comment"); ?></button>
+							<button name="comments" value="comment" data-string="<?php sn_e("Answer"); ?>"><?php sn_e("Comment"); ?></button>
 						<?php } ?>
 					</div>
 				</div>
@@ -195,8 +195,8 @@ class Default_Template extends Comments_Template {
 		</form>
 		<?php
 
-		unset($_SESSION["s_snicker-alert"]);        // Remove Alerts
-		unset($_SESSION["s_snicker-success"]);      // Remove Success
+		unset($_SESSION["s_comments-alert"]);        // Remove Alerts
+		unset($_SESSION["s_comments-success"]);      // Remove Success
 	}
 
 	/**
@@ -219,7 +219,7 @@ class Default_Template extends Comments_Template {
 		// Render
 		$token = $security->getTokenCSRF();
 		$maxdepth = (int) sn_config("comment_depth");
-		$url = $page->permalink() . "?action=snicker&snicker=rate&uid=%s&tokenCSRF=%s";
+		$url = $page->permalink() . "?action=comments&comments=rate&uid=%s&tokenCSRF=%s";
 		$url = sprintf($url, $comment->uid(), $token);
 		?>
 		<div id="comment-<?php echo $comment->uid(); ?>" class="comment" style="margin-left: <?php echo (15 * ($depth - 1)); ?>px;">
@@ -277,18 +277,18 @@ class Default_Template extends Comments_Template {
 					<div class="table-cell align-left">
 						<?php if (sn_config("comment_enable_like")) { ?>
 							<a href="<?php echo $url; ?>&type=like" class="action-like <?php echo ($post_comments->hasLiked($comment->uid()) ? "active" : ""); ?>">
-								<?php sn_e("Like"); ?> <span data-snicker="like"><?php echo $comment->like(); ?></span>
+								<?php sn_e("Like"); ?> <span data-comments="like"><?php echo $comment->like(); ?></span>
 							</a>
 						<?php } ?>
 						<?php if (sn_config("comment_enable_dislike")) { ?>
 							<a href="<?php echo $url; ?>&type=dislike" class="action-dislike <?php echo ($post_comments->hasDisliked($comment->uid()) ? "active" : ""); ?>">
-								<?php sn_e("Dislike"); ?> <span data-snicker="dislike"><?php echo $comment->dislike(); ?></span>
+								<?php sn_e("Dislike"); ?> <span data-comments="dislike"><?php echo $comment->dislike(); ?></span>
 							</a>
 						<?php } ?>
 					</div>
 					<div class="table-cell align-right">
 						<?php if ($maxdepth === 0 || $maxdepth > $comment->depth()) { ?>
-							<a href="<?php echo $page->permalink(); ?>?snicker=reply&uid=<?php echo $comment->key(); ?>#post-comments-form" class="action-reply">
+							<a href="<?php echo $page->permalink(); ?>?comments=reply&uid=<?php echo $comment->key(); ?>#post-comments-form" class="action-reply">
 								<?php sn_e("Reply"); ?>
 							</a>
 						<?php } ?>

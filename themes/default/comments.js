@@ -71,7 +71,7 @@
                 var data = new FormData(this), self = this;
 
                 // Check Button
-                var btn = this.querySelector("[name='snicker']");
+                var btn = this.querySelector("[name='comments']");
                 if (btn.disabled) {
                     return true;
                 }
@@ -80,7 +80,7 @@
                 // AJAX Call
                 btn.disabled = true;
                 btn.classList.add("loading");
-                data.append("snicker", btn.value);
+                data.append("comments", btn.value);
                 ajax(PC_PATH, "POST", data, function (json) {
                     var data = JSON.parse(json);
 
@@ -145,7 +145,7 @@
                 event.preventDefault();
                 captcha.classList.add("reload");
 
-                var data = "action=snicker&snicker=captcha&tokenCSRF=" + token;
+                var data = "action=comments&comments=captcha&tokenCSRF=" + token;
                 var token = d.querySelector("input[name='tokenCSRF']").value;
                 ajax(PC_PATH, "POST", data + token, function (json) {
                     var data = JSON.parse(json);
@@ -169,7 +169,7 @@
 
                 // Check Link
                 var href = event.target.getAttribute("href");
-                if (href.indexOf("snicker=reply") < 0) {
+                if (href.indexOf("comments=reply") < 0) {
                     return true;
                 }
 
@@ -261,13 +261,13 @@
                     var data = JSON.parse(json);
 
                     if (data.status === "success" && "rating" in data) {
-                        var like = comment.querySelector("[data-snicker='like']");
+                        var like = comment.querySelector("[data-comments='like']");
                         if (like) {
                             like.innerText = String(data.rating[0]);
                         }
                         like.parentElement.classList[(like.parentElement === self ? "add" : "remove")]("active");
 
-                        var dislike = comment.querySelector("[data-snicker='dislike']");
+                        var dislike = comment.querySelector("[data-comments='dislike']");
                         if (dislike) {
                             dislike.innerText = String(data.rating[1]);
                         }

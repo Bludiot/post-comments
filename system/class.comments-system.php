@@ -39,8 +39,8 @@ class Comments_System
 		$nonce = sha1($security->getUserIp() . $_SERVER["HTTP_USER_AGENT"] . session_id());
 
 		// Get Database
-		if (isset($security->db["snicker"])) {
-			$db = $security->db["snicker"];
+		if (isset($security->db["comments"])) {
+			$db = $security->db["comments"];
 		} else {
 			$db = array();
 		}
@@ -61,7 +61,7 @@ class Comments_System
 		$db[$nonce] = $token . "::" . (time() + (6 * 60 * 60));
 
 		// Store and Return
-		$security->db["snicker"] = $db;
+		$security->db["comments"] = $db;
 		$security->save();
 		return $nonce;
 	}
@@ -75,8 +75,8 @@ class Comments_System
 		global $security;
 
 		// Get Database
-		if (isset($security->db["snicker"])) {
-			$db = $security->db["snicker"];
+		if (isset($security->db["comments"])) {
+			$db = $security->db["comments"];
 		} else {
 			return false;
 		}
@@ -103,7 +103,7 @@ class Comments_System
 		}
 
 		// Store and Return
-		$security->db["snicker"] = $db;
+		$security->db["comments"] = $db;
 		$security->save();
 		return false;
 	}
@@ -323,7 +323,7 @@ class Comments_System
 		}
 
 		// Get Temporary Data
-		$data = Session::get("snicker-comment");
+		$data = Session::get("comments-comment");
 		if (!is_array($data)) {
 			$data = array();
 		}
@@ -694,7 +694,7 @@ class Comments_System
 		if (!Session::started()) {
 			Session::start();
 		}
-		Session::set("snicker-comment", $data);
+		Session::set("comments-comment", $data);
 		$referer = DOMAIN . $url->uri();
 
 		// Check Page UUID
@@ -829,7 +829,7 @@ class Comments_System
 		}
 
 		// Clear Temp and Return
-		Session::set("snicker-comment", null);
+		Session::set("comments-comment", null);
 		$comment = new Comment($uid, $data["page_uuid"]);
 		return sn_response(array(
 			"referer" => $referer . "#comment-" . $uid,
@@ -1052,7 +1052,7 @@ class Comments_System
 	public function deleteComment($uid, $key = null)
 	{
 		global $url, $comments_index;
-		$referer = DOMAIN . HTML_PATH_ADMIN_ROOT . "snicker";
+		$referer = DOMAIN . HTML_PATH_ADMIN_ROOT . "comments";
 
 		// Check Parameters
 		if (($comment = $comments_index->getComment($uid)) === false) {

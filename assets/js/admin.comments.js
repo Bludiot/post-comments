@@ -49,7 +49,7 @@
                     if (w.location.hash.length == 0) {
                         var link = mainMenu.querySelector("li a");
                     } else {
-                        var link = mainMenu.querySelector("[href='#snicker-" + w.location.hash.substr(1) + "']");
+                        var link = mainMenu.querySelector("[href='#comments-" + w.location.hash.substr(1) + "']");
                     }
                 }
                 if (!(link instanceof Element)) {
@@ -61,7 +61,7 @@
                     link.click();
                 }
                 if (link) {
-                    w.location.hash = link.getAttribute("href").replace("snicker-", "");
+                    w.location.hash = link.getAttribute("href").replace("comments-", "");
                 }
             };
 
@@ -82,7 +82,7 @@
                 if (w.location.hash.length == 0) {
                     var link = mainMenu.querySelector("li a");
                 } else {
-                    var link = mainMenu.querySelector("[href='#snicker-" + w.location.hash.substr(1) + "']");
+                    var link = mainMenu.querySelector("[href='#comments-" + w.location.hash.substr(1) + "']");
                 }
                 menuLink(link);
             };

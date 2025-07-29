@@ -20,14 +20,14 @@ $comment = new Comment($_GET["uid"], $data["page_uuid"]);
 $page = new Page($pages->getByUUID($data["page_uuid"]));
 
 ?>
-<form method="post" action="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker">
+<form method="post" action="<?php echo HTML_PATH_ADMIN_ROOT; ?>comments">
 
 	<div class="align-middle">
 
 		<div class="float-right mt-1">
 			<button class="btn btn-primary" name="type" value="edit"><?php sn_e("Update"); ?></button>
 			<a class="btn btn-secondary" f
-			href="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker"><?php sn_e("Cancel"); ?></a>
+			href="<?php echo HTML_PATH_ADMIN_ROOT; ?>comments"><?php sn_e("Cancel"); ?></a>
 		</div>
 		<h1 class="page-title"><span class="page-title-icon fa fa-comments"></span><span class="page-title-text"><?php sn_e( 'Edit Comment' ); ?></span></h1>
 	</div>
@@ -36,8 +36,8 @@ $page = new Page($pages->getByUUID($data["page_uuid"]));
 
 	<input type="hidden" id="tokenUser" name="tokenUser" value="<?php echo $login->username(); ?>" />
 	<input type="hidden" id="tokenCSRF" name="tokenCSRF" value="<?php echo $security->getTokenCSRF(); ?>" />
-	<input type="hidden" id="sn-action" name="action" value="snicker" />
-	<input type="hidden" id="sn-snicker" name="snicker" value="edit" />
+	<input type="hidden" id="sn-action" name="action" value="comments" />
+	<input type="hidden" id="sn-comments" name="comments" value="edit" />
 	<input type="hidden" id="sn-unique" name="uid" value="<?php echo $comment->uid(); ?>" />
 
 	<div class="row mb-4">

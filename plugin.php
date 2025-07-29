@@ -293,17 +293,17 @@ class Post_Comments extends Plugin {
 		// POST redirect.
 		if ( $this->backend_request !== 'ajax' ) {
 			if ( $status ) {
-				$key = empty( $key ) ? 'snicker-success' : $key;
+				$key = empty( $key ) ? 'comments-success' : $key;
 				Alert :: set( $data['success'], ALERT_STATUS_OK, $key );
 			} else {
-				$key = empty( $key ) ? 'snicker-alert' : $key;
+				$key = empty( $key ) ? 'comments-alert' : $key;
 				Alert :: set( $data['error'], ALERT_STATUS_FAIL, $key );
 			}
 
 			if ( ! empty( $data['referer'] ) ) {
 				Redirect :: url( $data['referer'] );
 			} else {
-				$action = isset( $_GET['snicker'] ) ? $_GET['snicker'] : $_POST['snicker'];
+				$action = isset( $_GET['comments'] ) ? $_GET['comments'] : $_POST['comments'];
 				Redirect :: url( HTML_PATH_ADMIN_ROOT . $url->slug() . "#{$action}" );
 			}
 			die();
@@ -335,25 +335,25 @@ class Post_Comments extends Plugin {
 		global $login, $security, $url, $post_comments;
 
 		// POST/GET request.
-		if ( isset( $_POST['action'] ) && $_POST['action'] === 'snicker' ) {
+		if ( isset( $_POST['action'] ) && $_POST['action'] === 'comments' ) {
 			$data = $_POST;
 			$this->backend_request = 'post';
-		} elseif ( isset( $_GET['action'] ) && $_GET['action'] === 'snicker' ) {
+		} elseif ( isset( $_GET['action'] ) && $_GET['action'] === 'comments' ) {
 			$data = $_GET;
 			$this->backend_request = 'get';
 		}
-		if ( ! ( isset( $data ) && isset( $data['snicker'] ) ) ) {
+		if ( ! ( isset( $data ) && isset( $data['comments'] ) ) ) {
 			$this->backend_request = null;
 			return null;
 		}
 
 		// AJAX request.
 		$ajax = 'HTTP_X_REQUESTED_WITH';
-		if ( strpos( $url->slug(), 'snicker/ajax' ) === 0 ) {
+		if ( strpos( $url->slug(), 'comments/ajax' ) === 0 ) {
 			if ( isset( $_SERVER[$ajax] ) && $_SERVER[$ajax] === 'XMLHttpRequest' ) {
 				$this->backend_request = 'ajax';
 			} else {
-				return Redirect :: url( HTML_PATH_ADMIN_ROOT . 'snicker/' );
+				return Redirect :: url( HTML_PATH_ADMIN_ROOT . 'comments/' );
 			}
 		} elseif ( isset( $_SERVER[$ajax] ) && $_SERVER[$ajax] === 'XMLHttpRequest' ) {
 			print ( 'Invalid AJAX call' );
@@ -379,7 +379,7 @@ class Post_Comments extends Plugin {
 			'backup',
 			'moderate'
 		];
-		if ( in_array( $data['snicker'], $action ) ) {
+		if ( in_array( $data['comments'], $action ) ) {
 			$key = 'alert';
 		}
 
@@ -415,7 +415,7 @@ class Post_Comments extends Plugin {
 		}
 
 		// Route.
-		switch ( $data['snicker'] ) {
+		switch ( $data['comments'] ) {
 			case 'comment': // @fallthrough
 			case 'reply': // @fallthrough
 			case 'add':
@@ -663,14 +663,14 @@ class Post_Comments extends Plugin {
 	{
 		global $url;
 
-		// Check if the current View is the "snicker"
-		if (strpos($url->slug(), "snicker") !== 0) {
+		// Check if the current View is the "comments"
+		if (strpos($url->slug(), "comments") !== 0) {
 			return false;
 		}
 		checkRole(array("admin"));
 
 		// Set Backend View
-		$split = str_replace("snicker", "", trim($url->slug(), "/"));
+		$split = str_replace("comments", "", trim($url->slug(), "/"));
 		if (!empty($split) && $split !== "/" && isset($_GET["uid"])) {
 			$this->backend_view = "edit";
 		} else {
@@ -727,13 +727,13 @@ class Post_Comments extends Plugin {
 				}());
 			</script>
 			<?php
-		} else if ($slug[0] === "snicker") {
+		} else if ($slug[0] === "comments") {
 			?>
-				<script type="text/javascript" src="<?php echo $js; ?>admin.snicker<?php echo $suffix; ?>.js"></script>
-				<link type="text/css" rel="stylesheet" href="<?php echo $css; ?>admin.snicker.css" />
+				<script type="text/javascript" src="<?php echo $js; ?>admin.comments<?php echo $suffix; ?>.js"></script>
+				<link type="text/css" rel="stylesheet" href="<?php echo $css; ?>admin.comments.css" />
 			<?php
 		} else if ($slug[0] === "plugins") {
-			$link = DOMAIN_ADMIN . "snicker?action=snicker&snicker=backup&tokenCSRF=" . $security->getTokenCSRF();
+			$link = DOMAIN_ADMIN . "comments?action=comments&comments=backup&tokenCSRF=" . $security->getTokenCSRF();
 			?>
 					<script type="text/javascript">
 						document.addEventListener("DOMContentLoaded", function () {
@@ -741,13 +741,13 @@ class Post_Comments extends Plugin {
 							if (link) {
 								link.addEventListener("click", function (event) {
 									event.preventDefault();
-									jQuery("#dialog-deactivate-snicker").modal();
+									jQuery("#dialog-deactivate-comments").modal();
 								});
-								jQuery("#dialog-deactivate-snicker button[data-snicker='backup']").click(function () {
+								jQuery("#dialog-deactivate-comments button[data-comments='backup']").click(function () {
 									console.log("owo");
 									window.location.replace("<?php echo $link; ?>&referer=" + link.href);
 								});
-								jQuery("#dialog-deactivate-snicker button[data-snicker='deactivate']").click(function () {
+								jQuery("#dialog-deactivate-comments button[data-comments='deactivate']").click(function () {
 									window.location.replace(link.href);
 								});
 							}
@@ -783,7 +783,7 @@ class Post_Comments extends Plugin {
 			$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
 			if ($slug[0] === "plugins") {
 				?>
-				<div id="dialog-deactivate-snicker" class="modal fade" role="dialog">
+				<div id="dialog-deactivate-comments" class="modal fade" role="dialog">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -802,8 +802,8 @@ class Post_Comments extends Plugin {
 								</p>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-snicker="backup"><?php sn_e("Yes, create a Backup"); ?></button>
-								<button type="button" class="btn btn-danger" data-snicker="deactivate"><?php sn_e("No, just Deactivate"); ?></button>
+								<button type="button" class="btn btn-primary" data-comments="backup"><?php sn_e("Yes, create a Backup"); ?></button>
+								<button type="button" class="btn btn-danger" data-comments="deactivate"><?php sn_e("No, just Deactivate"); ?></button>
 								<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php sn_e("Cancel"); ?></button>
 							</div>
 						</div>
@@ -866,7 +866,7 @@ class Post_Comments extends Plugin {
 
 		ob_start();
 		?>
-		<a href="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker" class="nav-link" style="white-space: nowrap;">
+		<a href="<?php echo HTML_PATH_ADMIN_ROOT; ?>comments" class="nav-link" style="white-space: nowrap;">
 			<span class="fa fa-comments"></span> <?php sn_e("Comments"); ?>
 			<?php if (!empty($count)) { ?>
 				<span class="badge badge-success badge-pill"><?php echo $count; ?></span>
@@ -930,9 +930,9 @@ class Post_Comments extends Plugin {
 			?>
 			<script type="text/javascript">
 				var COMMENTS_AJAX = <?php echo sn_config( 'frontend_ajax' ) ? 'true' : 'false'; ?>;
-				var PC_PATH = "<?php echo HTML_PATH_ADMIN_ROOT ?>snicker/ajax/";
+				var PC_PATH = "<?php echo HTML_PATH_ADMIN_ROOT ?>comments/ajax/";
 			</script>
-			<script id="snicker-js" type="text/javascript" src="<?php echo $file; ?>"></script>
+			<script id="comments-js" type="text/javascript" src="<?php echo $file; ?>"></script>
 			<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			<?php
 		}
@@ -940,7 +940,7 @@ class Post_Comments extends Plugin {
 		if ( ! empty( $theme->theme_css ) ) {
 			$file = PC_DOMAIN . 'themes/' . sn_config( 'frontend_template' ) . '/' . $theme->theme_css;
 			?>
-			<link id="snicker-css" type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
+			<link id="comments-css" type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
 			<?php
 		}
 	}

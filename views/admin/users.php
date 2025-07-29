@@ -30,14 +30,14 @@ if (isset($_GET["view"]) && $_GET["view"] === "users") {
 $users = $comments_users->getList($search, $page, $limit);
 
 // Link
-$link = DOMAIN_ADMIN . "snicker?page=%d&tab=users#users";
+$link = DOMAIN_ADMIN . "comments?page=%d&tab=users#users";
 
 ?>
-<div id="snicker-users" class="tab-pane">
+<div id="comments-users" class="tab-pane">
 	<div class="card shadow-sm" style="margin: 1.5rem 0;">
 		<div class="card-body">
 			<div class="row">
-				<form class="w-100" method="get" action="<?php echo DOMAIN_ADMIN; ?>snicker#users">
+				<form class="w-100" method="get" action="<?php echo DOMAIN_ADMIN; ?>comments#users">
 					<div class="form-row align-items-center">
 						<div class="row w-100">
 							<input type="text" name="search" value="<?php echo $search; ?>" class="form-control" placeholder="<?php sn_e("Username or eMail Address"); ?>" />
@@ -79,7 +79,7 @@ $link = DOMAIN_ADMIN . "snicker?page=%d&tab=users#users";
 			</div>
 		</div>
 	<?php } else { ?>
-		<?php $link = DOMAIN_ADMIN . "snicker?action=snicker&snicker=users&uuid=%s&handle=%s&tokenCSRF=" . $security->getTokenCSRF(); ?>
+		<?php $link = DOMAIN_ADMIN . "comments?action=comments&comments=users&uuid=%s&handle=%s&tokenCSRF=" . $security->getTokenCSRF(); ?>
 		<table class="table table-bordered table-hover-light shadow-sm mt-3">
 			<?php foreach (array("thead", "tfoot") as $tag) { ?>
 				<<?php echo $tag; ?>>
@@ -102,7 +102,7 @@ $link = DOMAIN_ADMIN . "snicker?page=%d&tab=users#users";
 							<?php echo $user["email"]; ?>
 						</td>
 						<td class="text-center align-middle pt-2 pb-2 pl-1 pr-1">
-							<a href="<?php echo DOMAIN_ADMIN; ?>snicker?view=user&user=<?php echo $uuid; ?>">
+							<a href="<?php echo DOMAIN_ADMIN; ?>comments?view=user&user=<?php echo $uuid; ?>">
 								<?php echo count(isset($user["comments"]) ? $user["comments"] : array()); ?>
 								<?php sn_e("Comments"); ?>
 							</a>

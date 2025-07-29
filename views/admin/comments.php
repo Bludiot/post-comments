@@ -58,14 +58,14 @@ foreach ($tabs as $status) {
 	}
 
 	// Render Tab Content
-	$link = DOMAIN_ADMIN . "snicker?page=%d&tab={$status}#{$status}";
+	$link = DOMAIN_ADMIN . "comments?page=%d&tab={$status}#{$status}";
 
 	?>
-	<div id="snicker-<?php echo $status; ?>" class="tab-pane <?php echo ($current === $status) ? "active" : ""; ?>">
+	<div id="comments-<?php echo $status; ?>" class="tab-pane <?php echo ($current === $status) ? "active" : ""; ?>">
 		<div class="card shadow-sm" style="margin: 1.5rem 0;">
 			<div class="card-body">
 				<div class="row">
-					<form class="pr-4 pl-4 w-100" method="get" action="<?php echo DOMAIN_ADMIN; ?>snicker">
+					<form class="pr-4 pl-4 w-100" method="get" action="<?php echo DOMAIN_ADMIN; ?>comments">
 						<div class="form-row align-items-center">
 							<div class="w-100 row flex-nowrap">
 								<?php $search = isset($_GET["search"]) ? $_GET["search"] : ""; ?>
@@ -113,7 +113,7 @@ foreach ($tabs as $status) {
 	<?php } ?>
 
 	<?php /* Comments Table */ ?>
-	<?php $link = DOMAIN_ADMIN . "snicker?action=snicker&snicker=%s&uid=%s&status=%s&tokenCSRF=" . $security->getTokenCSRF(); ?>
+	<?php $link = DOMAIN_ADMIN . "comments?action=comments&comments=%s&uid=%s&status=%s&tokenCSRF=" . $security->getTokenCSRF(); ?>
 	<table class="table table-bordered table-hover-light shadow-sm mt-3">
 		<?php foreach (array("thead", "tfoot") as $tag) { ?>
 			<<?php echo $tag; ?>>
@@ -142,7 +142,7 @@ foreach ($tabs as $status) {
 						}
 						echo '<p class="text-muted m-0" style="font-size:12px;">' . (isset($data["excerpt"]) ? $data["excerpt"] : "") . '</p>';
 						if (!empty($data["parent_uid"]) && $comments_index->exists($data["parent_uid"]) && $view !== "single") {
-							$reply = DOMAIN_ADMIN . "snicker?view=single&single={$uid}";
+							$reply = DOMAIN_ADMIN . "comments?view=single&single={$uid}";
 							$reply = '<a href="' . $reply . '" title="' . sn__("Show all replies") . '">' . $comments_index->getComment($data["parent_uid"])["title"] . '</a>';
 							echo "<div class='text-muted mt-1' style='font-size:12px;'>" . sn__("Reply To") . ": " . $reply . "</div>";
 						}
@@ -159,7 +159,7 @@ foreach ($tabs as $status) {
 							</button>
 							<ul class="dropdown-menu p-0 m-0" style="margin: 0; padding: 0;">
 								<li>
-									<a class="dropdown-item text-primary" href="<?php echo DOMAIN_ADMIN . "snicker/edit/?uid=" . $uid; ?>"><?php sn_e("Edit Comment"); ?></a>
+									<a class="dropdown-item text-primary" href="<?php echo DOMAIN_ADMIN . "comments/edit/?uid=" . $uid; ?>"><?php sn_e("Edit Comment"); ?></a>
 								</li>
 								<?php if ($status !== "pending") { ?>
 								<li>

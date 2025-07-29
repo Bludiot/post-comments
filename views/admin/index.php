@@ -47,7 +47,7 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
 <div class="align-middle">
 	<?php if ( isset( $_GET["search"] ) ) : ?>
 	<div class="float-right mt-1">
-		<a class="button btn btn-primary btn-sm" href="<?php echo HTML_PATH_ADMIN_ROOT . 'snicker' ?>" role="button"><?php $L->p( 'All Comments' ) ?></a>
+		<a class="button btn btn-primary btn-sm" href="<?php echo HTML_PATH_ADMIN_ROOT . 'comments' ?>" role="button"><?php $L->p( 'All Comments' ) ?></a>
 	</div>
 	<?php endif; ?>
 	<h1 class="page-title"><span class="page-title-icon fa fa-comments"></span><span class="page-title-text"><?php $L->p( 'Post Comments' ); ?></span></h1>
@@ -58,18 +58,18 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
 		<?php foreach ($tabs as $tab) { ?>
 			<?php $class = "nav-link nav-{$tab}" . ($current === $tab ? " active" : ""); ?>
 			<li class="nav-item">
-				<a id="<?php echo $tab; ?>-tab" href="#snicker-<?php echo $tab; ?>" class="nav-link <?php echo $class; ?>" data-toggle="tab">
+				<a id="<?php echo $tab; ?>-tab" href="#comments-<?php echo $tab; ?>" class="nav-link <?php echo $class; ?>" data-toggle="tab">
 					<?php echo $strings[$tab]; ?>
 				</a>
 			</li>
 		<?php } ?>
 		<li class="nav-item mr-2">
-			<a id="users-tab" href="#snicker-users" class="nav-link nav-config" data-toggle="tab">
+			<a id="users-tab" href="#comments-users" class="nav-link nav-config" data-toggle="tab">
 				<?php sn_e("Users"); ?>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a id="settings-tab" href="#snicker-settings" class="nav-link nav-config" data-toggle="tab">
+			<a id="settings-tab" href="#comments-settings" class="nav-link nav-config" data-toggle="tab">
 				<?php sn_e("Settings"); ?>
 			</a>
 		</li>
