@@ -488,7 +488,7 @@ class Comment
         }
 
         // Return Mystery Man
-        return SNICKER_DOMAIN . "includes/img/default-avatar.jpg";
+        return PC_DOMAIN . "includes/img/default-avatar.jpg";
     }
 
     /*

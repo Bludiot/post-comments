@@ -32,8 +32,8 @@ class CommentsIndex extends dbJSON
      */
     public function __construct()
     {
-        parent::__construct(DB_SNICKER_INDEX);
-        if (!file_exists(DB_SNICKER_INDEX)) {
+        parent::__construct(PC_DB_INDEX);
+        if (!file_exists(PC_DB_INDEX)) {
             $this->db = array();
             $this->save();
         }

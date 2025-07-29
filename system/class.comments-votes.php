@@ -26,8 +26,8 @@ class CommentsVotes extends dbJSON
      */
     public function __construct()
     {
-        parent::__construct(DB_SNICKER_VOTES);
-        if (!file_exists(DB_SNICKER_VOTES)) {
+        parent::__construct(PC_DB_VOTES);
+        if (!file_exists(PC_DB_VOTES)) {
             $this->db = array();
             $this->save();
         }

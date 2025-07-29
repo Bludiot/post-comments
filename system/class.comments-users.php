@@ -31,8 +31,8 @@ class CommentsUsers extends dbJSON
      */
     public function __construct()
     {
-        parent::__construct(DB_SNICKER_USERS);
-        if (!file_exists(DB_SNICKER_USERS)) {
+        parent::__construct(PC_DB_USERS);
+        if (!file_exists(PC_DB_USERS)) {
             $this->db = array();
             $this->save();
         }

@@ -89,7 +89,7 @@
                 btn.disabled = true;
                 btn.classList.add("loading");
                 data.append("snicker", btn.value);
-                ajax(SNICKER_PATH, "POST", data, function (json) {
+                ajax(PC_PATH, "POST", data, function (json) {
                     var data = JSON.parse(json);
 
                     // Add Comment
@@ -155,7 +155,7 @@
 
                 var data = "action=snicker&snicker=captcha&tokenCSRF=" + token;
                 var token = d.querySelector("input[name='tokenCSRF']").value;
-                ajax(SNICKER_PATH, "POST", data + token, function (json) {
+                ajax(PC_PATH, "POST", data + token, function (json) {
                     var data = JSON.parse(json);
                     if (data.status !== "success") {
                         window.location.replace(captcha.getAttribute("href"));
@@ -265,7 +265,7 @@
                 href = href.split("?");
 
                 // AJAX REQUEST
-                ajax(SNICKER_PATH, "POST", href[1], function (json) {
+                ajax(PC_PATH, "POST", href[1], function (json) {
                     var data = JSON.parse(json);
 
                     if (data.status === "success" && "rating" in data) {

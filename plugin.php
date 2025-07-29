@@ -233,21 +233,21 @@ class Post_Comments extends Plugin {
 		global $post_comments, $comments_index, $comments_users, $comments_votes;
 
 		if ( file_exists( $this->filenameDb ) ) {
-			if ( ! defined( "SNICKER" ) ) {
-				define("SNICKER", true);
-				define("SNICKER_PATH", PATH_PLUGINS . basename(__DIR__) . DS);
-				define("SNICKER_DOMAIN", DOMAIN_PLUGINS . basename(__DIR__) . "/");
-				define("SNICKER_VERSION", "0.1.2");
+			if ( ! defined( 'POST_COMMENTS' ) ) {
+				define( 'POST_COMMENTS', true );
+				define("PC_PATH", PATH_PLUGINS . basename(__DIR__) . DS);
+				define("PC_DOMAIN", DOMAIN_PLUGINS . basename(__DIR__) . "/");
+				define("PC_VERSION", "1.0.0");
 
 				// DataBases
-				define("DB_SNICKER_COMMENTS", $this->workspace() . "pages" . DS);
-				define("DB_SNICKER_INDEX", $this->workspace() . "comments-index.php");
-				define("DB_SNICKER_USERS", $this->workspace() . "comments-users.php");
-				define("DB_SNICKER_VOTES", $this->workspace() . "comments-votes.php");
+				define("PC_DB_COMMENTS", $this->workspace() . "pages" . DS);
+				define("PC_DB_INDEX", $this->workspace() . "comments-index.php");
+				define("PC_DB_USERS", $this->workspace() . "comments-users.php");
+				define("PC_DB_VOTES", $this->workspace() . "comments-votes.php");
 
 				// Pages Filter
-				if (!file_exists(DB_SNICKER_COMMENTS)) {
-					@mkdir(DB_SNICKER_COMMENTS);
+				if (!file_exists(PC_DB_COMMENTS)) {
+					@mkdir(PC_DB_COMMENTS);
 				}
 
 				// Load Plugin
@@ -682,8 +682,8 @@ class Post_Comments extends Plugin {
 	{
 		global $page, $security, $url;
 
-		$js   = SNICKER_DOMAIN . "assets/js/";
-		$css  = SNICKER_DOMAIN . "assets/css/";
+		$js   = PC_DOMAIN . "assets/js/";
+		$css  = PC_DOMAIN . "assets/css/";
 		$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
 
 		// Admin Header
@@ -810,8 +810,8 @@ class Post_Comments extends Plugin {
 
 		// Snicker Admin Content
 		ob_start();
-		if (file_exists(SNICKER_PATH . "views/admin" . DS . "{$this->backend_view}.php")) {
-			require SNICKER_PATH . "views/admin" . DS . "{$this->backend_view}.php";
+		if (file_exists(PC_PATH . "views/admin" . DS . "{$this->backend_view}.php")) {
+			require PC_PATH . "views/admin" . DS . "{$this->backend_view}.php";
 			$add = ob_get_contents();
 		}
 		ob_end_clean();
@@ -888,11 +888,11 @@ class Post_Comments extends Plugin {
 			return false;
 		}
 		if (!empty($theme::SNICKER_JS)) {
-			$file = SNICKER_DOMAIN . "themes/" . sn_config("frontend_template") . "/" . $theme::SNICKER_JS;
+			$file = PC_DOMAIN . "themes/" . sn_config("frontend_template") . "/" . $theme::SNICKER_JS;
 			?>
 			<script type="text/javascript">
 				var SNICKER_AJAX = <?php echo sn_config("frontend_ajax") ? "true" : "false"; ?>;
-				var SNICKER_PATH = "<?php echo HTML_PATH_ADMIN_ROOT ?>snicker/ajax/";
+				var PC_PATH = "<?php echo HTML_PATH_ADMIN_ROOT ?>snicker/ajax/";
 			</script>
 			<script id="snicker-js" type="text/javascript" src="<?php echo $file; ?>"></script>
 			<script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -904,7 +904,7 @@ class Post_Comments extends Plugin {
 
 
 		if (!empty($theme::SNICKER_CSS)) {
-			$file = SNICKER_DOMAIN . "themes/" . sn_config("frontend_template") . "/" . $theme::SNICKER_CSS;
+			$file = PC_DOMAIN . "themes/" . sn_config("frontend_template") . "/" . $theme::SNICKER_CSS;
 			?>
 			<link id="snicker-css" type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
 			<?php

@@ -204,7 +204,7 @@ class Comments_System
      */
     public function initThemes()
     {
-        $dir = SNICKER_PATH . "themes" . DS;
+        $dir = PC_PATH . "themes" . DS;
         if (!is_dir($dir)) {
             //@todo Error
             return false;

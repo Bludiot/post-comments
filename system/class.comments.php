@@ -57,7 +57,7 @@ class Comments extends dbJSON
             throw new Exception($error);
         }
         $this->uuid = $uuid;
-        parent::__construct(DB_SNICKER_COMMENTS . "comments-{$uuid}.php");
+        parent::__construct(PC_DB_COMMENTS . "comments-{$uuid}.php");
     }
 
     /*
