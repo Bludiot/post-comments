@@ -1,13 +1,5 @@
 <?php
-/*
- |  Snicker Plus - A FlatFile Comment Plugin for Bludit
- |  @file       ./system/functions.php
- |  @author     Steve Harris (Harris Lineage)
- |  @version    1.0.0
- |  @website    https://github.com/harrislineage/snicker-plus
- |  @license    MIT License
- |  @copyright  Copyright © 2025 Steve Harris (Harris Lineage)
- */
+
 if (!defined('BLUDIT')) {
     exit('Access denied');
 }
@@ -49,7 +41,7 @@ function sn_e($string, $args = array())
  |  SHORTFUNC :: GET VALUE
  |  @since  0.1.0
  |
- |  @param  string  The respective Snicker configuration key.
+ |  @param  string  The respective configuration key.
  |
  |  @return multi   The respective value or FALSE if the option doens't exist.
  */

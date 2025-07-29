@@ -818,7 +818,7 @@ class Post_Comments extends Plugin {
 		$content = ob_get_contents();
 		ob_end_clean();
 
-		// Snicker Admin Content
+		// Admin Content
 		ob_start();
 		if (file_exists(PC_PATH . "views/admin" . DS . "{$this->backend_view}.php")) {
 			require PC_PATH . "views/admin" . DS . "{$this->backend_view}.php";

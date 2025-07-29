@@ -195,8 +195,8 @@ class Default_Template extends Comments_Template {
 		</form>
 		<?php
 
-		unset($_SESSION["s_snicker-alert"]);        // Remove Snicker Alerts
-		unset($_SESSION["s_snicker-success"]);      // Remove Snicker Success
+		unset($_SESSION["s_snicker-alert"]);        // Remove Alerts
+		unset($_SESSION["s_snicker-success"]);      // Remove Success
 	}
 
 	/**

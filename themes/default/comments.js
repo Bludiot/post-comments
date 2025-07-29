@@ -1,12 +1,4 @@
-/*
- |  Snicker Plus - A FlatFile Comment Plugin for Bludit
- |  @file       ./system/themes/default/snicker.js
- |  @author     Steve Harris (Harris Lineage)
- |  @version    1.0.0
- |  @website    https://github.com/harrislineage/snicker-plus
- |  @license    MIT License
- |  @copyright  Copyright © 2025 Steve Harris (Harris Lineage)
- */
+
 ; (function (root) {
     "use strict";
     var w = root, d = root.document;
