@@ -225,13 +225,14 @@ class Default_Template extends Comments_Template {
 		<div id="comment-<?php echo $comment->uid(); ?>" class="comment" style="margin-left: <?php echo (15 * ($depth - 1)); ?>px;">
 			<div class="table">
 				<div class="table-cell comment-avatar">
-					<?php echo $comment->avatar(90); ?>
+					<?php echo $comment->avatar(); ?>
+
 					<?php
-					if (isset($user["role"]) && $user["username"] === $page->username()) {
-						echo '<span class="avatar-role">Author</span>';
-					} elseif (isset($user["role"]) && $user["role"] === "admin") {
-						echo '<span class="avatar-role">Admin</span>';
-					}
+						if (isset($user["role"]) && $user["username"] === $page->username()) {
+							echo '<p class="comment-role">Author</p>';
+						} elseif (isset($user["role"]) && $user["role"] === "admin") {
+							echo '<p class="comment-role">Admin</p>';
+						}
 					?>
 				</div>
 

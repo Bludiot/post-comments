@@ -217,10 +217,10 @@ class Comments_System
                 if (!is_dir($dir . $theme) || in_array($theme, array(".", ".."))) {
                     continue;
                 }
-                if (!file_exists($dir . $theme . DS . "template-default.php")) {
+                if (!file_exists($dir . $theme . DS . "template.php")) {
                     continue;
                 }
-                require_once($dir . $theme . DS . "template-default.php");
+                require_once($dir . $theme . DS . "template.php");
 
                 // Load Class
                 if (!class_exists(ucFirst($theme) . "_Template")) {
