@@ -78,8 +78,8 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
 
 <div class="tab-content">
 	<?php
-	include "index-comments.php";
-	include "index-users.php";
+	include "comments.php";
+	include "users.php";
 	include "settings.php";
 	?>
 </div>
