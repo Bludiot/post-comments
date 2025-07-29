@@ -177,7 +177,7 @@ class Post_Comments extends Plugin {
 			'frontend_form'         => 'top',
 			'frontend_per_page'     => 15,
 			'frontend_ajax'         => true,
-			'frontend_avatar'       => 'gravatar',
+			'frontend_avatar'       => 'static',
 			'frontend_avatar_users' => true,
 			'frontend_gravatar'     => 'mp',
 			'subscription'          => false,
