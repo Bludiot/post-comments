@@ -24,7 +24,8 @@ $page = new Page($pages->getByUUID($data["page_uuid"]));
 
 		<div class="float-right mt-1">
 			<button class="btn btn-primary" name="type" value="edit"><?php sn_e("Update"); ?></button>
-			<button class="btn btn-danger" name="type" value="delete"><?php sn_e("Delete"); ?></button>
+			<a class="btn btn-secondary" f
+			href="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker"><?php sn_e("Cancel"); ?></a>
 		</div>
 		<h1 class="page-title"><span class="page-title-icon fa fa-comments"></span><span class="page-title-text"><?php sn_e( 'Edit Comment' ); ?></span></h1>
 	</div>

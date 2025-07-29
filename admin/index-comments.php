@@ -152,7 +152,7 @@ foreach ($tabs as $status) {
 						<span class="d-inline-block"><?php echo $user["username"]; ?></span>
 						<small class='d-block'><?php echo $user["email"]; ?></small>
 					</td>
-					<td class="">
+					<td class="text-center align-middle" align="middle">
 						<div class="comment-actions" style="position: relative;">
 							<button class="dropdown-toggle button btn btn-sm" data-toggle="dropdown">
 								<?php sn_e("Manage"); ?>
