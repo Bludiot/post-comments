@@ -616,7 +616,7 @@ class Post_Comments extends Plugin {
 	 */
 	private function backup()
 	{
-		$filename = "snicker-backup-" . time() . ".zip";
+		$filename = "comments-backup-" . time() . ".zip";
 
 		// Create Backup
 		$zip = new PIT\Zip();
@@ -768,11 +768,11 @@ class Post_Comments extends Plugin {
 							</div>
 							<div class="modal-body">
 								<p>
-									<?php sn_e("You are about to deactivate the Post Comments Plugin, which will delete all written comments!"); ?>
+									<?php sn_e("You are about to deactivate the Post Comments plugin, which will delete all written comments!"); ?>
 									<?php sn_e("Do you want to Backup your comments before?"); ?>
 								</p>
 								<p>
-									<?php sn_e("The Backup will be stored in %s!", array("<code>./bl-content/tmp/</code>")); ?>
+									<?php sn_e("The Backup will be stored in %s", array("<code>./bl-content/tmp/</code>")); ?>
 								</p>
 							</div>
 							<div class="modal-footer">
