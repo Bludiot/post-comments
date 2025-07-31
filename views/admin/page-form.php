@@ -9,34 +9,36 @@
  */
 
 ?>
+<p class="page-description"><?php sn_e( 'Settings and text options for the comments system.' ); ?></p>
+
 <nav id="nav-tabs">
-	<ul class="nav nav-tabs" data-handle="tabs">
+	<ul class="nav nav-tabs" id="nav-tab" role="tablist">
 		<li class="nav-item">
-			<a id="general-tab" href="#general" class="nav-link active" data-toggle="tab">
+			<a id="nav-general-tab" href="#general" class="nav-link active" data-toggle="tab" role="tab" aria-controls="nav-general" aria-selected="false">
 				<?php sn_e( 'General' ); ?>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a id="frontend-tab" href="#frontend" class="nav-link" data-toggle="tab">
+			<a id="nav-frontend-tab" href="#frontend" class="nav-link" data-toggle="tab" role="tab" aria-controls="nav-frontend" aria-selected="false">
 				<?php sn_e( 'Frontend' ); ?>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a id="text-tab" href="#text" class="nav-link" data-toggle="tab">
+			<a id="nav-text-tab" href="#text" class="nav-link" data-toggle="tab" role="tab" aria-controls="nav-text" aria-selected="false">
 				<?php sn_e( 'Text' ); ?>
 			</a>
 		</li>
 	</ul>
 </nav>
 
-<div class="tab-content">
-	<div id="general" class="tab-pane active">
+<div id="tab-content" class="tab-content">
+	<div id="general" class="tab-pane fade show active" role="tabpanel" aria-labelledby="general-tab">
 		<?php include( $this->phpPath() . '/views/admin/fields-general.php' ); ?>
 	</div>
-	<div id="frontend" class="tab-pane">
+	<div id="frontend" class="tab-pane fade" role="tabpanel" aria-labelledby="frontend-tab">
 		<?php include( $this->phpPath() . '/views/admin/fields-frontend.php' ); ?>
 	</div>
-	<div id="text" class="tab-pane">
+	<div id="text" class="tab-pane fade" role="tabpanel" aria-labelledby="text-tab">
 		<?php include( $this->phpPath() . '/views/admin/fields-text.php' ); ?>
 	</div>
 </div>
