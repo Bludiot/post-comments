@@ -192,8 +192,7 @@ class Post_Comments extends Plugin {
 			'frontend_form'         => 'top',
 			'frontend_per_page'     => 15,
 			'frontend_ajax'         => true,
-			'frontend_avatar'       => 'static',
-			'frontend_avatar_users' => true,
+			'frontend_avatar'       => 'mystery',
 			'subscription'          => false,
 			'subscription_from'     => "ticker@{$_SERVER['SERVER_NAME']}",
 			'subscription_reply'    => "noreply@{$_SERVER['SERVER_NAME']}",
@@ -613,7 +612,7 @@ class Post_Comments extends Plugin {
 				'recaptchav3'
 			],
 			'frontend_avatar' => [
-				'static',
+				'mystery',
 				'initials'
 			],
 			'frontend_filter' => [

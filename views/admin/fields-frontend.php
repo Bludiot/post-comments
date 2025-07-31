@@ -151,14 +151,8 @@ $static = $pages->getStaticDB( false );
 	<label for="avatar" class="col-sm-2 col-form-label"><?php sn_e( 'Default Avatar' ); ?></label>
 	<div class="col-sm-10">
 		<select id="avatar" name="frontend_avatar" class="form-select">
-			<option value="static" <?php sn_selected( 'frontend_avatar', 'static' ); ?>><?php sn_e( 'Mystery Men' ); ?></option>
+			<option value="mystery" <?php sn_selected( 'frontend_avatar', 'mystery' ); ?>><?php sn_e( 'Mystery Men' ); ?></option>
 			<option value="none" <?php sn_selected( 'frontend_avatar', 'none' ); ?>><?php sn_e( 'No Avatar' ); ?></option>
 		</select>
-
-		<div class="custom-control custom-checkbox mt-1">
-			<input type="checkbox" id="moderation-users" name="frontend_avatar_users" value="true"
-					class="custom-control-input" <?php sn_checked( 'frontend_avatar_users' ); ?> />
-			<label class="custom-control-label" for="moderation-users"><?php sn_e( 'Use & Prefer profile pictures on logged-in Users' ); ?></label>
-		</div>
 	</div>
 </div>

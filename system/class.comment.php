@@ -464,10 +464,7 @@ class Comment
 		$avatar = $this->avatar_url($size);
 
 		// Force Profile Picture
-		$force = false;
-		if (sn_config("frontend_avatar_users")) {
-			$force = (strpos($avatar, DOMAIN_UPLOADS_PROFILES) !== false);
-		}
+		$force = (strpos($avatar, DOMAIN_UPLOADS_PROFILES) !== false);
 
 		// Return IMG Tag
 		return '<img src="' . $avatar . '" width="' . $size . 'px" height="' . $size . 'px" alt="' . $user . '" />';
@@ -482,7 +479,7 @@ class Comment
 		global $users;
 
 		// Return Profile Picture
-		if (sn_config("frontend_avatar_users") && strpos($this->getValue("author"), "bludit") === 0) {
+		if ( strpos($this->getValue("author"), "bludit") === 0) {
 			$username = substr($this->getValue("author"), strlen("bludit::"));
 			if ($users->exists($username)) {
 				$user = new User($username);
