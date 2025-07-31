@@ -38,9 +38,9 @@ $static = $pages->getStaticDB( false );
 <h2 class="form-heading"><?php sn_e( 'Frontend Settings' ); ?></h2>
 
 <div class="form-group row">
-	<label for="sn-filter" class="col-sm-2 col-form-label"><?php sn_e( 'Theme Hook' ); ?></label>
+	<label for="filter" class="col-sm-2 col-form-label"><?php sn_e( 'Theme Hook' ); ?></label>
 	<div class="col-sm-10">
-		<select id="sn-filter" name="frontend_filter" class="form-select">
+		<select id="filter" name="frontend_filter" class="form-select">
 
 			<option value="disabled" <?php sn_selected( 'frontend_filter', 'disabled' ); ?>><?php sn_e( 'No Hook' ); ?></option>
 
@@ -62,9 +62,9 @@ $static = $pages->getStaticDB( false );
 </div>
 
 <div class="form-group row">
-	<label for="sn-captcha" class="col-sm-2 col-form-label"><?php sn_e( 'Comment Captcha' ); ?></label>
+	<label for="captcha" class="col-sm-2 col-form-label"><?php sn_e( 'Comment Captcha' ); ?></label>
 	<div class="col-sm-10">
-		<select id="sn-captcha" name="frontend_captcha" class="form-select">
+		<select id="captcha" name="frontend_captcha" class="form-select">
 			<option value="disabled" <?php sn_selected( 'frontend_captcha', 'disabled' ); ?>><?php sn_e( 'Disable Captcha' ); ?></option>
 			<option value="purecaptcha" <?php sn_selected( 'frontend_captcha', 'purecaptcha' ); ?>><?php sn_e( 'Use OWASP\'s PureCaptcha' ); ?></option>
 			<?php if (function_exists( 'imagettfbbox' )) { ?>
@@ -78,9 +78,9 @@ $static = $pages->getStaticDB( false );
 </div>
 
 <div class="form-group row">
-	<label for="sn-template" class="col-sm-2 col-form-label"><?php sn_e( 'Comments Theme' ); ?></label>
+	<label for="template" class="col-sm-2 col-form-label"><?php sn_e( 'Comments Theme' ); ?></label>
 	<div class="col-sm-10">
-		<select id="sn-template" name="frontend_template" class="form-select">
+		<select id="template" name="frontend_template" class="form-select">
 			<?php
 			foreach ($comments_core->themes as $key => $theme) {
 				?>
@@ -93,9 +93,9 @@ $static = $pages->getStaticDB( false );
 </div>
 
 <div class="form-group row">
-	<label for="sn-order" class="col-sm-2 col-form-label"><?php sn_e( 'Comment Order' ); ?></label>
+	<label for="order" class="col-sm-2 col-form-label"><?php sn_e( 'Comment Order' ); ?></label>
 	<div class="col-sm-10">
-		<select id="sn-order" name="frontend_order" class="form-select">
+		<select id="order" name="frontend_order" class="form-select">
 			<option value="date_desc" <?php sn_selected( 'frontend_order", "date_desc' ); ?>><?php sn_e( 'Newest Comments First' ); ?></option>
 			<option value="date_asc" <?php sn_selected( 'frontend_order", "date_asc' ); ?>><?php sn_e( 'Oldest Comments First' ); ?></option>
 		</select>
@@ -103,9 +103,9 @@ $static = $pages->getStaticDB( false );
 </div>
 
 <div class="form-group row">
-	<label for="sn-order" class="col-sm-2 col-form-label"><?php sn_e( 'Comment Form Position' ); ?></label>
+	<label for="order" class="col-sm-2 col-form-label"><?php sn_e( 'Comment Form Position' ); ?></label>
 	<div class="col-sm-10">
-		<select id="sn-order" name="frontend_form" class="form-select">
+		<select id="order" name="frontend_form" class="form-select">
 			<option value="top" <?php sn_selected( 'frontend_form", "top' ); ?>><?php sn_e( 'Show Comment Form above Comments' ); ?></option>
 			<option value="bottom" <?php sn_selected( 'frontend_form", "bottom' ); ?>><?php sn_e( 'Show Comment Form below Comments' ); ?></option>
 		</select>
@@ -113,19 +113,19 @@ $static = $pages->getStaticDB( false );
 </div>
 
 <div class="form-group row">
-	<label for="sn-per-page" class="col-sm-2 col-form-label"><?php sn_e( 'Comments Per Page' ); ?></label>
+	<label for="per-page" class="col-sm-2 col-form-label"><?php sn_e( 'Comments Per Page' ); ?></label>
 	<div class="col-sm-10">
-		<input type="number" id="sn-per-page" name="frontend_per_page" value="<?php echo sn_config( 'frontend_per_page' ); ?>"
+		<input type="number" id="per-page" name="frontend_per_page" value="<?php echo sn_config( 'frontend_per_page' ); ?>"
 				class="form-control" min="0" step="1" placheolder="<?php sn_e( 'Use 0 to show all available comments!' ); ?>" />
 		<small class="form-text text-muted"><?php sn_e( 'Use 0 to show all available comments!' ); ?></small>
 	</div>
 </div>
 
 <div class="form-group row">
-	<label for="sn-terms" class="col-sm-2 col-form-label"><?php sn_e( 'Terms of Use Checkbox' ); ?></label>
+	<label for="terms" class="col-sm-2 col-form-label"><?php sn_e( 'Terms of Use Checkbox' ); ?></label>
 	<div class="col-sm-10">
-		<select id="sn-terms" name="frontend_terms" class="form-select">
-			<option value="disabled" <?php sn_selected( 'frontend_terms", "disabled' ); ?>><?php sn_e( 'Disable this field' ); ?></option>
+		<select id="terms" name="frontend_terms" class="form-select">
+			<option value="disabled" <?php sn_selected( 'frontend_terms", "disabled' ); ?>><?php sn_e( 'Disabled' ); ?></option>
 			<option value="default" <?php sn_selected( 'frontend_terms", "default' ); ?>><?php sn_e( 'Show Message (See Strings)' ); ?></option>
 
 			<?php foreach ($static as $key => $value) { ?>
@@ -137,9 +137,9 @@ $static = $pages->getStaticDB( false );
 </div>
 
 <div class="form-group row">
-	<label for="sn-ajax" class="col-sm-2 col-form-label"><?php sn_e( 'AJAX Script' ); ?></label>
+	<label for="ajax" class="col-sm-2 col-form-label"><?php sn_e( 'AJAX Script' ); ?></label>
 	<div class="col-sm-10">
-		<select id="sn-ajax" name="frontend_ajax" class="form-select">
+		<select id="ajax" name="frontend_ajax" class="form-select">
 			<option value="true" <?php sn_selected( 'frontend_ajax', true ); ?>><?php sn_e( 'Embed AJAX Script' ); ?></option>
 			<option value="false" <?php sn_selected( 'frontend_ajax', false ); ?>><?php sn_e( 'Don\'t use AJAX' ); ?></option>
 		</select>
@@ -148,16 +148,17 @@ $static = $pages->getStaticDB( false );
 </div>
 
 <div class="form-group row">
-	<label for="sn-avatar" class="col-sm-2 col-form-label"><?php sn_e( 'Comment Avatar' ); ?></label>
+	<label for="avatar" class="col-sm-2 col-form-label"><?php sn_e( 'Default Avatar' ); ?></label>
 	<div class="col-sm-10">
-		<select id="sn-avatar" name="frontend_avatar" class="form-select">
-			<option value="static" <?php sn_selected( 'frontend_avatar", "static' ); ?>><?php sn_e( 'Use Mystery Men' ); ?></option>
+		<select id="avatar" name="frontend_avatar" class="form-select">
+			<option value="static" <?php sn_selected( 'frontend_avatar', 'static' ); ?>><?php sn_e( 'Mystery Men' ); ?></option>
+			<option value="none" <?php sn_selected( 'frontend_avatar', 'none' ); ?>><?php sn_e( 'No Avatar' ); ?></option>
 		</select>
 
 		<div class="custom-control custom-checkbox mt-1">
-			<input type="checkbox" id="sn-moderation-users" name="frontend_avatar_users" value="true"
+			<input type="checkbox" id="moderation-users" name="frontend_avatar_users" value="true"
 					class="custom-control-input" <?php sn_checked( 'frontend_avatar_users' ); ?> />
-			<label class="custom-control-label" for="sn-moderation-users"><?php sn_e( 'Use & Prefer profile pictures on logged-in Users' ); ?></label>
+			<label class="custom-control-label" for="moderation-users"><?php sn_e( 'Use & Prefer profile pictures on logged-in Users' ); ?></label>
 		</div>
 	</div>
 </div>
