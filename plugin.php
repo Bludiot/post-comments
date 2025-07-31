@@ -223,16 +223,16 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object $comments_core  The Comments_Core class.
 	 * @global object $comments_index The Comments_Index class.
 	 * @global object $comments_users The Comments_Users class.
 	 * @global object $comments_votes The Comments_Votes class.
-	 * @global object $comments_core The Comments_Core class.
 	 * @return void
 	 */
 	public function installed() {
 
 		// Access global variables.
-		global $comments_index, $comments_users, $comments_votes, $comments_core;
+		global $comments_core, $comments_index, $comments_users, $comments_votes;
 
 		if ( file_exists( $this->filenameDb ) ) {
 			if ( ! defined( 'POST_COMMENTS' ) ) {
@@ -361,13 +361,15 @@ class Post_Comments extends Plugin {
 	 * @since  1.0.0
 	 * @access public
 	 * @global object $comments_core The Comments_Core class.
+	 * @global object $login The Login class.
+	 * @global object $security The Security class.
 	 * @global object $url The Url class.
 	 * @return mixed
 	 */
 	public function request() {
 
 		// Access global variables.
-		global $login, $comments_core, $security, $url;
+		global $comments_core, $login, $security, $url;
 
 		// POST/GET request.
 		if ( isset( $_POST['action'] ) && $_POST['action'] === 'comments' ) {
@@ -491,6 +493,8 @@ class Post_Comments extends Plugin {
 	 * @since  1.0.0
 	 * @access private
 	 * @param  array $data
+	 * @global object $comments_index The Comments_Index class.
+	 * @global object $comments_users The Comments_Users class.
 	 * @return void
 	 */
 	private function user( $data ) {
@@ -560,14 +564,14 @@ class Post_Comments extends Plugin {
 	 * @since  1.0.0
 	 * @access private
 	 * @param  array $data Data to be configured.
-	 * @global object $pages The Pages class.
 	 * @global object $comments_core The Comments_Core class.
+	 * @global object $pages The Pages class.
 	 * @return void
 	 */
 	private function config( $data ) {
 
 		// Access global variables.
-		global $pages, $comments_core;
+		global $comments_core, $pages;
 
 		// Validations.
 		$config = [];
@@ -773,17 +777,24 @@ class Post_Comments extends Plugin {
 		}
 	}
 
-	/*
-	 |  HOOK :: LOAD ADMINISTRATION FILES
-	 |  @since  0.1.0
+	/**
+	 * Admin head
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object $page The Page class.
+	 * @global object $security The Security class.
+	 * @global object $url The Url class.
+	 * @return void
 	 */
-	public function adminHead()
-	{
+	public function adminHead() {
+
+		// Access global variables.
 		global $page, $security, $url;
 
-		$js   = PC_DOMAIN . "assets/js/";
-		$css  = PC_DOMAIN . "assets/css/";
-		$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
+		$js   = PC_DOMAIN . 'assets/js/';
+		$css  = PC_DOMAIN . 'assets/css/';
+		$slug = explode( '/', str_replace( HTML_PATH_ADMIN_ROOT, '', $url->uri() ) );
 
 		// Maybe get non-minified assets.
 		$suffix = '.min';
@@ -793,113 +804,127 @@ class Post_Comments extends Plugin {
 
 		// Admin Header
 		ob_start();
-		if ($slug[0] === "new-content" || $slug[0] === "edit-content") {
-			?>
-			<script type="text/javascript">
-				(function () {
-					"use strict";
-					var w = window, d = window.document;
+		if ( $slug[0] === 'new-content' || $slug[0] === 'edit-content' ) {
 
-					// Render Field
-					var HANDLE_COMMENTS_FIELD = '<?php echo Bootstrap::formSelectBlock(array(
-						'name' => 'allowComments',
-						'label' => sn__('Page Comments'),
-						'selected' => (!$page) ? '1' : ($page->allowComments() ? '1' : '0'),
-						'class' => '',
-						'options' => array(
-							'1' => sn__('Allow Comments'),
-							'0' => sn__('Disallow Comments')
-						)
-					)); ?>';
+		?>
+		<script type="text/javascript">
+			(function () {
+				'use strict';
+				var w = window, d = window.document;
 
-					// Ready ?
-					d.addEventListener("DOMContentLoaded", function () {
-						if (d.querySelector("#jscategory")) {
-							var form = d.querySelector("#jscategory").parentElement;
-							form.insertAdjacentHTML("afterend", HANDLE_COMMENTS_FIELD);
-						}
+				// Render Field
+				var HANDLE_COMMENTS_FIELD = '<?php echo Bootstrap :: formSelectBlock( [
+					'name'     => 'allowComments',
+					'label'    => sn__( 'Page Comments' ),
+					'selected' => ( ! $page) ? '1' : ( $page->allowComments() ? '1' : '0' ),
+					'class'    => '',
+					'options'  => [
+						'1' => sn__( 'Allow Comments' ),
+						'0' => sn__( 'Disallow Comments' )
+					]
+				] ); ?>';
+
+				// Ready ?
+				d.addEventListener("DOMContentLoaded", function () {
+					if (d.querySelector("#jscategory")) {
+						var form = d.querySelector("#jscategory").parentElement;
+						form.insertAdjacentHTML("afterend", HANDLE_COMMENTS_FIELD);
+					}
+				});
+			}());
+		</script>
+		<?php
+
+		} elseif ($slug[0] === 'comments') {
+
+		?>
+		<script type="text/javascript" src="<?php echo $js; ?>admin.comments<?php echo $suffix; ?>.js"></script>
+		<link type="text/css" rel="stylesheet" href="<?php echo $css; ?>admin.comments.css" />
+		<?php
+
+		} elseif ($slug[0] === 'plugins') {
+
+			$link = DOMAIN_ADMIN . 'comments?action=comments&comments=backup&tokenCSRF=' . $security->getTokenCSRF();
+		?>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", function () {
+				var link = document.querySelector("tr#Post_Comments td a");
+				if (link) {
+					link.addEventListener("click", function (event) {
+						event.preventDefault();
+						jQuery("#dialog-deactivate-comments").modal();
 					});
-				}());
-			</script>
-			<?php
-		} elseif ($slug[0] === "comments") {
-			?>
-				<script type="text/javascript" src="<?php echo $js; ?>admin.comments<?php echo $suffix; ?>.js"></script>
-				<link type="text/css" rel="stylesheet" href="<?php echo $css; ?>admin.comments.css" />
-			<?php
-		} elseif ($slug[0] === "plugins") {
-			$link = DOMAIN_ADMIN . "comments?action=comments&comments=backup&tokenCSRF=" . $security->getTokenCSRF();
-			?>
-					<script type="text/javascript">
-						document.addEventListener("DOMContentLoaded", function () {
-							var link = document.querySelector("tr#Post_Comments td a");
-							if (link) {
-								link.addEventListener("click", function (event) {
-									event.preventDefault();
-									jQuery("#dialog-deactivate-comments").modal();
-								});
-								jQuery("#dialog-deactivate-comments button[data-comments='backup']").click(function () {
-									console.log("owo");
-									window.location.replace("<?php echo $link; ?>&referer=" + link.href);
-								});
-								jQuery("#dialog-deactivate-comments button[data-comments='deactivate']").click(function () {
-									window.location.replace(link.href);
-								});
-							}
-						})
-					</script>
-			<?php
+					jQuery("#dialog-deactivate-comments button[data-comments='backup']").click(function () {
+						console.log("owo");
+						window.location.replace("<?php echo $link; ?>&referer=" + link.href);
+					});
+					jQuery("#dialog-deactivate-comments button[data-comments='deactivate']").click(function () {
+						window.location.replace(link.href);
+					});
+				}
+			})
+		</script>
+		<?php
 		}
 		$content = ob_get_contents();
 		ob_end_clean();
 		return $content;
 	}
 
-	/*
-	 |  HOOK :: BEFORE ADMIN CONTENT
-	 |  @since  0.1.0
+	/**
+	 * Admin body begin
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return mixed
 	 */
-	public function adminBodyBegin()
-	{
-		if (!$this->backend || !$this->backend_view) {
+	public function adminBodyBegin() {
+		if ( ! $this->backend || ! $this->backend_view ) {
 			return false;
 		}
 		ob_start();
 	}
 
-	/*
-	 |  HOOK :: AFTER ADMIN CONTENT
-	 |  @since  0.1.0
-	 */
-	public function adminBodyEnd()
-	{
-		global $url, $comments_plugin;
-		if (!$this->backend || !$this->backend_view) {
-			$slug = explode("/", str_replace(HTML_PATH_ADMIN_ROOT, "", $url->uri()));
-			if ($slug[0] === "plugins") {
+	/**
+	 * Admin body end
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object $comments_plugin This class.
+	 * @global object $url The Url class.
+	 * @return boolean Returns false after printing markup.
+ 	 */
+	public function adminBodyEnd() {
+
+		// Access global variables.
+		global $comments_plugin, $url;
+
+		if ( ! $this->backend || ! $this->backend_view ) {
+			$slug = explode( '/', str_replace( HTML_PATH_ADMIN_ROOT, '', $url->uri() ) );
+			if ( $slug[0] === 'plugins' ) {
 				?>
 				<div id="dialog-deactivate-comments" class="modal fade" role="dialog">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title"><?php sn_e("Post Comments Deactivation"); ?></h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<h5 class="modal-title"><?php sn_e( 'Post Comments Deactivation' ); ?></h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="<?php sn_e( 'Close' ); ?>">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
 								<p>
-									<?php sn_e("You are about to deactivate the Post Comments plugin, which will delete all written comments!"); ?>
-									<?php sn_e("Do you want to Backup your comments before?"); ?>
+									<?php sn_e( 'You are about to deactivate the Post Comments plugin, which will delete all written comments.' ); ?>
+									<?php sn_e( 'Do you want to Backup your comments before?' ); ?>
 								</p>
 								<p>
-									<?php sn_e("The Backup will be stored in %s", array("<code>./bl-content/tmp/</code>")); ?>
+									<?php sn_e( 'The Backup will be stored in %s', [ '<code>./bl-content/tmp/</code>' ] ); ?>
 								</p>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-comments="backup"><?php sn_e("Yes, create a Backup"); ?></button>
-								<button type="button" class="btn btn-danger" data-comments="deactivate"><?php sn_e("No, just Deactivate"); ?></button>
-								<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php sn_e("Cancel"); ?></button>
+								<button type="button" class="btn btn-primary" data-comments="backup"><?php sn_e( 'Yes, create a Backup' ); ?></button>
+								<button type="button" class="btn btn-danger" data-comments="deactivate"><?php sn_e( 'No, just Deactivate' ); ?></button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php sn_e( 'Cancel' ); ?></button>
 							</div>
 						</div>
 					</div>
@@ -909,22 +934,22 @@ class Post_Comments extends Plugin {
 			return false;
 		}
 
-		// Fetch Content
+		// Fetch content.
 		$content = ob_get_contents();
 		ob_end_clean();
 
-		// Admin Content
+		// Admin content.
 		ob_start();
-		if (file_exists(PC_PATH . "views/admin" . DS . "{$this->backend_view}.php")) {
-			require PC_PATH . "views/admin" . DS . "{$this->backend_view}.php";
+		if ( file_exists( PC_PATH . 'views/admin' . DS . "{$this->backend_view}.php" ) ) {
+			require PC_PATH . 'views/admin' . DS . "{$this->backend_view}.php";
 			$add = ob_get_contents();
 		}
 		ob_end_clean();
 
-		// Inject Code
-		if (isset($add) && !empty($add)) {
+		// Inject code.
+		if ( isset( $add ) && ! empty( $add ) ) {
 			$regexp = "#(\<div class=\"col-lg-10 pt-3 pb-1 h-100\"\>)(.*?)(\<\/div\>)#s";
-			$content = preg_replace($regexp, "$1{$add}$3", $content);
+			$content = preg_replace( $regexp, "$1{$add}$3", $content );
 		}
 		print ($content);
 	}
@@ -948,22 +973,27 @@ class Post_Comments extends Plugin {
 		return $html;
 	}
 
-	/*
-	 |  HOOK :: SHOW SIDEBAR MENU
-	 |  @since  0.1.0
+	/**
+	 * Admin sidebar
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object $comments_index The Comments_Index class.
+	 * @return void
 	 */
-	public function adminSidebar()
-	{
+	public function adminSidebar() {
+
+		// Access global variables.
 		global $comments_index;
 
-		$count = $comments_index->count("pending");
-		$count = ($count > 99) ? "99+" : $count;
+		$count = $comments_index->count( 'pending' );
+		$count = ( $count > 99 ) ? '99+' : $count;
 
 		ob_start();
 		?>
 		<a href="<?php echo HTML_PATH_ADMIN_ROOT; ?>comments" class="nav-link" style="white-space: nowrap;">
-			<span class="fa fa-comments"></span> <?php sn_e("Comments"); ?>
-			<?php if (!empty($count)) { ?>
+			<span class="fa fa-comments"></span> <?php sn_e( 'Comments' ); ?>
+			<?php if ( ! empty( $count ) ) { ?>
 				<span class="badge badge-success badge-pill"><?php echo $count; ?></span>
 			<?php } ?>
 		</a>
@@ -973,43 +1003,40 @@ class Post_Comments extends Plugin {
 		return $content;
 	}
 
-
-	##
-##  FRONTEND HOOKs
-##
-
-	/*
-	 |  HOOK :: BEFORE FRONTEND LOAD
-	 |  @since  0.1.0
-	 |  @update 0.1.2
+	/**
+	 * Before site load
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object The Comments class.
+	 * @global object The Page class.
+	 * @global object $url The Url class.
+	 * @return void
 	 */
-	public function beforeSiteLoad()
-	{
+	public function beforeSiteLoad() {
+
+		// Access global variables.
 		global $comments, $page, $url;
 
-		// Start Session
-		if (!Session::started()) {
-			Session::start('', true);
+		// Start session.
+		if ( ! Session :: started() ) {
+			Session :: start( '', true );
 		}
 
-		// Init Comments
-		if (is_a($page, "Page") && $page->published() && !empty($page->uuid())) {
-			$comments = new Comments($page->uuid());
+		// Initiate comments.
+		if ( is_a( $page, 'Page' ) && $page->published() && ! empty( $page->uuid() ) ) {
+			$comments = new Comments( $page->uuid() );
 		} else {
 			$comments = false;
 		}
 	}
 
-	/*
-	 |  HOOK :: FRONTEND HEADER
-	 |  @since  0.1.0
-	 */
-
 	/**
-	 * Site head hook
+	 * Site head
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object The Comments_Core class.
 	 * @return void
 	 */
 	public function siteHead() {
@@ -1047,6 +1074,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object The Comments_Core class.
 	 * @return void
 	 */
 	public function comments_full() {
@@ -1065,6 +1093,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object The Comments_Core class.
 	 * @return void
 	 */
 	public function siteBodyBegin() {
@@ -1083,6 +1112,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object The Comments_Core class.
 	 * @return void
 	 */
 	public function pageBegin() {
@@ -1101,6 +1131,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object The Comments_Core class.
 	 * @return void
 	 */
 	public function pageEnd() {
@@ -1119,6 +1150,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object The Comments_Core class.
 	 * @return void
 	 */
 	public function siteBodyEnd() {
