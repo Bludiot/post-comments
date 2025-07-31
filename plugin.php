@@ -51,6 +51,7 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object $comments_plugin Instance of this class.
 	 * @return self
 	 */
 	public function __construct() {
@@ -126,8 +127,10 @@ class Post_Comments extends Plugin {
 	 *
 	 * Supersedes parent method.
 	 *
-	 * @param [type] $field
-	 * @param boolean $html
+	 * @since  1.0.0
+	 * @access public
+	 * @param  mixed $field
+	 * @param  boolean $html
 	 * @return void
 	 */
 	public function getValue( $field, $html = true ) {
@@ -300,6 +303,7 @@ class Post_Comments extends Plugin {
 	 *                     Any additional data, which should return
 	 *                     to the client. AJAX only.
 	 * @param  mixed $key
+	 * @global object $url The Url class.
 	 * @return void This method calls the `die()` method at any time.
 	 */
 	public function response( $data = [], $key = null ) {
@@ -352,12 +356,14 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object $post_comments The Comments_System class.
+	 * @global object $url The Url class.
 	 * @return mixed
 	 */
 	public function request() {
 
 		// Access global variables.
-		global $login, $security, $url, $post_comments;
+		global $login, $post_comments, $security, $url;
 
 		// POST/GET request.
 		if ( isset( $_POST['action'] ) && $_POST['action'] === 'comments' ) {
@@ -476,10 +482,10 @@ class Post_Comments extends Plugin {
 	}
 
 	/**
-	 * Handle users.
+	 * Handle users
 	 *
 	 * @since  1.0.0
-	 * @access public
+	 * @access private
 	 * @param  array $data
 	 * @return void
 	 */
@@ -544,57 +550,107 @@ class Post_Comments extends Plugin {
 		], 'alert' );
 	}
 
-	/*
-	 |  API :: HANDLE CONFIGURATION
-	 |  @since  0.1.0
-	 |  @update 0.2.0
+	/**
+	 * Handle plugin settings
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @param  array $data Data to be configured.
+	 * @global object $pages The Pages class.
+	 * @global object $post_comments The Comments_System class.
+	 * @return void
 	 */
-	private function config($data) {
+	private function config( $data ) {
 
 		// Access global variables.
 		global $pages, $post_comments;
-		$config = array();
 
-		// Validations
-		$text = array("frontend_recaptcha_public", "frontend_recaptcha_private");
-		$numbers = array("comment_limit", "comment_depth", "frontend_per_page");
-		$selects = array(
-			"comment_title" => array("optional", "required", "disabled"),
-			"comment_vote_storage" => array("cookie", "session", "database"),
-			"frontend_captcha" => array("disabled", "purecaptcha", "gregwar", "recaptchav2", "recaptchav3"),
-			"frontend_avatar" => array( "static", "initials"),
-			"frontend_filter" => array("disabled", "comments_full", "pageBegin", "pageEnd", "siteBodyBegin", "siteBodyEnd"),
-			"frontend_order" => array("date_desc", "date_asc"),
-			"frontend_form" => array("top", "bottom")
-		);
-		$emails = array("subscription_from", "subscription_reply");
-		$pageid = array("frontend_terms", "subscription_optin", "subscription_ticker");
+		// Validations.
+		$config = [];
+		$text = [
+			'frontend_recaptcha_public',
+			'frontend_recaptcha_private'
+		];
+		$numbers = [
+			'comment_limit',
+			'comment_depth',
+			'frontend_per_page'
+		];
+		$selects = [
+			'comment_title' => [
+				'optional',
+				'required',
+				'disabled'
+			],
+			'comment_vote_storage' => [
+				'cookie',
+				'session',
+				'database'
+			],
+			'frontend_captcha' => [
+				'disabled',
+				'purecaptcha',
+				'gregwar',
+				'recaptchav2',
+				'recaptchav3'
+			],
+			'frontend_avatar' => [
+				'static',
+				'initials'
+			],
+			'frontend_filter' => [
+				'disabled',
+				'comments_full',
+				'pageBegin',
+				'pageEnd',
+				'siteBodyBegin',
+				'siteBodyEnd'
+			],
+			'frontend_order' => [
+				'date_desc',
+				'date_asc'
+			],
+			'frontend_form' => [
+				'top',
+				'bottom'
+				]
+		];
+		$emails = [
+			'subscription_from',
+			'subscription_reply'
+		];
+		$pageid = [
+			'frontend_terms',
+			'subscription_optin',
+			'subscription_ticker'
+		];
 
-		// Loop DB Fields
-		foreach ($this->dbFields as $field => $value) {
-			if (!isset($data[$field])) {
-				$config[$field] = is_bool($value) ? false : "";
+		// Loop database fields.
+		foreach ( $this->dbFields as $field => $value ) {
+
+			if ( ! isset( $data[$field] ) ) {
+				$config[$field] = is_bool( $value ) ? false : '';
 				continue;
 			}
 
-			// Sanitize Booleans
-			if (is_bool($value)) {
-				$config[$field] = ($data[$field] === "true" || $data[$field] === true);
+			// Sanitize booleans.
+			if ( is_bool( $value ) ) {
+				$config[$field] = ( 'true' === $data[$field] || true === $data[$field] );
 				continue;
 			}
 
-			// Sanitize Numbers
-			if (in_array($field, $numbers)) {
-				if ($data[$field] < 0 || !is_numeric($data[$field])) {
+			// Sanitize numbers.
+			if ( in_array( $field, $numbers ) ) {
+				if ( $data[$field] < 0 || ! is_numeric( $data[$field] ) ) {
 					$config[$field] = 0;
 				}
 				$config[$field] = (int) $data[$field];
 				continue;
 			}
 
-			// Sanitize Selection
-			if (array_key_exists($field, $selects)) {
-				if (in_array($data[$field], $selects[$field])) {
+			// Sanitize selection.
+			if ( array_key_exists( $field, $selects ) ) {
+				if ( in_array( $data[$field], $selects[$field] ) ) {
 					$config[$field] = $data[$field];
 				} else {
 					$config[$field] = $value;
@@ -602,20 +658,20 @@ class Post_Comments extends Plugin {
 				continue;
 			}
 
-			// Sanitize eMails
-			if (in_array($field, $emails)) {
-				if (Valid::email($data[$field])) {
-					$config[$field] = Sanitize::email($data[$field]);
+			// Sanitize emails.
+			if ( in_array( $field, $emails ) ) {
+				if ( Valid :: email( $data[$field] ) ) {
+					$config[$field] = Sanitize :: email( $data[$field] );
 				} else {
 					$config[$field] = $value;
 				}
 				continue;
 			}
 
-			// Sanitize Pages
-			if (in_array($field, $pageid)) {
-				$default = in_array($data[$field], array("default", "disabled"));
-				if ($default || $pages->exists($data[$field])) {
+			// Sanitize pages.
+			if ( in_array( $field, $pageid ) ) {
+				$default = in_array( $data[$field], [ 'default', 'disabled' ] );
+				if ( $default || $pages->exists( $data[$field] ) ) {
 					$config[$field] = $data[$field];
 				} else {
 					$config[$field] = $value;
@@ -623,9 +679,9 @@ class Post_Comments extends Plugin {
 				continue;
 			}
 
-			// Sanitize Template
-			if ($field == "frontend_template") {
-				if ($post_comments->hasTheme($data[$field])) {
+			// Sanitize template.
+			if ( $field == 'frontend_template' ) {
+				if ( $post_comments->hasTheme( $data[$field] ) ) {
 					$config[$field] = $data[$field];
 				} else {
 					$config[$field] = $value;
@@ -633,59 +689,69 @@ class Post_Comments extends Plugin {
 				continue;
 			}
 
-			// Sanitize Strings
-			if (strpos($field, "string_") === 0 || in_array($field, $text)) {
-				$config[$field] = Sanitize::html(strip_tags($data[$field]));
-				if (empty($config[$field])) {
+			// Sanitize strings.
+			if ( strpos( $field, 'string_' ) === 0 || in_array( $field, $text ) ) {
+				$config[$field] = Sanitize :: html( strip_tags( $data[$field] ) );
+				if ( empty( $config[$field] ) ) {
 					$config[$field] = $value;
 				}
 				continue;
 			}
 		}
 
-		// Save & Return
-		$this->db = array_merge($this->db, $config);
-		if (!$this->save()) {
-			return $this->response(array(
-				"error" => sn__("An unknown error is occurred.")
-			), "alert");
+		// Save & return.
+		$this->db = array_merge( $this->db, $config );
+		if ( ! $this->save() ) {
+			return $this->response(
+				array( 'error' => sn__( 'An unknown error is occurred.' ) ),
+				'alert'
+			);
 		}
-		return $this->response(array(
-			"success" => sn__("The settings has been updated successfully.")
-		), "alert");
+		return $this->response(
+			['success' => sn__( 'The settings has been updated successfully.' ) ],
+			'alert'
+		);
 	}
 
-	/*
-	 |  API :: CREATE BACKUP
-	 |  @since  0.1.0
+	/**
+	 * Create a backup
+	 *
+	 * When deactivating the plugin.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @return void
 	 */
-	private function backup()
-	{
-		$filename = "comments-backup-" . time() . ".zip";
+	private function backup() {
 
-		// Create Backup
+		$filename = 'comments-backup-' . time() . '.zip';
+
+		// Create backup.
 		$zip = new PIT\Zip();
-		$zip->addFolder($this->workspace(), "/", true, true);
-		$zip->save(PATH_TMP . $filename);
+		$zip->addFolder( $this->workspace(), '/', true, true );
+		$zip->save( PATH_TMP . $filename );
 
-		// Return
-		return $this->response(array(
-			"success" => sn__("The backup has been created successfully!"),
-			"referer" => DOMAIN_ADMIN . "uninstall-plugin/Post_Comments"
-		), "alert");
+		// Return.
+		return $this->response(
+			[
+				'success' => sn__( 'The backup has been created successfully.' ),
+				'referer' => DOMAIN_ADMIN . 'uninstall-plugin/Post_Comments'
+			],
+			'alert'
+		);
 	}
 
-
-	##
-##  BACKEND HOOKs
-##
-
-	/*
-	 |  HOOK :: INIT ADMINISTRATION
-	 |  @since  0.1.0
+	/**
+	 * Before admin load
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object $url The Url class.
+	 * @return void
 	 */
-	public function beforeAdminLoad()
-	{
+	public function beforeAdminLoad() {
+
+		// Access global variables.
 		global $url;
 
 		// Check if the current View is the "comments"
