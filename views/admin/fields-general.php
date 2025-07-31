@@ -84,8 +84,7 @@
 <div class="form-group row">
 	<label for="sn-comment-depth" class="col-sm-2 col-form-label"><?php sn_e( 'Comments Depth' ); ?></label>
 	<div class="col-sm-10">
-		<input type="number" id="sn-comment-depth" name="comment_depth" value="<?php echo sn_config( 'comment_depth' ); ?>"
-				class="form-control" min="0" placeholder="<?php sn_e( 'Use 0 to disable any limit!' ); ?>" />
+		<input type="number" id="sn-comment-depth" name="comment_depth" value="<?php echo sn_config( 'comment_depth' ); ?>" class="form-control" min="0" placeholder="<?php sn_e( 'Use 0 to disable any limit!' ); ?>" />
 		<small class="form-text text-muted"><?php sn_e( 'Use 0 to disable any limit.' ); ?></small>
 	</div>
 </div>
@@ -94,13 +93,11 @@
 	<label class="col-sm-2 col-form-label"><?php sn_e( 'Comment Markup' ); ?></label>
 	<div class="col-sm-10">
 		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="sn-markup-html" name="comment_markup_html" value="true"
-					class="custom-control-input" <?php sn_checked( 'comment_markup_html' ); ?> />
+			<input type="checkbox" id="sn-markup-html" name="comment_markup_html" value="true" class="custom-control-input" <?php sn_checked( 'comment_markup_html' ); ?> />
 			<label class="custom-control-label" for="sn-markup-html"><?php sn_e( 'Allow Basic HTML' ); ?></label>
 		</div>
 		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="sn-markup-markdown" name="comment_markup_markdown" value="true"
-					class="custom-control-input" <?php sn_checked( 'comment_markup_markdown' ); ?> />
+			<input type="checkbox" id="sn-markup-markdown" name="comment_markup_markdown" value="true" class="custom-control-input" <?php sn_checked( 'comment_markup_markdown' ); ?> />
 			<label class="custom-control-label" for="sn-markup-markdown"><?php sn_e( 'Allow Markdown' ); ?></label>
 		</div>
 	</div>
@@ -111,13 +108,11 @@
 	<div class="col-sm-10">
 
 		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="sn-like" name="comment_enable_like" value="true"
-					class="custom-control-input" <?php sn_checked( 'comment_enable_like' ); ?> />
+			<input type="checkbox" id="sn-like" name="comment_enable_like" value="true" class="custom-control-input" <?php sn_checked( 'comment_enable_like' ); ?> />
 			<label class="custom-control-label" for="sn-like"><?php sn_e( 'Allow to %s comments', array( '<b>' . sn__( 'Like' ) . '</b>' )); ?></label>
 		</div>
 		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="sn-dislike" name="comment_enable_dislike" value="true"
-					class="custom-control-input" <?php sn_checked( 'comment_enable_dislike' ); ?> />
+			<input type="checkbox" id="sn-dislike" name="comment_enable_dislike" value="true" class="custom-control-input" <?php sn_checked( 'comment_enable_dislike' ); ?> />
 			<label class="custom-control-label" for="sn-dislike"><?php sn_e( 'Allow to %s comments', array( '<b>' . sn__( 'Dislike' ) . '</b>' )); ?></label>
 		</div>
 		<br />
