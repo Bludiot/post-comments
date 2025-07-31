@@ -223,10 +223,10 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
-	 * @global object $comments_index
-	 * @global object $comments_users
-	 * @global object $comments_votes
-	 * @global object $post_comments
+	 * @global object $comments_index The Comments_Index class.
+	 * @global object $comments_users The Comments_Users class.
+	 * @global object $comments_votes The Comments_Votes class.
+	 * @global object $post_comments The Comments_System class.
 	 * @return void
 	 */
 	public function installed() {
