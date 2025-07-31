@@ -489,10 +489,9 @@ $static = $pages->getStaticDB( false );
 			</div>
 		</div>
 
-		<div class="card shadow-sm mt-4 mb-4">
-			<div class="card-body">
-				<button class="btn btn-primary" name="comments" value="settings"><?php sn_e( 'Save Settings' ); ?></button>
-			</div>
-		</div>
+		<p>
+			<button class="btn btn-primary" name="comments" value="settings"><?php sn_e( 'Save' ); ?></button>
+			<a class="btn btn-secondary btn-sm" href="<?php echo HTML_PATH_ADMIN_ROOT . 'comments' ?>" role="button"><?php sn_e( 'Cancel' ) ?></a>
+		</p>
 	</form>
 </div>
