@@ -976,9 +976,7 @@ class Post_Comments extends Plugin {
 
 		$html  = '';
 		ob_start();
-		if ( isset( $_GET['page'] ) && 'custom' == $_GET['page'] ) {
-			// include( $this->phpPath() . '/views/admin/filename.php' );
-		}
+		include( $this->phpPath() . '/views/admin/page-guide.php' );
 		$html .= ob_get_clean();
 
 		return $html;
