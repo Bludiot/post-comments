@@ -71,8 +71,6 @@ class Post_Comments extends Plugin {
 
 		// Run the parent constructor.
 		parent :: __construct();
-
-		// $this->formButtons = false;
 	}
 
 	/**
@@ -202,7 +200,7 @@ class Post_Comments extends Plugin {
 			'subscription_optin'    => 'default',
 			'subscription_ticker'   => 'default',
 
-			// Frontend Messages, can be changed by the user
+			// Frontend messages, can be changed by the user.
 			'string_success_1' => sn__( 'Thanks for your comment!' ),
 			'string_success_2' => sn__( 'Thanks for your comment, please confirm your subscription via the link we sent to your eMail address!' ),
 			'string_success_3' => sn__( 'Thanks for voting this comment!' ),
