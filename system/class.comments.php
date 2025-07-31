@@ -439,8 +439,8 @@ class Comments extends dbJSON {
 		}
 
 		// Add Index
-		if (!is_a($comments_index, "CommentsIndex")) {
-			$comments_index = new CommentsIndex();
+		if (!is_a($comments_index, "Comments_Index")) {
+			$comments_index = new Comments_Index();
 		}
 		if (!$comments_index->add($uid, $row)) {
 			return false;

@@ -223,12 +223,16 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
+	 * @global object $comments_index
+	 * @global object $comments_users
+	 * @global object $comments_votes
+	 * @global object $post_comments
 	 * @return void
 	 */
 	public function installed() {
 
 		// Access global variables.
-		global $post_comments, $comments_index, $comments_users, $comments_votes;
+		global $comments_index, $comments_users, $comments_votes, $post_comments;
 
 		if ( file_exists( $this->filenameDb ) ) {
 			if ( ! defined( 'POST_COMMENTS' ) ) {
@@ -257,9 +261,9 @@ class Post_Comments extends Plugin {
 				require_once 'includes/autoload.php';
 			} else {
 				$post_comments  = new Comments_System();
-				$comments_index = new CommentsIndex();
-				$comments_users = new CommentsUsers();
-				$comments_votes = new CommentsVotes();
+				$comments_index = new Comments_Index();
+				$comments_users = new Comments_Users();
+				$comments_votes = new Comments_Votes();
 				$this->request();
 			}
 			return true;

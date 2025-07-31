@@ -514,8 +514,8 @@ class Comments_System
 	public function getComment($uid, $return = "list")
 	{
 		global $comments_index;
-		if (!is_a($comments_index, "CommentsIndex")) {
-			$comments_index = new CommentsIndex();
+		if (!is_a($comments_index, "Comments_Index")) {
+			$comments_index = new Comments_Index();
 		}
 
 		// Get Comment

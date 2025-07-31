@@ -3,7 +3,7 @@
 if (!defined('BLUDIT')) {
     exit('Access denied');
 }
-class CommentsVotes extends dbJSON
+class Comments_Votes extends dbJSON
 {
     const KEY = "comments-ratings";
 

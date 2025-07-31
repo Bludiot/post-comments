@@ -3,7 +3,7 @@
 if (!defined('BLUDIT')) {
     exit('Access denied');
 }
-class CommentsIndex extends dbJSON
+class Comments_Index extends dbJSON
 {
     /*
      |  DATABASE FIELDS

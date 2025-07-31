@@ -4,7 +4,7 @@ if (!defined('BLUDIT')) {
     exit('Access denied');
 }
 
-class CommentsUsers extends dbJSON
+class Comments_Users extends dbJSON
 {
     /*
      |  DATABASE FIELDS
