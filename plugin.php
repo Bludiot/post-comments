@@ -816,7 +816,7 @@ class Post_Comments extends Plugin {
 
 		// Admin Header
 		ob_start();
-		if ( $slug[0] === 'new-content' || $slug[0] === 'edit-content' ) {
+		if ( 'new-content' === $slug[0] || 'edit-content' === $slug[0] ) {
 
 		?>
 		<script type="text/javascript">
@@ -847,20 +847,20 @@ class Post_Comments extends Plugin {
 		</script>
 		<?php
 
-		} elseif ($slug[0] === 'comments') {
+		} elseif ( 'comments' === $slug[0] ) {
 
 		?>
 		<script type="text/javascript" src="<?php echo $js; ?>admin.comments<?php echo $suffix; ?>.js"></script>
 		<link type="text/css" rel="stylesheet" href="<?php echo $css; ?>admin.comments.css" />
 		<?php
 
-		} elseif ($slug[0] === 'plugins') {
+		} elseif ( 'plugins' === $slug[0] ) {
 
 			$link = DOMAIN_ADMIN . 'comments?action=comments&comments=backup&tokenCSRF=' . $security->getTokenCSRF();
 		?>
 		<script type="text/javascript">
 			document.addEventListener("DOMContentLoaded", function () {
-				var link = document.querySelector("tr#Post_Comments td a");
+				var link = document.querySelector("tr#Post_Comments td a[href='/bludit/admin/uninstall-plugin/Post_Comments']");
 				if (link) {
 					link.addEventListener("click", function (event) {
 						event.preventDefault();
@@ -926,8 +926,7 @@ class Post_Comments extends Plugin {
 							</div>
 							<div class="modal-body">
 								<p>
-									<?php sn_e( 'You are about to deactivate the Post Comments plugin, which will delete all written comments.' ); ?>
-									<?php sn_e( 'Do you want to Backup your comments before?' ); ?>
+									<?php sn_e( 'You are about to deactivate the Post Comments plugin, which will delete all written comments. Do you want to backup your comments before deactivation?' ); ?>
 								</p>
 								<p>
 									<?php sn_e( 'The Backup will be stored in %s', [ '<code>./bl-content/tmp/</code>' ] ); ?>
