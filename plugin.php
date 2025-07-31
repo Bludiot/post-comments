@@ -201,18 +201,18 @@ class Post_Comments extends Plugin {
 			'subscription_ticker'   => 'default',
 
 			// Frontend messages, can be changed by the user.
-			'string_success_1' => sn__( 'Thanks for your comment!' ),
-			'string_success_2' => sn__( 'Thanks for your comment, please confirm your subscription via the link we sent to your eMail address!' ),
-			'string_success_3' => sn__( 'Thanks for voting this comment!' ),
-			'string_error_1' => sn__( 'An unknown error occurred, please reload the page and try it again!' ),
-			'string_error_2' => sn__( 'An error occurred: The passed Username is invalid or too long (42 characters only)!' ),
-			'string_error_3' => sn__( 'An error occurred: The passed eMail address is invalid!' ),
-			'string_error_4' => sn__( 'An error occurred: The comment text is missing!' ),
-			'string_error_5' => sn__( 'An error occurred: The comment title is missing!' ),
-			'string_error_6' => sn__( 'An error occurred: You need to accept the Terms to comment!' ),
-			'string_error_7' => sn__( 'An error occurred: Your IP address or eMail address has been marked as Spam!' ),
-			'string_error_8' => sn__( 'An error occurred: You already rated this comment!' ),
-			'string_terms_of_use' => sn__( 'I agree that my data (incl. my anonymized IP address) gets stored!' )
+			'string_success_1' => sn__( 'Thank you for your comment.' ),
+			'string_success_2' => sn__( 'Thank you for your comment. Please confirm your subscription via the link we sent to your email address.' ),
+			'string_success_3' => sn__( 'Thank you for voting this comment.' ),
+			'string_error_1'   => sn__( 'An unknown error occurred. Please reload the page and try it again.' ),
+			'string_error_2'   => sn__( 'An error occurred: The passed username is invalid or too long (42 characters only).' ),
+			'string_error_3'   => sn__( 'An error occurred: The passed email address is invalid.' ),
+			'string_error_4'   => sn__( 'An error occurred: The comment text is missing.' ),
+			'string_error_5'   => sn__( 'An error occurred: The comment title is missing.' ),
+			'string_error_6'   => sn__( 'An error occurred: You need to accept the terms to comment.' ),
+			'string_error_7'   => sn__( 'An error occurred: Your IP address or email address has been marked as spam.' ),
+			'string_error_8'   => sn__( 'An error occurred: You already rated this comment.' ),
+			'string_terms_of_use' => sn__( 'I agree that my data (including my anonymized IP address) gets stored.' )
 		];
 
 		// Array of custom hooks.
