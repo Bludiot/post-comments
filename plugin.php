@@ -13,8 +13,6 @@ if ( ! defined( 'BLUDIT' ) ) {
 	die( 'You are not allowed direct access to this file.' );
 }
 
-require_once 'includes/functions.php';
-
 class Post_Comments extends Plugin {
 
 	/**
@@ -45,6 +43,17 @@ class Post_Comments extends Plugin {
 	 * @var    mixed
 	 */
 	private $backend_request = null;
+
+	/**
+	 * Prepare plugin for installation
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
+	 */
+	public function prepare() {
+		require_once 'includes/functions.php';
+	}
 
 	/**
 	 * Constructor method
@@ -155,6 +164,9 @@ class Post_Comments extends Plugin {
 
 		// Access global variables.
 		global $url;
+
+		// Get system functions.
+		require_once 'includes/functions.php';
 
 		// Plugin options for database.
 		$this->dbFields = [
