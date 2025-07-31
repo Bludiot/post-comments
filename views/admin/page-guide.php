@@ -4,6 +4,7 @@
  *
  * @package    Post Comments
  * @subpackage Views
+ * @category   Admin
  * @since      1.0.0
  */
 
