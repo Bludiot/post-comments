@@ -3,7 +3,7 @@
 if (!defined('BLUDIT')) {
 	exit('Access denied');
 }
-class Comments_System
+class Comments_Core
 {
 	/*
 	 |  AVAILABLE THEMES

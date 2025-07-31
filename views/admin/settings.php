@@ -14,7 +14,7 @@ if ( ! defined( 'BLUDIT' ) ) {
 }
 
 // Access global variables.
-global $comments_plugin, $L, $login, $pages, $post_comments, $security, $site;
+global $comments_plugin, $L, $login, $pages, $comments_core, $security, $site;
 
 /**
  * Theme compatibility in active theme's metadata file.
@@ -241,7 +241,7 @@ $static = $pages->getStaticDB( false );
 							<div class="col-sm-9">
 								<select id="sn-template" name="frontend_template" class="form-control custom-select">
 									<?php
-									foreach ($post_comments->themes as $key => $theme) {
+									foreach ($comments_core->themes as $key => $theme) {
 										?>
 										<option value="<?php echo $key; ?>" <?php sn_selected( 'frontend_template', $key ); ?>><?php echo $theme->theme_name; ?></option>
 										<?php

@@ -75,7 +75,7 @@ class Default_Template extends Comments_Template {
 	public function form( $username = '', $email = '', $title = '', $message = '' ) {
 
 		// Access global variables.
-		global $comments, $login, $page, $post_comments, $security;
+		global $comments, $login, $page, $comments_core, $security;
 
 		// User is logged in.
 		if ( ! is_a( $login, 'Login' ) ) {
@@ -142,7 +142,7 @@ class Default_Template extends Comments_Template {
 						<input type="text" name="comment[captcha]" value="" placeholder="<?php sn_e("Answer"); ?>" />
 
 						<a href="<?php echo $page->permalink(); ?>#comments-comment-form" data-captcha="reload">
-							<?php echo $post_comments->generateCaptcha(); ?>
+							<?php echo $comments_core->generateCaptcha(); ?>
 						</a>
 					</div>
 				<?php } ?>
@@ -210,7 +210,7 @@ class Default_Template extends Comments_Template {
 	 * @return void
 	 */
 	public function comment($comment, $uid, $depth) {
-		global $users, $security, $post_comments, $comments_users;
+		global $users, $security, $comments_core, $comments_users;
 
 		// Get Page
 		$page = new Page($comment->page_key());
@@ -276,12 +276,12 @@ class Default_Template extends Comments_Template {
 				<div class="table">
 					<div class="table-cell align-left">
 						<?php if (sn_config("comment_enable_like")) { ?>
-							<a href="<?php echo $url; ?>&type=like" class="action-like <?php echo ($post_comments->hasLiked($comment->uid()) ? "active" : ""); ?>">
+							<a href="<?php echo $url; ?>&type=like" class="action-like <?php echo ($comments_core->hasLiked($comment->uid()) ? "active" : ""); ?>">
 								<?php sn_e("Like"); ?> <span data-comments="like"><?php echo $comment->like(); ?></span>
 							</a>
 						<?php } ?>
 						<?php if (sn_config("comment_enable_dislike")) { ?>
-							<a href="<?php echo $url; ?>&type=dislike" class="action-dislike <?php echo ($post_comments->hasDisliked($comment->uid()) ? "active" : ""); ?>">
+							<a href="<?php echo $url; ?>&type=dislike" class="action-dislike <?php echo ($comments_core->hasDisliked($comment->uid()) ? "active" : ""); ?>">
 								<?php sn_e("Dislike"); ?> <span data-comments="dislike"><?php echo $comment->dislike(); ?></span>
 							</a>
 						<?php } ?>

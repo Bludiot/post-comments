@@ -226,13 +226,13 @@ class Post_Comments extends Plugin {
 	 * @global object $comments_index The Comments_Index class.
 	 * @global object $comments_users The Comments_Users class.
 	 * @global object $comments_votes The Comments_Votes class.
-	 * @global object $post_comments The Comments_System class.
+	 * @global object $comments_core The Comments_Core class.
 	 * @return void
 	 */
 	public function installed() {
 
 		// Access global variables.
-		global $comments_index, $comments_users, $comments_votes, $post_comments;
+		global $comments_index, $comments_users, $comments_votes, $comments_core;
 
 		if ( file_exists( $this->filenameDb ) ) {
 			if ( ! defined( 'POST_COMMENTS' ) ) {
@@ -260,7 +260,7 @@ class Post_Comments extends Plugin {
 				}
 				require_once 'includes/autoload.php';
 			} else {
-				$post_comments  = new Comments_System();
+				$comments_core  = new Comments_Core();
 				$comments_index = new Comments_Index();
 				$comments_users = new Comments_Users();
 				$comments_votes = new Comments_Votes();
@@ -360,14 +360,14 @@ class Post_Comments extends Plugin {
 	 *
 	 * @since  1.0.0
 	 * @access public
-	 * @global object $post_comments The Comments_System class.
+	 * @global object $comments_core The Comments_Core class.
 	 * @global object $url The Url class.
 	 * @return mixed
 	 */
 	public function request() {
 
 		// Access global variables.
-		global $login, $post_comments, $security, $url;
+		global $login, $comments_core, $security, $url;
 
 		// POST/GET request.
 		if ( isset( $_POST['action'] ) && $_POST['action'] === 'comments' ) {
@@ -454,20 +454,20 @@ class Post_Comments extends Plugin {
 			case 'comment': // @fallthrough
 			case 'reply': // @fallthrough
 			case 'add':
-				return $post_comments->writeComment( $data['comment'], $key );
+				return $comments_core->writeComment( $data['comment'], $key );
 			/* case 'update': */ // @todo User can edit his own comments.
 			case 'edit':
-				return $post_comments->editComment( $data['uid'], $data['comment'], $key );
+				return $comments_core->editComment( $data['uid'], $data['comment'], $key );
 			/* case 'remove': */ // @todo User can delete his own comments.
 			case 'delete':
-				return $post_comments->deleteComment( $data['uid'], $key );
+				return $comments_core->deleteComment( $data['uid'], $key );
 			case 'moderate':
-				return $post_comments->moderateComment( $data['uid'], $data['status'], $key );
+				return $comments_core->moderateComment( $data['uid'], $data['status'], $key );
 			case 'list': // @fallthrough
 			case 'get':
-				return $post_comments->renderComment( $data );
+				return $comments_core->renderComment( $data );
 			case 'rate':
-				return $post_comments->rateComment( $data['uid'], $data['type'] );
+				return $comments_core->rateComment( $data['uid'], $data['type'] );
 			case 'users':
 				return $this->user( $data );
 			case 'settings':
@@ -477,7 +477,7 @@ class Post_Comments extends Plugin {
 			case 'captcha':
 				return $this->response( [
 					'success' => sn__( 'The Captcha image was successfully created' ),
-					'captcha' => $post_comments->generateCaptcha( 150, 40, true )
+					'captcha' => $comments_core->generateCaptcha( 150, 40, true )
 				] );
 		}
 		return $this->response( [
@@ -561,13 +561,13 @@ class Post_Comments extends Plugin {
 	 * @access private
 	 * @param  array $data Data to be configured.
 	 * @global object $pages The Pages class.
-	 * @global object $post_comments The Comments_System class.
+	 * @global object $comments_core The Comments_Core class.
 	 * @return void
 	 */
 	private function config( $data ) {
 
 		// Access global variables.
-		global $pages, $post_comments;
+		global $pages, $comments_core;
 
 		// Validations.
 		$config = [];
@@ -685,7 +685,7 @@ class Post_Comments extends Plugin {
 
 			// Sanitize template.
 			if ( $field == 'frontend_template' ) {
-				if ( $post_comments->hasTheme( $data[$field] ) ) {
+				if ( $comments_core->hasTheme( $data[$field] ) ) {
 					$config[$field] = $data[$field];
 				} else {
 					$config[$field] = $value;
@@ -1015,9 +1015,9 @@ class Post_Comments extends Plugin {
 	public function siteHead() {
 
 		// Access global variables.
-		global $post_comments;
+		global $comments_core;
 
-		if ( ( $theme = $post_comments->getTheme() ) === false ) {
+		if ( ( $theme = $comments_core->getTheme() ) === false ) {
 			return false;
 		}
 		if ( ! empty( $theme->theme_js ) ) {
@@ -1052,12 +1052,12 @@ class Post_Comments extends Plugin {
 	public function comments_full() {
 
 		// Access global variables.
-		global $post_comments;
+		global $comments_core;
 
 		if ( sn_config( 'frontend_filter' ) !== 'comments_full' ) {
 			return false;
 		}
-		print( $post_comments->render() );
+		print( $comments_core->render() );
 	}
 
 	/**
@@ -1070,12 +1070,12 @@ class Post_Comments extends Plugin {
 	public function siteBodyBegin() {
 
 		// Access global variables.
-		global $post_comments;
+		global $comments_core;
 
 		if ( sn_config( 'frontend_filter' ) !== 'siteBodyBegin' ) {
 			return false;
 		}
-		print( $post_comments->render() );
+		print( $comments_core->render() );
 	}
 
 	/**
@@ -1088,12 +1088,12 @@ class Post_Comments extends Plugin {
 	public function pageBegin() {
 
 		// Access global variables.
-		global $post_comments;
+		global $comments_core;
 
 		if ( sn_config( 'frontend_filter' ) !== 'pageBegin' ) {
 			return false;
 		}
-		print( $post_comments->render() );
+		print( $comments_core->render() );
 	}
 
 	/**
@@ -1106,12 +1106,12 @@ class Post_Comments extends Plugin {
 	public function pageEnd() {
 
 		// Access global variables.
-		global $post_comments;
+		global $comments_core;
 
 		if ( sn_config( 'frontend_filter' ) !== 'pageEnd' ) {
 			return false;
 		}
-		print( $post_comments->render() );
+		print( $comments_core->render() );
 	}
 
 	/**
@@ -1124,11 +1124,11 @@ class Post_Comments extends Plugin {
 	public function siteBodyEnd() {
 
 		// Access global variables.
-		global $post_comments;
+		global $comments_core;
 
 		if ( sn_config( 'frontend_filter' ) !== 'siteBodyEnd' ) {
 			return false;
 		}
-		print( $post_comments->render() );
+		print( $comments_core->render() );
 	}
 }

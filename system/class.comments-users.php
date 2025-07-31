@@ -41,7 +41,7 @@ class Comments_Users extends dbJSON
      */
     public function getComments($uuid, $keys = true)
     {
-        global $post_comments;
+        global $comments_core;
 
         // Validate Data
         if (Valid::email($uuid) !== false) {
@@ -59,7 +59,7 @@ class Comments_Users extends dbJSON
 
         // Return Objects
         foreach ($data as &$key) {
-            $key = $post_comments->getComment($key);
+            $key = $comments_core->getComment($key);
         }
         return $key;
     }

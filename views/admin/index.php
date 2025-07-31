@@ -13,12 +13,12 @@ if ( ! defined( 'BLUDIT' ) ) {
 	die( 'You are not allowed direct access to this file.' );
 }
 
-global $L, $post_comments;
+global $L, $comments_core;
 
 // Pending Counter
-$count = count($post_comments->getIndex("pending"));
+$count = count($comments_core->getIndex("pending"));
 $count = ($count > 99) ? "99+" : $count;
-$spam = count($post_comments->getIndex("spam"));
+$spam = count($comments_core->getIndex("spam"));
 
 // Tab Strings
 $strings = array(

@@ -13,7 +13,7 @@ if ( ! defined( 'BLUDIT' ) ) {
 	die( 'You are not allowed direct access to this file.' );
 }
 
-global $pages, $security, $post_comments, $comments_index, $comments_plugin, $comments_users;
+global $pages, $security, $comments_core, $comments_index, $comments_plugin, $comments_users;
 
 // Get Data
 $limit = $comments_plugin->getValue("frontend_per_page");
