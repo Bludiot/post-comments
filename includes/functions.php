@@ -1,8 +1,19 @@
 <?php
+/**
+ * Comments template abstract
+ *
+ * @package    Post Comments
+ * @subpackage Includes
+ * @category   Functions
+ * @version    1.0.0
+ * @since      1.0.0
+ */
 
-if (!defined('BLUDIT')) {
-    exit('Access denied');
+// Stop if accessed directly.
+if ( ! defined( 'BLUDIT' ) ) {
+	die( 'You are not allowed direct access to this file.' );
 }
+
 /*
  |  S18N :: FORMAT AND GET STRING
  |  @since  0.1.0
@@ -12,15 +23,17 @@ if (!defined('BLUDIT')) {
  |
  |  @return string  The translated and formated string.
  */
-function sn__($string, $args = array())
-{
+function sn__( $string, $args = [] ) {
+
+    //Access global variables.
     global $L;
-    $hash = "s18n-" . md5(strtolower($string));
-    $value = $L->g($hash);
-    if ($hash === $value) {
+
+    $hash  = "s18n-" . md5( strtolower( $string ) );
+    $value = $L->g( $hash );
+    if ( $hash === $value ) {
         $value = $string;
     }
-    return (count($args) > 0) ? vsprintf($value, $args) : $value;
+    return ( count( $args ) > 0 ) ? vsprintf( $value, $args ) : $value;
 }
 
 /*
@@ -32,9 +45,8 @@ function sn__($string, $args = array())
  |
  |  @return <print>
  */
-function sn_e($string, $args = array())
-{
-    print (sn__($string, $args));
+function sn_e( $string, $args = [] ) {
+    print ( sn__( $string, $args ) );
 }
 
 /*
@@ -45,10 +57,12 @@ function sn_e($string, $args = array())
  |
  |  @return multi   The respective value or FALSE if the option doens't exist.
  */
-function sn_config($key)
-{
+function sn_config( $key ) {
+
+    //Access global variables.
     global $comments_plugin;
-    return $comments_plugin->getValue($key);
+
+    return $comments_plugin->getValue( $key );
 }
 
 /*
@@ -57,10 +71,12 @@ function sn_config($key)
  |
  |  @return die();
  */
-function sn_response($data, $key = null)
-{
+function sn_response( $data, $key = null ) {
+
+    //Access global variables.
     global $comments_plugin;
-    return $comments_plugin->response($data, $key);
+
+    return $comments_plugin->response( $data, $key );
 }
 
 /*
@@ -69,10 +85,12 @@ function sn_response($data, $key = null)
  |
  |  @return die();
  */
-function sn_selected($field, $value = true, $print = true)
-{
+function sn_selected( $field, $value = true, $print = true ) {
+
+    //Access global variables.
     global $comments_plugin;
-    return $comments_plugin->selected($field, $value, $print);
+
+    return $comments_plugin->selected( $field, $value, $print );
 }
 
 /*
@@ -81,8 +99,10 @@ function sn_selected($field, $value = true, $print = true)
  |
  |  @return die();
  */
-function sn_checked($field, $value = true, $print = true)
-{
+function sn_checked( $field, $value = true, $print = true ) {
+
+    //Access global variables.
     global $comments_plugin;
-    return $comments_plugin->checked($field, $value, $print);
+
+    return $comments_plugin->checked( $field, $value, $print );
 }
