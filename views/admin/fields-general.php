@@ -49,10 +49,10 @@
 				sn__( 'Author' )
 			); ?>
 		</div>
-		<small class="form-text"><?php sn_e( 'The user roles that does not require moderation.' ) ?></small>
+		<small class="form-text"><?php sn_e( 'The user roles that do not require moderation.' ) ?></small>
 	</div>
 </div>
-
+<b>@todo Role to access comments.</b>
 <div class="form-field form-group row">
 	<label for="comment_page_type" class="form-label col-sm-2 col-form-label"><?php sn_e( 'Content Types' ); ?></label>
 	<div class="col-sm-10">
