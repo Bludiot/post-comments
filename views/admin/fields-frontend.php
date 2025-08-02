@@ -68,11 +68,10 @@ $static = $pages->getStaticDB( false );
 			<option value="disabled" <?php sn_selected( 'frontend_captcha', 'disabled' ); ?>><?php lang()->p( 'Disable Captcha' ); ?></option>
 			<option value="purecaptcha" <?php sn_selected( 'frontend_captcha', 'purecaptcha' ); ?>><?php lang()->p( 'Use OWASP\'s PureCaptcha' ); ?></option>
 			<?php if (function_exists( 'imagettfbbox' )) { ?>
-				<option value="gregwar" <?php sn_selected( 'frontend_captcha', 'gregwar' ); ?>><?php lang()->p( 'Use Gregway\'s Captcha' ); ?></option>
+				<option value="gregwar" <?php sn_selected( 'frontend_captcha', 'gregwar' ); ?>><?php lang()->p( 'Use Gregwar\'s Captcha' ); ?></option>
 			<?php } else { ?>
-				<option disabled="disabled"><?php lang()->p( 'Use Gregway\'s Captcha (GD library is missing!)' ); ?></option>
+				<option disabled="disabled"><?php lang()->p( 'Use Gregwar\'s Captcha (GD library is missing)' ); ?></option>
 			<?php } ?>
-			<option value="recaptcha" <?php sn_selected( 'frontend_captcha', 'recaptcha' ); ?> disabled="disabled"><?php lang()->p( 'Use Googles reCaptcha (Not available yet)' ); ?></option>
 		</select>
 	</div>
 </div>
