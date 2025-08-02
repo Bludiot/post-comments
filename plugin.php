@@ -169,14 +169,17 @@ class Post_Comments extends Plugin {
 		// Plugin options for database.
 		$this->dbFields = [
 			'moderation'              => true,
+			'no_moderation_role'      => ['admin'],
 			'moderation_loggedin'     => true,
 			'moderation_approved'     => true,
+			'comment_page_type'       => ['published','sticky'],
 			'comment_on_public'       => true,
 			'comment_on_static'       => false,
 			'comment_on_sticky'       => true,
 			'comment_title'           => 'disabled',
 			'comment_limit'           => 0,
 			'comment_depth'           => 3,
+			'comment_markup'          => 'html',
 			'comment_markup_html'     => true,
 			'comment_markup_markdown' => false,
 			'comment_vote_storage'    => 'session',
@@ -278,6 +281,51 @@ class Post_Comments extends Plugin {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Form post
+	 *
+	 * The form `$_POST` method.
+	 *
+	 * Essentially the same as the parent method
+	 * except that it allows for array field values.
+	 *
+	 * This was implemented to handle multi-checkbox
+	 * and radio button fields. If strings are used
+	 * in an array option then be sure to sanitize
+	 * the string values.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return void
+	 */
+	public function post() {
+
+		$args = $_POST;
+
+		foreach ( $this->dbFields as $field => $value ) {
+
+			if ( isset( $args[$field] ) ) {
+
+				// @todo Look into sanitizing array values.
+				if ( is_array( $args[$field] ) ) {
+					$final_value = $args[$field];
+				} else {
+					$final_value = Sanitize :: html( $args[$field] );
+				}
+
+				if ( $final_value === 'false' ) {
+					$final_value = false;
+				} elseif ( $final_value === 'true' ) {
+					$final_value = true;
+				}
+
+				settype( $final_value, gettype( $value ) );
+				$this->db[$field] = $final_value;
+			}
+		}
+		return $this->save();
 	}
 
 	/**

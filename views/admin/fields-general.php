@@ -21,23 +21,66 @@
 		<small class="form-text"><?php sn_e( 'Enable manual approval of comments before displaying to the public.' ) ?></small>
 	</div>
 </div>
+
 <div class="form-field form-group row">
-	<label for="moderation" class="form-label col-sm-2 col-form-label"><?php sn_e( 'Exceptions' ); ?></label>
+	<label for="no_moderation_role" class="form-label col-sm-2 col-form-label"><?php sn_e( 'Exceptions' ); ?></label>
 	<div class="col-sm-10">
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="moderation-loggedin" name="moderation_loggedin" value="true"
-					class="custom-control-input" <?php sn_checked( 'moderation_loggedin' ); ?> />
-			<label class="custom-control-label" for="moderation-loggedin"><?php sn_e( 'Unless the user is logged in' ); ?></label>
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="admin"><input type="checkbox" name="no_moderation_role[]" id="admin" value="admin" %s /> %s</label>',
+				( is_array( $this->getValue( 'no_moderation_role' ) ) && in_array( 'admin', $this->getValue( 'no_moderation_role' ) ) ? 'checked' : '' ),
+				sn__( 'Administrator' )
+			); ?>
 		</div>
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" value="true" class="custom-control-input" checked="checked" disabled="disabled" />
-			<label class="custom-control-label"><?php sn_e( 'Unless the user is admin or the content author' ); ?></label>
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="editor"><input type="checkbox" name="no_moderation_role[]" id="editor" value="editor" %s /> %s</label>',
+				( is_array( $this->getValue( 'no_moderation_role' ) ) && in_array( 'editor', $this->getValue( 'no_moderation_role' ) ) ? 'checked' : '' ),
+				sn__( 'Editor' )
+			); ?>
 		</div>
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="moderation-approved" name="moderation_approved" value="true"
-					class="custom-control-input" <?php sn_checked( 'moderation_approved' ); ?> />
-			<label class="custom-control-label" for="moderation-approved"><?php sn_e( 'Unless the user has an already approved comment' ); ?></label>
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="author"><input type="checkbox" name="no_moderation_role[]" id="author" value="author" %s /> %s</label>',
+				( is_array( $this->getValue( 'no_moderation_role' ) ) && in_array( 'author', $this->getValue( 'no_moderation_role' ) ) ? 'checked' : '' ),
+				sn__( 'Author' )
+			); ?>
 		</div>
+		<small class="form-text"><?php sn_e( 'The user roles that does not require moderation.' ) ?></small>
+	</div>
+</div>
+
+<div class="form-field form-group row">
+	<label for="comment_page_type" class="form-label col-sm-2 col-form-label"><?php sn_e( 'Content Types' ); ?></label>
+	<div class="col-sm-10">
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="published"><input type="checkbox" name="comment_page_type[]" id="published" value="published" %s /> %s</label>',
+				( is_array( $this->getValue( 'comment_page_type' ) ) && in_array( 'published', $this->getValue( 'comment_page_type' ) ) ? 'checked' : '' ),
+				sn__( 'Standard Posts' )
+			); ?>
+		</div>
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="sticky"><input type="checkbox" name="comment_page_type[]" id="sticky" value="sticky" %s /> %s</label>',
+				( is_array( $this->getValue( 'comment_page_type' ) ) && in_array( 'sticky', $this->getValue( 'comment_page_type' ) ) ? 'checked' : '' ),
+				sn__( 'Sticky Posts' )
+			); ?>
+		</div>
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="static"><input type="checkbox" name="comment_page_type[]" id="static" value="static" %s /> %s</label>',
+				( is_array( $this->getValue( 'comment_page_type' ) ) && in_array( 'static', $this->getValue( 'comment_page_type' ) ) ? 'checked' : '' ),
+				sn__( 'Static Pages' )
+			); ?>
+		</div>
+		<small class="form-text"><?php sn_e( 'The content types to apply comments.' ) ?></small>
 	</div>
 </div>
 
@@ -86,6 +129,19 @@
 	<div class="col-sm-10">
 		<input type="number" id="comment-depth" name="comment_depth" value="<?php echo sn_config( 'comment_depth' ); ?>" class="form-control" min="0" placeholder="<?php sn_e( 'Use 0 to disable any limit!' ); ?>" />
 		<small class="form-text text-muted"><?php sn_e( 'Use 0 to disable any limit.' ); ?></small>
+	</div>
+</div>
+
+<div class="form-field form-group row">
+	<label for="markup" class="form-label col-sm-2 col-form-label"><?php sn_e( 'Comment Markup' ); ?></label>
+	<div class="col-sm-10">
+		<select id="markup" name="comment_markup" class="form-select">
+			<option value="html" <?php sn_selected( 'comment_markup', 'html' ); ?>><?php sn_e( 'Basic HTML' ); ?></option>
+			<option value="mark" <?php sn_selected( 'comment_markup', 'mark' ); ?>><?php sn_e( 'Markdown' ); ?></option>
+			<option value="both" <?php sn_selected( 'comment_markup', 'both' ); ?>><?php sn_e( 'HTML & Markdown' ); ?></option>
+			<option value="none" <?php sn_selected( 'comment_markup', 'none' ); ?>><?php sn_e( 'Disabled' ); ?></option>
+		</select>
+		<small class="form-text"><?php sn_e( '' ) ?></small>
 	</div>
 </div>
 
