@@ -25,14 +25,14 @@ $page = new Page($pages->getByUUID($data["page_uuid"]));
 	<div class="align-middle">
 
 		<div class="float-right mt-1">
-			<button class="btn btn-primary" name="type" value="edit"><?php sn_e("Update"); ?></button>
+			<button class="btn btn-primary" name="type" value="edit"><?php lang()->p("Update"); ?></button>
 			<a class="btn btn-secondary" f
-			href="<?php echo HTML_PATH_ADMIN_ROOT; ?>comments"><?php sn_e("Cancel"); ?></a>
+			href="<?php echo HTML_PATH_ADMIN_ROOT; ?>comments"><?php lang()->p("Cancel"); ?></a>
 		</div>
-		<h1 class="page-title"><span class="page-title-icon fa fa-comments"></span><span class="page-title-text"><?php sn_e( 'Edit Comment' ); ?></span></h1>
+		<h1 class="page-title"><span class="page-title-icon fa fa-comments"></span><span class="page-title-text"><?php lang()->p( 'Edit Comment' ); ?></span></h1>
 	</div>
 
-	<p class="page-description mt-0"><?php sn_e("Comment posted in"); ?> <a href="<?php echo $page->permalink(); ?>" target="_blank" rel="noopener noreferrer"><?php echo $page->title(); ?></a></p>
+	<p class="page-description mt-0"><?php lang()->p("Comment posted in"); ?> <a href="<?php echo $page->permalink(); ?>" target="_blank" rel="noopener noreferrer"><?php echo $page->title(); ?></a></p>
 
 	<input type="hidden" id="tokenUser" name="tokenUser" value="<?php echo $login->username(); ?>" />
 	<input type="hidden" id="tokenCSRF" name="tokenCSRF" value="<?php echo $security->getTokenCSRF(); ?>" />
@@ -43,18 +43,18 @@ $page = new Page($pages->getByUUID($data["page_uuid"]));
 	<div class="row mb-4">
 		<div class="col">
 			<input type="text" name="comment[title]" value="<?php echo $comment->title(); ?>"
-				   class="form-control form-control-lg" placeholder="<?php sn_e("Comment Title"); ?>" />
+				   class="form-control form-control-lg" placeholder="<?php lang()->p("Comment Title"); ?>" />
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col-sm-8">
-			<textarea name="comment[comment]" class="form-control" placeholder="<?php sn_e("Comment Text"); ?>"
+			<textarea name="comment[comment]" class="form-control" placeholder="<?php lang()->p("Comment Text"); ?>"
 					  style="min-height: 275px;"><?php echo $comment->commentRaw(); ?></textarea>
 		</div>
 		<div class="col-sm-4">
 			<div class="card">
-				<div class="card-header"><?php sn_e("Meta Settings"); ?></div>
+				<div class="card-header"><?php lang()->p("Meta Settings"); ?></div>
 				<div class="card-body">
 
 					<?php if (strpos($comment->getValue("author"), "bludit") === 0) { ?>
@@ -62,24 +62,24 @@ $page = new Page($pages->getByUUID($data["page_uuid"]));
 							<input type="text" value="<?php echo $comment->username(); ?>" class="form-control" disabled />
 						</p>
 						<p>
-							<input type="text" value="<?php sn_e("Registered User"); ?>" class="form-control" disabled />
+							<input type="text" value="<?php lang()->p("Registered User"); ?>" class="form-control" disabled />
 						</p>
 					<?php } else { ?>
 						<p>
 							<input type="text" name="comment[username]" value="<?php echo $comment->username(); ?>"
-								   class="form-control" placeholder="<?php sn_e("Comment Username"); ?>" />
+								   class="form-control" placeholder="<?php lang()->p("Comment Username"); ?>" />
 						</p>
 						<p>
 							<input type="text" name="comment[email]" value="<?php echo $comment->email(); ?>"
-								   class="form-control" placeholder="<?php sn_e("Comment eMail"); ?>" />
+								   class="form-control" placeholder="<?php lang()->p("Comment eMail"); ?>" />
 						</p>
 					<?php } ?>
 					<p>
 						<select name="comment[status]" class="custom-select">
-							<option value="pending" <?php echo ($comment->isPending()) ? ' selected="selected"' : ''; ?>><?php sn_e("Pending"); ?></option>
-							<option value="approved" <?php echo ($comment->isApproved()) ? ' selected="selected"' : ''; ?>><?php sn_e("Approved"); ?></option>
-							<option value="rejected" <?php echo ($comment->isRejected()) ? ' selected="selected"' : ''; ?>><?php sn_e("Rejected"); ?></option>
-							<option value="spam" <?php echo ($comment->isSpam()) ? ' selected="selected"' : ''; ?>><?php sn_e("Spam"); ?></option>
+							<option value="pending" <?php echo ($comment->isPending()) ? ' selected="selected"' : ''; ?>><?php lang()->p("Pending"); ?></option>
+							<option value="approved" <?php echo ($comment->isApproved()) ? ' selected="selected"' : ''; ?>><?php lang()->p("Approved"); ?></option>
+							<option value="rejected" <?php echo ($comment->isRejected()) ? ' selected="selected"' : ''; ?>><?php lang()->p("Rejected"); ?></option>
+							<option value="spam" <?php echo ($comment->isSpam()) ? ' selected="selected"' : ''; ?>><?php lang()->p("Spam"); ?></option>
 						</select>
 					</p>
 				</div>

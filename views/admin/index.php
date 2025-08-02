@@ -65,12 +65,12 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
 		<?php } ?>
 		<li class="nav-item mr-2">
 			<a id="users-tab" href="#comments-users" class="nav-link nav-config" data-toggle="tab">
-				<?php sn_e("Users"); ?>
+				<?php lang()->p("Users"); ?>
 			</a>
 		</li>
 		<li class="nav-item">
 			<a id="settings-tab" href="#comments-settings" class="nav-link nav-config" data-toggle="tab">
-				<?php sn_e("Settings"); ?>
+				<?php lang()->p("Settings"); ?>
 			</a>
 		</li>
 	</ul>

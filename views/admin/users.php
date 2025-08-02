@@ -40,8 +40,8 @@ $link = DOMAIN_ADMIN . "comments?page=%d&tab=users#users";
 				<form class="w-100" method="get" action="<?php echo DOMAIN_ADMIN; ?>comments#users">
 					<div class="form-row align-items-center">
 						<div class="row w-100">
-							<input type="text" name="search" value="<?php echo $search; ?>" class="form-control" placeholder="<?php sn_e("Username or eMail Address"); ?>" />
-							<button class="btn btn-primary" name="view" value="search"><?php sn_e("Search"); ?></button>
+							<input type="text" name="search" value="<?php echo $search; ?>" class="form-control" placeholder="<?php lang()->p("Username or eMail Address"); ?>" />
+							<button class="btn btn-primary" name="view" value="search"><?php lang()->p("Search"); ?></button>
 						</div>
 					</div>
 				</form>
@@ -74,7 +74,7 @@ $link = DOMAIN_ADMIN . "comments?page=%d&tab=users#users";
 		<div class="row justify-content-md-center">
 			<div class="col-sm-6">
 				<div class="card w-100 shadow-sm bg-light">
-					<div class="card-body text-center p-4"><i><?php sn_e("No Users available"); ?></i></div>
+					<div class="card-body text-center p-4"><i><?php lang()->p("No Users available"); ?></i></div>
 				</div>
 			</div>
 		</div>
@@ -84,10 +84,10 @@ $link = DOMAIN_ADMIN . "comments?page=%d&tab=users#users";
 			<?php foreach (array("thead", "tfoot") as $tag) { ?>
 				<<?php echo $tag; ?>>
 					<tr class="thead-light">
-						<th width="38%" class="border-0 p-3 text-uppercase text-muted"><?php sn_e("Username"); ?></th>
-						<th width="15%" class="border-0 p-3 text-uppercase text-muted"><?php sn_e("eMail"); ?></th>
-						<th width="22%" class="border-0 p-3 text-uppercase text-muted"><?php sn_e("Comments"); ?></th>
-						<th width="25%" class="border-0 p-3 text-uppercase text-muted text-center"><?php sn_e("Actions"); ?></th>
+						<th width="38%" class="border-0 p-3 text-uppercase text-muted"><?php lang()->p("Username"); ?></th>
+						<th width="15%" class="border-0 p-3 text-uppercase text-muted"><?php lang()->p("eMail"); ?></th>
+						<th width="22%" class="border-0 p-3 text-uppercase text-muted"><?php lang()->p("Comments"); ?></th>
+						<th width="25%" class="border-0 p-3 text-uppercase text-muted text-center"><?php lang()->p("Actions"); ?></th>
 					</tr>
 				</<?php echo $tag; ?>>
 			<?php } ?>
@@ -104,23 +104,23 @@ $link = DOMAIN_ADMIN . "comments?page=%d&tab=users#users";
 						<td class="text-center align-middle pt-2 pb-2 pl-1 pr-1">
 							<a href="<?php echo DOMAIN_ADMIN; ?>comments?view=user&user=<?php echo $uuid; ?>">
 								<?php echo count(isset($user["comments"]) ? $user["comments"] : array()); ?>
-								<?php sn_e("Comments"); ?>
+								<?php lang()->p("Comments"); ?>
 							</a>
 						</td>
 						<td class="text-center align-middle pt-2 pb-2 pl-1 pr-1">
 							<div class="btn-group">
 								<button class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
-									<?php sn_e("Manage"); ?>
+									<?php lang()->p("Manage"); ?>
 								</button>
 								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item text-danger" href="<?php printf($link, $uuid, "delete"); ?>&anonymize=true"><?php sn_e("Delete (Anonymize)"); ?></a>
-									<a class="dropdown-item text-danger" href="<?php printf($link, $uuid, "delete"); ?>&anonymize=false"><?php sn_e("Delete (Completely)"); ?></a>
+									<a class="dropdown-item text-danger" href="<?php printf($link, $uuid, "delete"); ?>&anonymize=true"><?php lang()->p("Delete (Anonymize)"); ?></a>
+									<a class="dropdown-item text-danger" href="<?php printf($link, $uuid, "delete"); ?>&anonymize=false"><?php lang()->p("Delete (Completely)"); ?></a>
 									<div class="dropdown-divider"></div>
 
 									<?php if ($user["blocked"]) { ?>
-										<a class="dropdown-item" href="<?php printf($link, $uuid, "unblock"); ?>"><?php sn_e("Unblock User"); ?></a>
+										<a class="dropdown-item" href="<?php printf($link, $uuid, "unblock"); ?>"><?php lang()->p("Unblock User"); ?></a>
 									<?php } else { ?>
-										<a class="dropdown-item" href="<?php printf($link, $uuid, "block"); ?>"><?php sn_e("Block User"); ?></a>
+										<a class="dropdown-item" href="<?php printf($link, $uuid, "block"); ?>"><?php lang()->p("Block User"); ?></a>
 									<?php } ?>
 								</div>
 							</div>

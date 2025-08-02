@@ -964,23 +964,23 @@ class Post_Comments extends Plugin {
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title"><?php sn_e( 'Post Comments Deactivation' ); ?></h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="<?php sn_e( 'Close' ); ?>">
+								<h5 class="modal-title"><?php lang()->p( 'Post Comments Deactivation' ); ?></h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="<?php lang()->p( 'Close' ); ?>">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
 								<p>
-									<?php sn_e( 'You are about to deactivate the Post Comments plugin, which will delete all written comments. Do you want to backup your comments before deactivation?' ); ?>
+									<?php lang()->p( 'You are about to deactivate the Post Comments plugin, which will delete all written comments. Do you want to backup your comments before deactivation?' ); ?>
 								</p>
 								<p>
-									<?php sn_e( 'The Backup will be stored in %s', [ '<code>./bl-content/tmp/</code>' ] ); ?>
+									<?php lang()->p( 'The Backup will be stored in %s', [ '<code>./bl-content/tmp/</code>' ] ); ?>
 								</p>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-comments="backup"><?php sn_e( 'Yes, create a Backup' ); ?></button>
-								<button type="button" class="btn btn-danger" data-comments="deactivate"><?php sn_e( 'No, just Deactivate' ); ?></button>
-								<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php sn_e( 'Cancel' ); ?></button>
+								<button type="button" class="btn btn-primary" data-comments="backup"><?php lang()->p( 'Yes, create a Backup' ); ?></button>
+								<button type="button" class="btn btn-danger" data-comments="deactivate"><?php lang()->p( 'No, just Deactivate' ); ?></button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php lang()->p( 'Cancel' ); ?></button>
 							</div>
 						</div>
 					</div>
@@ -1046,7 +1046,7 @@ class Post_Comments extends Plugin {
 		ob_start();
 		?>
 		<a href="<?php echo HTML_PATH_ADMIN_ROOT; ?>comments" class="nav-link" style="white-space: nowrap;">
-			<span class="fa fa-comments"></span> <?php sn_e( 'Comments' ); ?>
+			<span class="fa fa-comments"></span> <?php lang()->p( 'Comments' ); ?>
 			<?php if ( ! empty( $count ) ) { ?>
 				<span class="badge badge-success badge-pill"><?php echo $count; ?></span>
 			<?php } ?>

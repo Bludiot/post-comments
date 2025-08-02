@@ -103,17 +103,22 @@ class Default_Template extends Comments_Template {
 				<input type="hidden" id="comment-user" name="comment[user]" value="<?php echo $username[0]; ?>" />
 				<input type="hidden" id="comment-token" name="comment[token]" value="<?php echo $username[1]; ?>" />
 				<div class="inner">
-					<?php sn_e( 'Logged in as %s (%s)', [ '<strong>' . $username[2] . '</strong>', $username[0] ] ); ?>
+					<?php printf(
+						'%s %s (%s)',
+						lang()->get( 'Logged in as' ),
+						$username[2],
+						$username[0]
+					); ?>
 				</div>
 			</div>
 		<?php } else { ?>
 			<div class="comment-header">
 				<div class="table">
 					<div class="table-cell align-left">
-						<input type="text" id="comment-user" name="comment[username]" value="<?php echo $username; ?>" placeholder="<?php sn_e( 'Your Username' ); ?>" />
+						<input type="text" id="comment-user" name="comment[username]" value="<?php echo $username; ?>" placeholder="<?php lang()->p( 'Your Username' ); ?>" />
 					</div>
 					<div class="table-cell align-right">
-						<input type="email" id="comment-mail" name="comment[email]" value="<?php echo $email; ?>" placeholder="<?php sn_e( 'Your eMail address' ); ?>" />
+						<input type="email" id="comment-mail" name="comment[email]" value="<?php echo $email; ?>" placeholder="<?php lang()->p( 'Your eMail address' ); ?>" />
 					</div>
 				</div>
 			</div>
@@ -131,15 +136,15 @@ class Default_Template extends Comments_Template {
 
 				<?php if ($title !== false) { ?>
 					<p>
-						<input type="text" id="comment-title" name="comment[title]" value="<?php echo $title; ?>" placeholder="<?php sn_e("Comment Title"); ?>" />
+						<input type="text" id="comment-title" name="comment[title]" value="<?php echo $title; ?>" placeholder="<?php lang()->p("Comment Title"); ?>" />
 					</p>
 				<?php } ?>
 				<p>
-					<textarea id="comment-text" name="comment[comment]" placeholder="<?php sn_e("Your Comment..."); ?>"><?php echo $message; ?></textarea>
+					<textarea id="comment-text" name="comment[comment]" placeholder="<?php lang()->p("Your Comment..."); ?>"><?php echo $message; ?></textarea>
 				</p>
 				<?php if ($captcha !== "disabled") { ?>
 					<div class="comment-captcha">
-						<input type="text" name="comment[captcha]" value="" placeholder="<?php sn_e("Answer"); ?>" />
+						<input type="text" name="comment[captcha]" value="" placeholder="<?php lang()->p("Answer"); ?>" />
 
 						<a href="<?php echo $page->permalink(); ?>#comments-comment-form" data-captcha="reload">
 							<?php echo $comments_core->generateCaptcha(); ?>
@@ -151,7 +156,7 @@ class Default_Template extends Comments_Template {
 					<div class="comment-reply">
 						<a href="<?php echo $page->permalink(); ?>" class="reply-cancel"></a>
 						<div class="reply-title">
-							<?php echo $reply->username(); ?>             <?php sn_e("wrote"); ?>:
+							<?php echo $reply->username(); ?>             <?php lang()->p("wrote"); ?>:
 						</div>
 						<div class="reply-content">
 							<?php echo $reply->comment(); ?>
@@ -185,9 +190,9 @@ class Default_Template extends Comments_Template {
 						<input type="hidden" name="action" value="comments" />
 						<?php if (is_a($reply, "Comment")) { ?>
 							<input type="hidden" name="comment[parent_uid]" value="<?php echo $reply->uid(); ?>" />
-							<button name="comments" value="reply" data-string="<?php sn_e("Comment"); ?>"><?php sn_e("Answer"); ?></button>
+							<button name="comments" value="reply" data-string="<?php lang()->p("Comment"); ?>"><?php lang()->p("Answer"); ?></button>
 						<?php } else { ?>
-							<button name="comments" value="comment" data-string="<?php sn_e("Answer"); ?>"><?php sn_e("Comment"); ?></button>
+							<button name="comments" value="comment" data-string="<?php lang()->p("Answer"); ?>"><?php lang()->p("Comment"); ?></button>
 						<?php } ?>
 					</div>
 				</div>
@@ -252,11 +257,11 @@ class Default_Template extends Comments_Template {
 						<div class="comment-title">
 							<?php echo $comment->title(); ?>
 							<?php if ($comment->status() === "pending") { ?>
-								<span class="comment-moderation"><?php sn_e("This comment hasn't been moderated yet!"); ?></span>
+								<span class="comment-moderation"><?php lang()->p("This comment hasn't been moderated yet!"); ?></span>
 							<?php } ?>
 						</div>
 					<?php } elseif ($comment->status() === "pending") { ?>
-							<div class="comment-moderation"><?php sn_e("This comment hasn't been moderated yet!"); ?></div>
+							<div class="comment-moderation"><?php lang()->p("This comment hasn't been moderated yet!"); ?></div>
 					<?php } ?>
 					<div class="comment-meta">
 						<span class="meta-author">
@@ -277,19 +282,19 @@ class Default_Template extends Comments_Template {
 					<div class="table-cell align-left">
 						<?php if (sn_config("comment_enable_like")) { ?>
 							<a href="<?php echo $url; ?>&type=like" class="action-like <?php echo ($comments_core->hasLiked($comment->uid()) ? "active" : ""); ?>">
-								<?php sn_e("Like"); ?> <span data-comments="like"><?php echo $comment->like(); ?></span>
+								<?php lang()->p("Like"); ?> <span data-comments="like"><?php echo $comment->like(); ?></span>
 							</a>
 						<?php } ?>
 						<?php if (sn_config("comment_enable_dislike")) { ?>
 							<a href="<?php echo $url; ?>&type=dislike" class="action-dislike <?php echo ($comments_core->hasDisliked($comment->uid()) ? "active" : ""); ?>">
-								<?php sn_e("Dislike"); ?> <span data-comments="dislike"><?php echo $comment->dislike(); ?></span>
+								<?php lang()->p("Dislike"); ?> <span data-comments="dislike"><?php echo $comment->dislike(); ?></span>
 							</a>
 						<?php } ?>
 					</div>
 					<div class="table-cell align-right">
 						<?php if ($maxdepth === 0 || $maxdepth > $comment->depth()) { ?>
 							<a href="<?php echo $page->permalink(); ?>?comments=reply&uid=<?php echo $comment->key(); ?>#post-comments-form" class="action-reply">
-								<?php sn_e("Reply"); ?>
+								<?php lang()->p("Reply"); ?>
 							</a>
 						<?php } ?>
 					</div>
@@ -324,15 +329,15 @@ class Default_Template extends Comments_Template {
 			?>
 			<div class="pagination pagination-top">
 				<?php if ($cpage === 1) { ?>
-					<span class="pagination-button button-previous disabled"><?php sn_e("Previous Comments"); ?></span>
+					<span class="pagination-button button-previous disabled"><?php lang()->p("Previous Comments"); ?></span>
 				<?php } else { ?>
-					<a href="<?php printf($link, $prev); ?>" class="pagination-button button-previous"><?php sn_e("Previous Comments"); ?></a>
+					<a href="<?php printf($link, $prev); ?>" class="pagination-button button-previous"><?php lang()->p("Previous Comments"); ?></a>
 				<?php } ?>
 
 				<?php if ($cpage < $maxpages) { ?>
-					<a href="<?php printf($link, $next); ?>" class="pagination-button button-next"><?php sn_e("Next Comments"); ?></a>
+					<a href="<?php printf($link, $next); ?>" class="pagination-button button-next"><?php lang()->p("Next Comments"); ?></a>
 				<?php } else { ?>
-					<span class="pagination-button button-next disabled"><?php sn_e("Next Comments"); ?></span>
+					<span class="pagination-button button-next disabled"><?php lang()->p("Next Comments"); ?></span>
 				<?php } ?>
 			</div>
 			<?php

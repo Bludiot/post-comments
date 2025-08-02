@@ -14,6 +14,21 @@ if ( ! defined( 'BLUDIT' ) ) {
 	die( 'You are not allowed direct access to this file.' );
 }
 
+/**
+ * Language class object
+ *
+ * Function to use inside other functions and
+ * methods rather than calling the global.
+ *
+ * @since  1.0.0
+ * @global object $L Language class
+ * @return object
+ */
+function lang() {
+	global $L;
+	return $L;
+}
+
 /*
  |  S18N :: FORMAT AND GET STRING
  |  @since  0.1.0

@@ -347,7 +347,7 @@ class Comments_Core
 		// Render Form
 		ob_start();
 		?>
-		<h3><?php sn_e( 'Leave a Comment' ); ?></h3>
+		<h3><?php lang()->p( 'Leave a Comment' ); ?></h3>
 		<div id="comments-form" class="post-comments-form">
 			<?php
 			if ($this->commentsAllowed($page)) {
@@ -355,7 +355,7 @@ class Comments_Core
 			} else {
 				?>
 					<div class="disabled-comments">
-						<?php sn_e("The comment section on this page has been disabled!"); ?>
+						<?php lang()->p("The comment section on this page has been disabled!"); ?>
 					</div>
 					<?php
 			}
@@ -416,7 +416,7 @@ class Comments_Core
 			if ($this->commentsAllowed($page)) {
 				?>
 					<div class="no-comments">
-						<?php sn_e("Currently there are no comments, so be the first!"); ?>
+						<?php lang()->p("Currently there are no comments, so be the first!"); ?>
 					</div>
 					<?php
 			}

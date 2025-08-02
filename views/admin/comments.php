@@ -69,8 +69,8 @@ foreach ($tabs as $status) {
 						<div class="form-row align-items-center">
 							<div class="w-100 row flex-nowrap">
 								<?php $search = isset($_GET["search"]) ? $_GET["search"] : ""; ?>
-								<input type="text" name="search" value="<?php echo $search; ?>" class="form-control" placeholder="<?php sn_e("Comment Title or Excerpt"); ?>" />
-								<button class="btn btn-primary" name="view" value="search"><?php sn_e("Search"); ?></button>
+								<input type="text" name="search" value="<?php echo $search; ?>" class="form-control" placeholder="<?php lang()->p("Comment Title or Excerpt"); ?>" />
+								<button class="btn btn-primary" name="view" value="search"><?php lang()->p("Search"); ?></button>
 							</div>
 						</div>
 					</form>
@@ -104,7 +104,7 @@ foreach ($tabs as $status) {
 			<div class="row justify-content-md-center">
 				<div class="col-sm-6">
 					<div class="card w-100 shadow-sm bg-light">
-						<div class="card-body text-center p-4"><i><?php sn_e("No Comments Available"); ?></i></div>
+						<div class="card-body text-center p-4"><i><?php lang()->p("No Comments Available"); ?></i></div>
 					</div>
 				</div>
 			</div>
@@ -118,9 +118,9 @@ foreach ($tabs as $status) {
 		<?php foreach (array("thead", "tfoot") as $tag) { ?>
 			<<?php echo $tag; ?>>
 				<tr class="thead-light">
-					<th width="56%" class="border-0 p-3 text-uppercase text-muted"><?php sn_e("Comment"); ?></th>
-					<th width="22%" class="border-0 p-3 text-uppercase text-muted text-center"><?php sn_e("Author"); ?></th>
-					<th width="22%" class="border-0 p-3 text-uppercase text-muted text-center"><?php sn_e("Actions"); ?></th>
+					<th width="56%" class="border-0 p-3 text-uppercase text-muted"><?php lang()->p("Comment"); ?></th>
+					<th width="22%" class="border-0 p-3 text-uppercase text-muted text-center"><?php lang()->p("Author"); ?></th>
+					<th width="22%" class="border-0 p-3 text-uppercase text-muted text-center"><?php lang()->p("Actions"); ?></th>
 				</tr>
 			</<?php echo $tag; ?>>
 		<?php } ?>
@@ -155,39 +155,39 @@ foreach ($tabs as $status) {
 					<td class="text-center align-middle" align="middle">
 						<div class="comment-actions" style="position: relative;">
 							<button class="dropdown-toggle button btn btn-sm" data-toggle="dropdown">
-								<?php sn_e("Manage"); ?>
+								<?php lang()->p("Manage"); ?>
 							</button>
 							<ul class="dropdown-menu p-0 m-0" style="margin: 0; padding: 0;">
 								<li>
-									<a class="dropdown-item text-primary" href="<?php echo DOMAIN_ADMIN . "comments/edit/?uid=" . $uid; ?>"><?php sn_e("Edit Comment"); ?></a>
+									<a class="dropdown-item text-primary" href="<?php echo DOMAIN_ADMIN . "comments/edit/?uid=" . $uid; ?>"><?php lang()->p("Edit Comment"); ?></a>
 								</li>
 								<?php if ($status !== "pending") { ?>
 								<li>
-									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "pending"); ?>"><?php sn_e("Mark as Pending"); ?></a>
+									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "pending"); ?>"><?php lang()->p("Mark as Pending"); ?></a>
 								</li>
 								<?php } ?>
 
 								<?php if ($status !== "approved") { ?>
 								<li>
-									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "approved"); ?>"><?php sn_e("Approve Comment"); ?></a>
+									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "approved"); ?>"><?php lang()->p("Approve Comment"); ?></a>
 								</li>
 								<?php } ?>
 								<?php if ($status !== "rejected") { ?>
 								<li>
-									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "rejected"); ?>"><?php sn_e("Reject Comment"); ?></a>
+									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "rejected"); ?>"><?php lang()->p("Reject Comment"); ?></a>
 								</li>
 								<?php } ?>
 								<?php if ($status !== "spam") { ?>
 								<li>
-									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "spam"); ?>"><?php sn_e("Mark as Spam"); ?></a>
+									<a class="dropdown-item" href="<?php printf($link, "moderate", $uid, "spam"); ?>"><?php lang()->p("Mark as Spam"); ?></a>
 								</li>
 								<?php } ?>
 								<?php if ($status !== "pending") { ?>
 								<li>
-									<a class="dropdown-item" href="<?php echo $page->permalink(); ?>#comment-<?php echo $uid; ?>" target="_blank" rel="noopener noreferrer"><?php sn_e("View in Page"); ?></a>
+									<a class="dropdown-item" href="<?php echo $page->permalink(); ?>#comment-<?php echo $uid; ?>" target="_blank" rel="noopener noreferrer"><?php lang()->p("View in Page"); ?></a>
 								</li>
 								<li>
-									<a class="dropdown-item text-danger" href="<?php printf($link, "delete", $uid, "delete"); ?>"><?php sn_e("Delete Comment"); ?></a>
+									<a class="dropdown-item text-danger" href="<?php printf($link, "delete", $uid, "delete"); ?>"><?php lang()->p("Delete Comment"); ?></a>
 								</li>
 								<?php } ?>
 							</ul>
