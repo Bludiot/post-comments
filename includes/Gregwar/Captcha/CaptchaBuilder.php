@@ -414,8 +414,8 @@ class CaptchaBuilder implements CaptchaBuilderInterface
             $this->useFingerprint = false;
         }
 
-        if ($font === null) {
-            $font = __DIR__ . '/Font/captcha'.$this->rand(0, 5).'.ttf';
+        if ( $font === null ) {
+            $font = PC_PATH . 'assets/fonts/captcha' . $this->rand( 0, 5 ) . '.ttf';
         }
 
         if (empty($this->backgroundImages)) {
