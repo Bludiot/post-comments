@@ -490,7 +490,7 @@ class Comment
 		}
 
 		// Return Mystery Man
-		return PC_DOMAIN . "includes/img/default-avatar.jpg";
+		return PC_DOMAIN . "assets/img/default-avatar.jpg";
 	}
 
 	/*
