@@ -1178,6 +1178,42 @@ class Post_Comments extends Plugin {
 	}
 
 	/**
+	 * Add comments list to theme hook `comments_list`
+	 *
+	 * This hook is established by this plugin.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object The Comments_Core class.
+	 * @return void
+	 */
+	public function comments_list() {
+
+		// Access global variables.
+		global $comments_core;
+
+		print( $comments_core->render_list() );
+	}
+
+	/**
+	 * Add comments form( to theme hook `comments_form(`
+	 *
+	 * This hook is established by this plugin.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @global object The Comments_Core class.
+	 * @return void
+	 */
+	public function comments_form() {
+
+		// Access global variables.
+		global $comments_core;
+
+		print( $comments_core->renderForm() );
+	}
+
+	/**
 	 * Add comments to theme hook `siteBodyBegin`
 	 *
 	 * @since  1.0.0

@@ -440,6 +440,24 @@ class Comments_Core
 		return $content;
 	}
 
+	public function render_list( $print = false ) {
+
+		ob_start();
+		?>
+		<div id="comments-list" class="post-comments-list">
+			<?php print ( $this->renderComments() ); ?>
+		</div>
+		<?php
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		// Print or Return
+		if (!$print) {
+			return $content;
+		}
+		print ($content);
+	}
+
 	/*
 	 |  THEME :: RENDER SECTION
 	 |  @since  0.1.0
@@ -685,7 +703,7 @@ class Comments_Core
 	 */
 	public function writeComment($data, $key = null)
 	{
-		global $login, $pages, $users, $url, $comments_index, $comments_users;
+		global $comments_plugin, $login, $pages, $users, $url, $comments_index, $comments_users;
 
 		// Temp
 		if (!is_a($login, "Login")) {
@@ -786,15 +804,15 @@ class Comments_Core
 				$data["status"] = "approved";
 				break;
 			}
-			if ($login->isLogged()) {
-				if (sn_config("moderation_loggedin")) {
-					$data["status"] = "approved";
+			if ( $login->isLogged() ) {
+				if ( in_array( $login->role(), $comments_plugin->getValue( 'no_moderation_role' ) ) ) {
+					$data['status'] = 'approved';
 					break;
-				} elseif ($login->role() === "admin") {
-					$data["status"] = "approved";
+				} elseif ( 'admin' === $login->role() ) {
+					$data['status'] = 'approved';
 					break;
-				} elseif ($page->username() === $login->username()) {
-					$data["status"] = "approved";
+				} elseif ( $page->username() === $login->username() ) {
+					$data['status'] = 'approved';
 					break;
 				}
 			}
