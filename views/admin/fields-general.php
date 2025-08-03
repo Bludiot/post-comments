@@ -25,11 +25,11 @@
 <div class="form-field form-group row">
 	<label for="no_moderation_role" class="form-label col-sm-2 col-form-label"><?php lang()->p( 'Exceptions' ); ?></label>
 	<div class="col-sm-10">
+		<input type="hidden" name="no_moderation_role[]" value="default" />
 		<div class="custom-checkbox">
 			<?php
 			printf(
-				'<label class="check-label-wrap" for="admin"><input type="checkbox" name="no_moderation_role[]" id="admin" value="admin" %s /> %s</label>',
-				( is_array( $this->getValue( 'no_moderation_role' ) ) && in_array( 'admin', $this->getValue( 'no_moderation_role' ) ) ? 'checked' : '' ),
+				'<label class="check-label-wrap" for="admin"><input type="checkbox" name="no_moderation_role[]" id="admin" value="admin" checked="checked" disabled="disabled" /> %s</label>',
 				sn__( 'Administrator' )
 			); ?>
 		</div>

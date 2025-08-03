@@ -169,7 +169,7 @@ class Post_Comments extends Plugin {
 		// Plugin options for database.
 		$this->dbFields = [
 			'moderation'              => true,
-			'no_moderation_role'      => ['admin'],
+			'no_moderation_role'      => [ 'default', 'admin' ],
 			'moderation_loggedin'     => true,
 			'moderation_approved'     => true,
 			'comment_page_type'       => ['published','sticky'],
