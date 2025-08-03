@@ -107,15 +107,21 @@ class Comment
 	 |
 	 |  @return string  The (sanitized) content on success, FALSE on failure.
 	 */
-	public function comment()
-	{
-		$content = $this->getValue("comment");
-		if (sn_config("comment_markup_html")) {
-			$content = Sanitize::htmlDecode($content);
-		}
-		if (sn_config("comment_markup_markdown")) {
-			$parsedown = new Parsedown();
-			$content = $parsedown->text($content);
+	public function comment() {
+
+		// Access global variables.
+		global $comments_plugin;
+
+		$content = $this->getValue( 'comment' );
+
+		if ( is_array( $comments_plugin->getValue( 'comment_markup' ) ) ) {
+			if ( in_array( 'html', $comments_plugin->getValue( 'comment_markup' ) ) ) {
+				$content = Sanitize :: htmlDecode( $content );
+			}
+			if ( in_array( 'mark', $comments_plugin->getValue( 'comment_markup' ) ) ) {
+				$parsedown = new Parsedown();
+				$content   = $parsedown->text( $content );
+			}
 		}
 		return $content;
 	}

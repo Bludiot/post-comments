@@ -416,8 +416,11 @@ class Comments extends dbJSON {
 		// Sanitize Comment
 		$allowed = "<a><b><strong><i><em><u><del><ins><s><strike><p><br><br/><br />";
 		$allowed .= "<mark><abbr><acronym><dfn><ul><ol><li><dl><dt><dd><hr><hr/><hr />";
-		if (sn_config("comment_markup_html")) {
-			$row["comment"] = strip_tags($row["comment"], $allowed);
+
+		if ( is_array( $comments_plugin->getValue( 'comment_markup' ) ) ) {
+			if ( in_array( 'html', $comments_plugin->getValue( 'comment_markup' ) ) ) {
+				$row['comment'] = strip_tags( $row['comment'], $allowed );
+			}
 		} else {
 			$row["comment"] = strip_tags($row["comment"]);
 		}

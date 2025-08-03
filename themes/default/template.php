@@ -215,7 +215,7 @@ class Default_Template extends Comments_Template {
 	 * @return void
 	 */
 	public function comment($comment, $uid, $depth) {
-		global $users, $security, $comments_core, $comments_users;
+		global $users, $security, $comments_core, $comments_plugin, $comments_users;
 
 		// Get Page
 		$page = new Page($comment->page_key());
@@ -280,12 +280,12 @@ class Default_Template extends Comments_Template {
 			<div class="comment-action">
 				<div class="table">
 					<div class="table-cell align-left">
-						<?php if (sn_config("comment_enable_like")) { ?>
+						<?php if ( in_array( 'like', $comments_plugin->getValue( 'comment_votes' ) ) ) { ?>
 							<a href="<?php echo $url; ?>&type=like" class="action-like <?php echo ($comments_core->hasLiked($comment->uid()) ? "active" : ""); ?>">
 								<?php lang()->p("Like"); ?> <span data-comments="like"><?php echo $comment->like(); ?></span>
 							</a>
 						<?php } ?>
-						<?php if (sn_config("comment_enable_dislike")) { ?>
+						<?php if ( in_array( 'dislike', $comments_plugin->getValue( 'comment_votes' ) ) ) { ?>
 							<a href="<?php echo $url; ?>&type=dislike" class="action-dislike <?php echo ($comments_core->hasDisliked($comment->uid()) ? "active" : ""); ?>">
 								<?php lang()->p("Dislike"); ?> <span data-comments="dislike"><?php echo $comment->dislike(); ?></span>
 							</a>

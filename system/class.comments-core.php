@@ -141,13 +141,6 @@ class Comments_Core
 					return "data:image/bmp;base64," . $captcha->show(false, 2.8);
 				}
 				return '<img src="data:image/bmp;base64,' . $captcha->show(false, 2.8) . '" width="auto"  height="' . $height . 'px" />';
-
-			case "recaptchav2":     //@fallthrough
-			case "recaptchav3":
-				if ($src) {
-					return false;
-				}
-				return '<div class="g-recaptcha" data-sitekey="' . sn_config("frontend_recaptcha_public") . '"></div>';
 		}
 		return false;
 	}
@@ -174,11 +167,6 @@ class Comments_Core
 			case "purecaptcha":
 				$captcha = new Gregwar\Captcha\CaptchaBuilder($_SESSION["captcha"]);
 				return $captcha->testPhrase($phrase);
-
-			case "recaptchav2":     //@fallthrough
-			case "recaptchav3":
-				$recaptcha = new ReCaptcha\ReCaptcha(sn_config("frontend_recaptcha_private"));
-				return $recaptcha->isSuccess();
 		}
 		return false;
 	}

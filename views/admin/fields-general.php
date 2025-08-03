@@ -29,14 +29,14 @@
 		<div class="custom-checkbox">
 			<?php
 			printf(
-				'<label class="check-label-wrap" for="admin"><input type="checkbox" name="no_moderation_role[]" id="admin" value="admin" checked="checked" disabled="disabled" /> %s</label>',
+				'<label class="check-label-wrap" for="admin"> <input type="checkbox" name="no_moderation_role[]" id="admin" value="admin" checked="checked" disabled="disabled" /> %s</label>',
 				sn__( 'Administrator' )
 			); ?>
 		</div>
 		<div class="custom-checkbox">
 			<?php
 			printf(
-				'<label class="check-label-wrap" for="editor"><input type="checkbox" name="no_moderation_role[]" id="editor" value="editor" %s /> %s</label>',
+				'<label class="check-label-wrap" for="editor"> <input type="checkbox" name="no_moderation_role[]" id="editor" value="editor" %s /> %s</label>',
 				( is_array( $this->getValue( 'no_moderation_role' ) ) && in_array( 'editor', $this->getValue( 'no_moderation_role' ) ) ? 'checked' : '' ),
 				sn__( 'Editor' )
 			); ?>
@@ -44,7 +44,7 @@
 		<div class="custom-checkbox">
 			<?php
 			printf(
-				'<label class="check-label-wrap" for="author"><input type="checkbox" name="no_moderation_role[]" id="author" value="author" %s /> %s</label>',
+				'<label class="check-label-wrap" for="author"> <input type="checkbox" name="no_moderation_role[]" id="author" value="author" %s /> %s</label>',
 				( is_array( $this->getValue( 'no_moderation_role' ) ) && in_array( 'author', $this->getValue( 'no_moderation_role' ) ) ? 'checked' : '' ),
 				sn__( 'Author' )
 			); ?>
@@ -59,7 +59,7 @@
 		<div class="custom-checkbox">
 			<?php
 			printf(
-				'<label class="check-label-wrap" for="published"><input type="checkbox" name="comment_page_type[]" id="published" value="published" %s /> %s</label>',
+				'<label class="check-label-wrap" for="published"> <input type="checkbox" name="comment_page_type[]" id="published" value="published" %s /> %s</label>',
 				( is_array( $this->getValue( 'comment_page_type' ) ) && in_array( 'published', $this->getValue( 'comment_page_type' ) ) ? 'checked' : '' ),
 				sn__( 'Standard Posts' )
 			); ?>
@@ -67,7 +67,7 @@
 		<div class="custom-checkbox">
 			<?php
 			printf(
-				'<label class="check-label-wrap" for="sticky"><input type="checkbox" name="comment_page_type[]" id="sticky" value="sticky" %s /> %s</label>',
+				'<label class="check-label-wrap" for="sticky"> <input type="checkbox" name="comment_page_type[]" id="sticky" value="sticky" %s /> %s</label>',
 				( is_array( $this->getValue( 'comment_page_type' ) ) && in_array( 'sticky', $this->getValue( 'comment_page_type' ) ) ? 'checked' : '' ),
 				sn__( 'Sticky Posts' )
 			); ?>
@@ -75,7 +75,7 @@
 		<div class="custom-checkbox">
 			<?php
 			printf(
-				'<label class="check-label-wrap" for="static"><input type="checkbox" name="comment_page_type[]" id="static" value="static" %s /> %s</label>',
+				'<label class="check-label-wrap" for="static"> <input type="checkbox" name="comment_page_type[]" id="static" value="static" %s /> %s</label>',
 				( is_array( $this->getValue( 'comment_page_type' ) ) && in_array( 'static', $this->getValue( 'comment_page_type' ) ) ? 'checked' : '' ),
 				sn__( 'Static Pages' )
 			); ?>
@@ -112,45 +112,54 @@
 </div>
 
 <div class="form-field form-group row">
-	<label for="markup" class="form-label col-sm-2 col-form-label"><?php lang()->p( 'Comment Markup' ); ?></label>
+	<label for="comment_markup" class="form-label col-sm-2 col-form-label"><?php lang()->p( 'Comment Markup' ); ?></label>
 	<div class="col-sm-10">
-		<select id="markup" name="comment_markup" class="form-select">
-			<option value="html" <?php sn_selected( 'comment_markup', 'html' ); ?>><?php lang()->p( 'Basic HTML' ); ?></option>
-			<option value="mark" <?php sn_selected( 'comment_markup', 'mark' ); ?>><?php lang()->p( 'Markdown' ); ?></option>
-			<option value="both" <?php sn_selected( 'comment_markup', 'both' ); ?>><?php lang()->p( 'HTML & Markdown' ); ?></option>
-			<option value="none" <?php sn_selected( 'comment_markup', 'none' ); ?>><?php lang()->p( 'Disabled' ); ?></option>
-		</select>
-		<small class="form-text"><?php lang()->p( '' ) ?></small>
-	</div>
-</div>
-
-<div class="form-group row">
-	<label class="col-sm-2 col-form-label"><?php lang()->p( 'Comment Markup' ); ?></label>
-	<div class="col-sm-10">
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="markup-html" name="comment_markup_html" value="true" class="custom-control-input" <?php sn_checked( 'comment_markup_html' ); ?> />
-			<label class="custom-control-label" for="markup-html"><?php lang()->p( 'Allow Basic HTML' ); ?></label>
+		<input type="hidden" name="comment_markup[]" value="default" />
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="html"> <input type="checkbox" name="comment_markup[]" id="html" value="html" %s /> %s</label>',
+				( is_array( $this->getValue( 'comment_markup' ) ) && in_array( 'html', $this->getValue( 'comment_markup' ) ) ? 'checked' : '' ),
+				sn__( 'Basic HTML' )
+			); ?>
 		</div>
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="markup-markdown" name="comment_markup_markdown" value="true" class="custom-control-input" <?php sn_checked( 'comment_markup_markdown' ); ?> />
-			<label class="custom-control-label" for="markup-markdown"><?php lang()->p( 'Allow Markdown' ); ?></label>
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="mark"> <input type="checkbox" name="comment_markup[]" id="mark" value="mark" %s /> %s</label>',
+				( is_array( $this->getValue( 'comment_markup' ) ) && in_array( 'mark', $this->getValue( 'comment_markup' ) ) ? 'checked' : '' ),
+				sn__( 'Markdown' )
+			); ?>
 		</div>
 	</div>
 </div>
 
-<div class="form-group row">
-	<label class="col-sm-2 col-form-label"><?php lang()->p( 'Comment Voting' ); ?></label>
+<div class="form-field form-group row">
+	<label for="comment_votes" class="form-label col-sm-2 col-form-label"><?php lang()->p( 'Comment Voting' ); ?></label>
 	<div class="col-sm-10">
+		<input type="hidden" name="comment_votes[]" value="default" />
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="like"> <input type="checkbox" name="comment_votes[]" id="like" value="like" %s /> %s</label>',
+				( is_array( $this->getValue( 'comment_votes' ) ) && in_array( 'like', $this->getValue( 'comment_votes' ) ) ? 'checked' : '' ),
+				sn__( 'Comment Likes' )
+			); ?>
+		</div>
+		<div class="custom-checkbox">
+			<?php
+			printf(
+				'<label class="check-label-wrap" for="dislike"> <input type="checkbox" name="comment_votes[]" id="dislike" value="dislike" %s /> %s</label>',
+				( is_array( $this->getValue( 'comment_votes' ) ) && in_array( 'dislike', $this->getValue( 'comment_votes' ) ) ? 'checked' : '' ),
+				sn__( 'Comment Dislikes' )
+			); ?>
+		</div>
+	</div>
+</div>
 
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="like" name="comment_enable_like" value="true" class="custom-control-input" <?php sn_checked( 'comment_enable_like' ); ?> />
-			<label class="custom-control-label" for="like"><?php lang()->p( 'Allow to %s comments', array( '<b>' . sn__( 'Like' ) . '</b>' )); ?></label>
-		</div>
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="dislike" name="comment_enable_dislike" value="true" class="custom-control-input" <?php sn_checked( 'comment_enable_dislike' ); ?> />
-			<label class="custom-control-label" for="dislike"><?php lang()->p( 'Allow to %s comments', array( '<b>' . sn__( 'Dislike' ) . '</b>' )); ?></label>
-		</div>
-		<br />
+<div class="form-group row">
+	<label class="col-sm-2 col-form-label"><?php lang()->p( 'Vote Storage' ); ?></label>
+	<div class="col-sm-10">
 		<select id="vote-storage" name="comment_vote_storage" class="form-select">
 			<option value="cookie" <?php sn_selected( 'comment_vote_storage", "cookie' ); ?>><?php lang()->p( 'Cookie Storage' ); ?></option>
 			<option value="session" <?php sn_selected( 'comment_vote_storage", "session' ); ?>><?php lang()->p( 'Session Storage' ); ?></option>

@@ -176,28 +176,23 @@ class Post_Comments extends Plugin {
 			'comment_title'           => 'disabled',
 			'comment_limit'           => 0,
 			'comment_depth'           => 3,
-			'comment_markup'          => 'html',
-			'comment_markup_html'     => true,
-			'comment_markup_markdown' => false,
+			'comment_markup'          => [ 'default', 'html' ],
+			'comment_votes'           => [ 'default' ],
 			'comment_vote_storage'    => 'session',
-			'comment_enable_like'     => true,
-			'comment_enable_dislike'  => true,
 			'frontend_captcha'        => function_exists( 'imagettfbbox' ) ? 'gregwar' : 'purecaptcha',
-			'frontend_recaptcha_public'  => '',
-			'frontend_recaptcha_private' => '',
-			'frontend_terms'        => 'default',
-			'frontend_filter'       => 'pageEnd',
-			'frontend_template'     => 'default',
-			'frontend_order'        => 'date_desc',
-			'frontend_form'         => 'top',
-			'frontend_per_page'     => 15,
-			'frontend_ajax'         => true,
-			'frontend_avatar'       => 'mystery',
-			'subscription'          => false,
-			'subscription_from'     => "ticker@{$_SERVER['SERVER_NAME']}",
-			'subscription_reply'    => "noreply@{$_SERVER['SERVER_NAME']}",
-			'subscription_optin'    => 'default',
-			'subscription_ticker'   => 'default',
+			'frontend_terms'          => 'default',
+			'frontend_filter'         => 'pageEnd',
+			'frontend_template'       => 'default',
+			'frontend_order'          => 'date_desc',
+			'frontend_form'           => 'top',
+			'frontend_per_page'       => 15,
+			'frontend_ajax'           => true,
+			'frontend_avatar'         => 'mystery',
+			'subscription'            => false,
+			'subscription_from'       => "ticker@{$_SERVER['SERVER_NAME']}",
+			'subscription_reply'      => "noreply@{$_SERVER['SERVER_NAME']}",
+			'subscription_optin'      => 'default',
+			'subscription_ticker'     => 'default',
 
 			// Frontend messages, can be changed by the user.
 			'string_success_1' => sn__( 'Thank you for your comment.' ),
@@ -664,10 +659,6 @@ class Post_Comments extends Plugin {
 
 		// Validations.
 		$config = [];
-		$text = [
-			'frontend_recaptcha_public',
-			'frontend_recaptcha_private'
-		];
 		$numbers = [
 			'comment_limit',
 			'comment_depth',
