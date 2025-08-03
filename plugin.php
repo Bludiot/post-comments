@@ -229,6 +229,41 @@ class Post_Comments extends Plugin {
 	}
 
 	/**
+	 * Install plugin
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @param  integer $position
+	 * @return boolean Return true if the installation is successful.
+	 */
+	public function install( $position = 100 ) {
+
+		// Create workspace
+		$workspace = $this->workspace();
+		mkdir( $workspace, DIR_PERMISSIONS, true );
+
+		// Create plugin directory for the database.
+		mkdir( PATH_PLUGINS_DATABASES . $this->directoryName, DIR_PERMISSIONS, true );
+
+		$this->dbFields['position'] = $position;
+
+		// Sanitize default values to store in the file.
+		foreach ( $this->dbFields as $key => $value ) {
+
+			if ( is_array( $value ) ) {
+				$value = $value;
+			} else {
+				$value = Sanitize :: html( $value );
+			}
+			settype( $value, gettype( $this->dbFields[$key] ) );
+			$this->db[$key] = $value;
+		}
+
+		// Create the database.
+		return $this->save();
+	}
+
+	/**
 	 * Plugin installed
 	 *
 	 * Supersedes parent method.
