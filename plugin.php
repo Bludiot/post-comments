@@ -71,6 +71,10 @@ class Post_Comments extends Plugin {
 
 		// Run the parent constructor.
 		parent :: __construct();
+
+		if ( ! checkRole( [ 'admin' ], false ) ) {
+			$this->formButtons = false;
+		}
 	}
 
 	/**
@@ -369,6 +373,10 @@ class Post_Comments extends Plugin {
 
 		// Access global variables.
 		global $L, $plugin, $site;
+
+		if ( ! checkRole( [ 'admin' ], false ) ) {
+			die( 'You are not allowed to access this page.' );
+		}
 
 		$html = '';
 		ob_start();
