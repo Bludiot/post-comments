@@ -85,27 +85,6 @@
 </div>
 
 <div class="form-group row">
-	<label for="comment-title" class="col-sm-2 col-form-label"><?php lang()->p( 'Allow Comments' ); ?></label>
-	<div class="col-sm-10">
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="comment-on-public" name="comment_on_public" value="true"
-					class="custom-control-input" <?php sn_checked( 'comment_on_public' ); ?> />
-			<label class="custom-control-label" for="comment-on-public"><?php lang()->p( 'Standard Posts' ); ?></label>
-		</div>
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="comment-on-sticky" name="comment_on_sticky" value="true"
-					class="custom-control-input" <?php sn_checked( 'comment_on_sticky' ); ?> />
-			<label class="custom-control-label" for="comment-on-sticky"><?php lang()->p( 'Sticky Posts' ); ?></label>
-		</div>
-		<div class="custom-control custom-checkbox">
-			<input type="checkbox" id="comment-on-static" name="comment_on_static" value="true"
-					class="custom-control-input" <?php sn_checked( 'comment_on_static' ); ?> />
-			<label class="custom-control-label" for="comment-on-static"><?php lang()->p( 'Static Pages' ); ?></label>
-		</div>
-	</div>
-</div>
-
-<div class="form-group row">
 	<label for="comment-title" class="col-sm-2 col-form-label"><?php lang()->p( 'Comment Title' ); ?></label>
 	<div class="col-sm-10">
 		<select id="comment-title" name="comment_title" class="form-select">

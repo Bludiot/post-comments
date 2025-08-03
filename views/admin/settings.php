@@ -86,27 +86,6 @@ $static = $pages->getStaticDB( false );
 						</div>
 
 						<div class="form-group row">
-							<label for="sn-comment-title" class="col-sm-3 col-form-label"><?php lang()->p( 'Allow Comments' ); ?></label>
-							<div class="col-sm-9">
-								<div class="custom-control custom-checkbox">
-									<input type="checkbox" id="sn-comment-on-public" name="comment_on_public" value="true"
-										   class="custom-control-input" <?php sn_checked( 'comment_on_public' ); ?> />
-									<label class="custom-control-label" for="sn-comment-on-public"><?php lang()->p( '... on Public Pages' ); ?></label>
-								</div>
-								<div class="custom-control custom-checkbox">
-									<input type="checkbox" id="sn-comment-on-sticky" name="comment_on_sticky" value="true"
-										   class="custom-control-input" <?php sn_checked( 'comment_on_sticky' ); ?> />
-									<label class="custom-control-label" for="sn-comment-on-sticky"><?php lang()->p( '... on Sticky Pages' ); ?></label>
-								</div>
-								<div class="custom-control custom-checkbox">
-									<input type="checkbox" id="sn-comment-on-static" name="comment_on_static" value="true"
-										   class="custom-control-input" <?php sn_checked( 'comment_on_static' ); ?> />
-									<label class="custom-control-label" for="sn-comment-on-static"><?php lang()->p( '... on Static Pages' ); ?></label>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group row">
 							<label for="sn-comment-title" class="col-sm-3 col-form-label"><?php lang()->p( 'Comment Title' ); ?></label>
 							<div class="col-sm-9">
 								<select id="sn-comment-title" name="comment_title" class="form-control custom-select">

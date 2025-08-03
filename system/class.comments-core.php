@@ -469,21 +469,24 @@ class Comments_Core
 	 */
 	public function render($print = false)
 	{
-		global $comments, $page, $url;
+		global $comments, $comments_plugin, $page, $url;
 
 		// Validate Call
 		if ($url->whereAmI() !== "page" || empty($page->uuid())) {
 			return false;
 		}
-		if (!sn_config("comment_on_public") && $page->published()) {
-			return false;
+		if ( ! is_array( $comments_plugin->getValue( 'comment_page_type' ) ) ) {
+			if ( in_array( 'published', $comments_plugin->getValue( 'comment_page_type' ) ) && $page->published() ) {
+				return false;
+			}
+			if ( in_array( 'sticky', $comments_plugin->getValue( 'comment_page_type' ) ) && $page->sticky() ) {
+				return false;
+			}
+			if ( in_array( 'static', $comments_plugin->getValue( 'comment_page_type' ) ) && $page->isStatic() ) {
+				return false;
+			}
 		}
-		if (!sn_config("comment_on_static") && $page->isStatic()) {
-			return false;
-		}
-		if (!sn_config("comment_on_sticky") && $page->sticky()) {
-			return false;
-		}
+
 		if (!is_a($comments, "Comments")) {
 			$comments = new Comments($page->uuid());
 		}
@@ -653,17 +656,23 @@ class Comments_Core
 	 */
 	public function commentsAllowed($page)
 	{
+
+		global $comments_plugin;
+
 		if (!$page->allowComments() || $page->draft() || $page->scheduled()) {
 			return false;
 		}
-		if ($page->published() && !sn_config("comment_on_public")) {
-			return false;
-		}
-		if ($page->sticky() && !sn_config("comment_on_sticky")) {
-			return false;
-		}
-		if ($page->isStatic() && !sn_config("comment_on_static")) {
-			return false;
+
+		if ( is_array( $comments_plugin->getValue( 'comment_page_type' ) ) ) {
+			if ( ! in_array( 'published', $comments_plugin->getValue( 'comment_page_type' ) ) && $page->published() ) {
+				return false;
+			}
+			if ( ! in_array( 'sticky', $comments_plugin->getValue( 'comment_page_type' ) ) && $page->sticky() ) {
+				return false;
+			}
+			if ( ! in_array( 'static', $comments_plugin->getValue( 'comment_page_type' ) ) && $page->isStatic() ) {
+				return false;
+			}
 		}
 		return true;
 	}
