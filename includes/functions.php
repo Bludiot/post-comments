@@ -94,30 +94,29 @@ function sn_response( $data, $key = null ) {
     return $comments_plugin->response( $data, $key );
 }
 
-/*
- |  SHORTFUNC :: SELECTED
- |  @since  0.1.0
- |
- |  @return die();
+/**
+ * Selected helper method
+ *
+ * @since  1.0.0
+ * @param  string $field The respective option key (used in `getValue()`).
+ * @param  boolean $value The value to compare with.
+ * @param  boolean $print True to print `selected="selected"`.
+ *                       False to return the string.
+ *                       Use `null` to return as boolean.
+ * @return mixed
  */
-function sn_selected( $field, $value = true, $print = true ) {
+function selected( $field = '', $value = true, $print = true ) {
 
-    //Access global variables.
-    global $comments_plugin;
-
-    return $comments_plugin->selected( $field, $value, $print );
-}
-
-/*
- |  SHORTFUNC :: CHECKED
- |  @since  0.1.0
- |
- |  @return die();
- */
-function sn_checked( $field, $value = true, $print = true ) {
-
-    //Access global variables.
-    global $comments_plugin;
-
-    return $comments_plugin->checked( $field, $value, $print );
+    if ( sn_config( $field ) == $value ) {
+        $selected = 'selected="selected"';
+    } else {
+        $selected = '';
+    }
+    if ( null === $print ) {
+        return ! empty( $selected );
+    }
+    if ( ! $print ) {
+        return $selected;
+    }
+    print( $selected );
 }

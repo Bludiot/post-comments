@@ -78,62 +78,6 @@ class Post_Comments extends Plugin {
 	}
 
 	/**
-	 * Selected helper method
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string $field The respective option key (used in `getValue()`).
-	 * @param  boolean $value The value to compare with.
-	 * @param  boolean $print True to print `selected="selected"`.
-	 *                       False to return the string.
-	 *                       Use `null` to return as boolean.
-	 * @return mixed
-	 */
-	public function selected( $field = '', $value = true, $print = true ) {
-
-		if ( sn_config( $field ) == $value ) {
-			$selected = 'selected="selected"';
-		} else {
-			$selected = '';
-		}
-		if ( null === $print ) {
-			return ! empty( $selected );
-		}
-		if ( ! $print ) {
-			return $selected;
-		}
-		print( $selected );
-	}
-
-	/**
-	 * Checked helper method
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string $field The respective option key (used in `getValue()`).
-	 * @param  boolean $value The value to compare with.
-	 * @param  boolean $print True to print `checked="checked"`.
-	 *                        False to return the string.
-	 *                        Use `null` to return as boolean.
-	 * @return mixed
-	 */
-	public function checked( $field = '', $value = true, $print = true ) {
-
-		if ( sn_config( $field ) == $value ) {
-			$checked = 'checked="checked"';
-		} else {
-			$checked = '';
-		}
-		if ( null === $print ) {
-			return ! empty( $checked );
-		}
-		if ( ! $print ) {
-			return $checked;
-		}
-		print( $checked );
-	}
-
-	/**
 	 * Get database value
 	 *
 	 * Supersedes parent method.
@@ -199,18 +143,18 @@ class Post_Comments extends Plugin {
 			'subscription_ticker'     => 'default',
 
 			// Frontend messages, can be changed by the user.
-			'string_success_1' => sn__( 'Thank you for your comment.' ),
-			'string_success_2' => sn__( 'Thank you for your comment. Please confirm your subscription via the link we sent to your email address.' ),
-			'string_success_3' => sn__( 'Thank you for voting this comment.' ),
-			'string_error_1'   => sn__( 'An unknown error occurred. Please reload the page and try it again.' ),
-			'string_error_2'   => sn__( 'An error occurred: The passed username is invalid or too long (42 characters only).' ),
-			'string_error_3'   => sn__( 'An error occurred: The passed email address is invalid.' ),
-			'string_error_4'   => sn__( 'An error occurred: The comment text is missing.' ),
-			'string_error_5'   => sn__( 'An error occurred: The comment title is missing.' ),
-			'string_error_6'   => sn__( 'An error occurred: You need to accept the terms to comment.' ),
-			'string_error_7'   => sn__( 'An error occurred: Your IP address or email address has been marked as spam.' ),
-			'string_error_8'   => sn__( 'An error occurred: You already rated this comment.' ),
-			'string_terms_of_use' => sn__( 'I agree that my data (including my anonymized IP address) gets stored.' )
+			'string_success_1' => 'Thank you for your comment.',
+			'string_success_2' => 'Thank you for your comment. Please confirm your subscription via the link we sent to your email address.',
+			'string_success_3' => 'Thank you for voting this comment.',
+			'string_error_1'   => 'An unknown error occurred. Please reload the page and try it again.',
+			'string_error_2'   => 'An error occurred: The passed username is invalid or too long (42 characters only).',
+			'string_error_3'   => 'An error occurred: The passed email address is invalid.',
+			'string_error_4'   => 'An error occurred: The comment text is missing.',
+			'string_error_5'   => 'An error occurred: The comment title is missing.',
+			'string_error_6'   => 'An error occurred: You need to accept the terms to comment.',
+			'string_error_7'   => 'An error occurred: Your IP address or email address has been marked as spam.',
+			'string_error_8'   => 'An error occurred: You already rated this comment.',
+			'string_terms_of_use' => 'I agree that my data (including my anonymized IP address) gets stored.'
 		];
 
 		// Array of custom hooks.

@@ -15,8 +15,8 @@
 	<label for="moderation" class="form-label col-sm-2 col-form-label"><?php lang()->p( 'Moderation' ); ?></label>
 	<div class="col-sm-10">
 		<select id="moderation" name="moderation" class="form-select">
-			<option value="true" <?php sn_selected( 'moderation', true ); ?>><?php lang()->p( 'Enabled' ); ?></option>
-			<option value="false" <?php sn_selected( 'moderation', false ); ?>><?php lang()->p( 'Disabled' ); ?></option>
+			<option value="true" <?php selected( 'moderation', true ); ?>><?php lang()->p( 'Enabled' ); ?></option>
+			<option value="false" <?php selected( 'moderation', false ); ?>><?php lang()->p( 'Disabled' ); ?></option>
 		</select>
 		<small class="form-text"><?php lang()->p( 'Enable manual approval of comments before displaying to the public.' ) ?></small>
 	</div>
@@ -88,9 +88,9 @@
 	<label for="comment-title" class="col-sm-2 col-form-label"><?php lang()->p( 'Comment Title' ); ?></label>
 	<div class="col-sm-10">
 		<select id="comment-title" name="comment_title" class="form-select">
-			<option value="optional" <?php sn_selected( 'comment_title', 'optional' ); ?>><?php lang()->p( 'Optional' ); ?></option>
-			<option value="required" <?php sn_selected( 'comment_title', 'required' ); ?>><?php lang()->p( 'Required' ); ?></option>
-			<option value="disabled" <?php sn_selected( 'comment_title', 'disabled' ); ?>><?php lang()->p( 'Disabled' ); ?></option>
+			<option value="optional" <?php selected( 'comment_title', 'optional' ); ?>><?php lang()->p( 'Optional' ); ?></option>
+			<option value="required" <?php selected( 'comment_title', 'required' ); ?>><?php lang()->p( 'Required' ); ?></option>
+			<option value="disabled" <?php selected( 'comment_title', 'disabled' ); ?>><?php lang()->p( 'Disabled' ); ?></option>
 		</select>
 	</div>
 </div>
@@ -161,9 +161,9 @@
 	<label class="col-sm-2 col-form-label"><?php lang()->p( 'Vote Storage' ); ?></label>
 	<div class="col-sm-10">
 		<select id="vote-storage" name="comment_vote_storage" class="form-select">
-			<option value="cookie" <?php sn_selected( 'comment_vote_storage", "cookie' ); ?>><?php lang()->p( 'Cookie Storage' ); ?></option>
-			<option value="session" <?php sn_selected( 'comment_vote_storage", "session' ); ?>><?php lang()->p( 'Session Storage' ); ?></option>
-			<option value="database" <?php sn_selected( 'comment_vote_storage", "database' ); ?>><?php lang()->p( 'Database Storage' ); ?></option>
+			<option value="cookie" <?php selected( 'comment_vote_storage", "cookie' ); ?>><?php lang()->p( 'Cookie Storage' ); ?></option>
+			<option value="session" <?php selected( 'comment_vote_storage", "session' ); ?>><?php lang()->p( 'Session Storage' ); ?></option>
+			<option value="database" <?php selected( 'comment_vote_storage", "database' ); ?>><?php lang()->p( 'Database Storage' ); ?></option>
 		</select>
 		<small class="form-text"><?php lang()->p( 'How to store votes made by guests.' ); ?></small>
 

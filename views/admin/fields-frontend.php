@@ -42,21 +42,21 @@ $static = $pages->getStaticDB( false );
 	<div class="col-sm-10">
 		<select id="filter" name="frontend_filter" class="form-select">
 
-			<option value="disabled" <?php sn_selected( 'frontend_filter', 'disabled' ); ?>><?php lang()->p( 'No Hook' ); ?></option>
+			<option value="disabled" <?php selected( 'frontend_filter', 'disabled' ); ?>><?php lang()->p( 'No Hook' ); ?></option>
 
 			<?php
 			// Custom hook from this plugin.
 			if ( $theme_compat ) : ?>
-			<option value="comments_full" <?php sn_selected( 'frontend_filter', 'comments_full' ); ?>><?php lang()->p( "Use 'comments_full'" ); ?></option>
+			<option value="comments_full" <?php selected( 'frontend_filter', 'comments_full' ); ?>><?php lang()->p( "Use 'comments_full'" ); ?></option>
 			<?php endif; ?>
 
-			<option value="pageBegin" <?php sn_selected( 'frontend_filter', 'pageBegin' ); ?>><?php lang()->p( "Use 'pageBegin'" ); ?></option>
+			<option value="pageBegin" <?php selected( 'frontend_filter', 'pageBegin' ); ?>><?php lang()->p( "Use 'pageBegin'" ); ?></option>
 
-			<option value="pageEnd" <?php sn_selected( 'frontend_filter', 'pageEnd' ); ?>><?php lang()->p( "Use 'pageEnd'" ); ?></option>
+			<option value="pageEnd" <?php selected( 'frontend_filter', 'pageEnd' ); ?>><?php lang()->p( "Use 'pageEnd'" ); ?></option>
 
-			<option value="siteBodyBegin" <?php sn_selected( 'frontend_filter', 'siteBodyBegin' ); ?>><?php lang()->p( "Use 'siteBodyBegin'" ); ?></option>
+			<option value="siteBodyBegin" <?php selected( 'frontend_filter', 'siteBodyBegin' ); ?>><?php lang()->p( "Use 'siteBodyBegin'" ); ?></option>
 
-			<option value="siteBodyEnd" <?php sn_selected( 'frontend_filter', 'siteBodyEnd' ); ?>><?php lang()->p( "Use 'siteBodyEnd'" ); ?></option>
+			<option value="siteBodyEnd" <?php selected( 'frontend_filter', 'siteBodyEnd' ); ?>><?php lang()->p( "Use 'siteBodyEnd'" ); ?></option>
 		</select>
 	</div>
 </div>
@@ -65,10 +65,10 @@ $static = $pages->getStaticDB( false );
 	<label for="captcha" class="col-sm-2 col-form-label"><?php lang()->p( 'Comment Captcha' ); ?></label>
 	<div class="col-sm-10">
 		<select id="captcha" name="frontend_captcha" class="form-select">
-			<option value="disabled" <?php sn_selected( 'frontend_captcha', 'disabled' ); ?>><?php lang()->p( 'Disable Captcha' ); ?></option>
-			<option value="purecaptcha" <?php sn_selected( 'frontend_captcha', 'purecaptcha' ); ?>><?php lang()->p( 'Use OWASP\'s PureCaptcha' ); ?></option>
+			<option value="disabled" <?php selected( 'frontend_captcha', 'disabled' ); ?>><?php lang()->p( 'Disable Captcha' ); ?></option>
+			<option value="purecaptcha" <?php selected( 'frontend_captcha', 'purecaptcha' ); ?>><?php lang()->p( 'Use OWASP\'s PureCaptcha' ); ?></option>
 			<?php if (function_exists( 'imagettfbbox' )) { ?>
-				<option value="gregwar" <?php sn_selected( 'frontend_captcha', 'gregwar' ); ?>><?php lang()->p( 'Use Gregwar\'s Captcha' ); ?></option>
+				<option value="gregwar" <?php selected( 'frontend_captcha', 'gregwar' ); ?>><?php lang()->p( 'Use Gregwar\'s Captcha' ); ?></option>
 			<?php } else { ?>
 				<option disabled="disabled"><?php lang()->p( 'Use Gregwar\'s Captcha (GD library is missing)' ); ?></option>
 			<?php } ?>
@@ -83,7 +83,7 @@ $static = $pages->getStaticDB( false );
 			<?php
 			foreach ($comments_core->themes as $key => $theme) {
 				?>
-				<option value="<?php echo $key; ?>" <?php sn_selected( 'frontend_template', $key ); ?>><?php echo $theme->theme_name; ?></option>
+				<option value="<?php echo $key; ?>" <?php selected( 'frontend_template', $key ); ?>><?php echo $theme->theme_name; ?></option>
 				<?php
 			}
 			?>
@@ -95,8 +95,8 @@ $static = $pages->getStaticDB( false );
 	<label for="order" class="col-sm-2 col-form-label"><?php lang()->p( 'Comment Order' ); ?></label>
 	<div class="col-sm-10">
 		<select id="order" name="frontend_order" class="form-select">
-			<option value="date_desc" <?php sn_selected( 'frontend_order", "date_desc' ); ?>><?php lang()->p( 'Newest Comments First' ); ?></option>
-			<option value="date_asc" <?php sn_selected( 'frontend_order", "date_asc' ); ?>><?php lang()->p( 'Oldest Comments First' ); ?></option>
+			<option value="date_desc" <?php selected( 'frontend_order", "date_desc' ); ?>><?php lang()->p( 'Newest Comments First' ); ?></option>
+			<option value="date_asc" <?php selected( 'frontend_order", "date_asc' ); ?>><?php lang()->p( 'Oldest Comments First' ); ?></option>
 		</select>
 	</div>
 </div>
@@ -105,8 +105,8 @@ $static = $pages->getStaticDB( false );
 	<label for="order" class="col-sm-2 col-form-label"><?php lang()->p( 'Comment Form Position' ); ?></label>
 	<div class="col-sm-10">
 		<select id="order" name="frontend_form" class="form-select">
-			<option value="top" <?php sn_selected( 'frontend_form", "top' ); ?>><?php lang()->p( 'Show Comment Form above Comments' ); ?></option>
-			<option value="bottom" <?php sn_selected( 'frontend_form", "bottom' ); ?>><?php lang()->p( 'Show Comment Form below Comments' ); ?></option>
+			<option value="top" <?php selected( 'frontend_form", "top' ); ?>><?php lang()->p( 'Show Comment Form above Comments' ); ?></option>
+			<option value="bottom" <?php selected( 'frontend_form", "bottom' ); ?>><?php lang()->p( 'Show Comment Form below Comments' ); ?></option>
 		</select>
 	</div>
 </div>
@@ -124,11 +124,11 @@ $static = $pages->getStaticDB( false );
 	<label for="terms" class="col-sm-2 col-form-label"><?php lang()->p( 'Terms of Use Checkbox' ); ?></label>
 	<div class="col-sm-10">
 		<select id="terms" name="frontend_terms" class="form-select">
-			<option value="disabled" <?php sn_selected( 'frontend_terms", "disabled' ); ?>><?php lang()->p( 'Disabled' ); ?></option>
-			<option value="default" <?php sn_selected( 'frontend_terms", "default' ); ?>><?php lang()->p( 'Show Message (See Strings)' ); ?></option>
+			<option value="disabled" <?php selected( 'frontend_terms", "disabled' ); ?>><?php lang()->p( 'Disabled' ); ?></option>
+			<option value="default" <?php selected( 'frontend_terms", "default' ); ?>><?php lang()->p( 'Show Message (See Strings)' ); ?></option>
 
 			<?php foreach ($static as $key => $value) { ?>
-				<option value="<?php echo $key; ?>" <?php sn_selected( 'frontend_terms', $key ); ?>><?php lang()->p( 'Page' ); ?>: <?php echo $value["title"]; ?></option>
+				<option value="<?php echo $key; ?>" <?php selected( 'frontend_terms', $key ); ?>><?php lang()->p( 'Page' ); ?>: <?php echo $value["title"]; ?></option>
 			<?php } ?>
 		</select>
 		<small class="form-text text-muted"><?php lang()->p( 'Show the default GDPR Text or Select your own static terms of use page' ); ?></small>
@@ -139,8 +139,8 @@ $static = $pages->getStaticDB( false );
 	<label for="ajax" class="col-sm-2 col-form-label"><?php lang()->p( 'AJAX Script' ); ?></label>
 	<div class="col-sm-10">
 		<select id="ajax" name="frontend_ajax" class="form-select">
-			<option value="true" <?php sn_selected( 'frontend_ajax', true ); ?>><?php lang()->p( 'Embed AJAX Script' ); ?></option>
-			<option value="false" <?php sn_selected( 'frontend_ajax', false ); ?>><?php lang()->p( 'Don\'t use AJAX' ); ?></option>
+			<option value="true" <?php selected( 'frontend_ajax', true ); ?>><?php lang()->p( 'Embed AJAX Script' ); ?></option>
+			<option value="false" <?php selected( 'frontend_ajax', false ); ?>><?php lang()->p( 'Don\'t use AJAX' ); ?></option>
 		</select>
 		<small class="form-text text-muted"><?php lang()->p( 'The AJAX Script hands over the request (comment, like, dislike) directly without reloading the page.' ); ?></small>
 	</div>
@@ -150,8 +150,8 @@ $static = $pages->getStaticDB( false );
 	<label for="avatar" class="col-sm-2 col-form-label"><?php lang()->p( 'Default Avatar' ); ?></label>
 	<div class="col-sm-10">
 		<select id="avatar" name="frontend_avatar" class="form-select">
-			<option value="mystery" <?php sn_selected( 'frontend_avatar', 'mystery' ); ?>><?php lang()->p( 'Mystery Men' ); ?></option>
-			<option value="none" <?php sn_selected( 'frontend_avatar', 'none' ); ?>><?php lang()->p( 'No Avatar' ); ?></option>
+			<option value="mystery" <?php selected( 'frontend_avatar', 'mystery' ); ?>><?php lang()->p( 'Mystery Men' ); ?></option>
+			<option value="none" <?php selected( 'frontend_avatar', 'none' ); ?>><?php lang()->p( 'No Avatar' ); ?></option>
 		</select>
 	</div>
 </div>
